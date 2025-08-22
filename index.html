@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>戒除甜食</title>
+    <style>
+      /* 基本排版與顏色設定 */
+      :root {
+        --primary-color: #2c3e50;
+        --accent-color: #18bc9c;
+        --light-bg: #f5f5f5;
+        --dark-text: #2c3e50;
+        --light-text: #ffffff;
+        --card-bg: #ffffff;
+        --border-radius: 8px;
+      }
+
+      /* 會員區塊表單樣式 */
+      #auth-container input {
+        width: 100%;
+        padding: 0.5rem;
+        margin: 0.3rem 0;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: var(--border-radius);
+        box-sizing: border-box;
+      }
+
+      #auth-container button {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        background-color: var(--accent-color);
+        color: var(--light-text);
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+      }
+
+      #auth-container button:hover {
+        background-color: #16a085;
+      }
+
+      #auth-container h3 {
+        margin-top: 0;
+      }
+
+      #user-section button {
+        margin-right: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+      }
+
+      #reset-streak-btn {
+        background-color: #e67e22;
+        color: var(--light-text);
+      }
+
+      #reset-streak-btn:hover {
+        background-color: #d35400;
+      }
+
+      #logout-btn {
+        background-color: #c0392b;
+        color: var(--light-text);
+      }
+
+      #logout-btn:hover {
+        background-color: #a93226;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background-color: var(--light-bg);
+        color: var(--dark-text);
+        line-height: 1.6;
+      }
+
+      /* 頁面標頭 */
+      header {
+        background-color: var(--primary-color);
+        color: var(--light-text);
+        padding: 1.5rem 1rem;
+        text-align: center;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 2rem;
+      }
+
+      header p {
+        margin: 0.5rem 0 0;
+        font-size: 1rem;
+        opacity: 0.8;
+      }
+
+      /* 導覽列 */
+      nav {
+        background-color: var(--accent-color);
+        display: flex;
+        justify-content: center;
+        padding: 0.5rem;
+      }
+
+      nav a {
+        color: var(--light-text);
+        margin: 0 1rem;
+        text-decoration: none;
+        font-weight: bold;
+        transition: opacity 0.3s ease;
+      }
+
+      nav a:hover {
+        opacity: 0.7;
+      }
+
+      /* 版塊樣式 */
+      section {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 1.5rem;
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      section h2 {
+        margin-top: 0;
+        color: var(--primary-color);
+      }
+
+      ul {
+        padding-left: 1.2rem;
+      }
+
+      li + li {
+        margin-top: 0.5rem;
+      }
+
+      /* 待辦清單區塊 */
+      #todo-form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      #todo-input {
+        flex: 1;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: var(--border-radius);
+      }
+
+      #todo-button {
+        margin-left: 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        background-color: var(--accent-color);
+        color: var(--light-text);
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      #todo-button:hover {
+        background-color: #16a085;
+      }
+
+      #todo-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .todo-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      .todo-item:last-child {
+        border-bottom: none;
+      }
+
+      .todo-item span {
+        flex: 1;
+        word-break: break-all;
+      }
+
+      .todo-item.completed span {
+        text-decoration: line-through;
+        opacity: 0.5;
+      }
+
+      .todo-actions button {
+        margin-left: 0.3rem;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+      }
+
+      .complete-btn {
+        background-color: #3498db;
+        color: var(--light-text);
+      }
+
+      .delete-btn {
+        background-color: #e74c3c;
+        color: var(--light-text);
+      }
+
+      /* 名言區塊 */
+      #quote {
+        font-style: italic;
+        margin: 1rem 0;
+        text-align: center;
+        color: #7f8c8d;
+      }
+
+      #new-quote-btn {
+        display: block;
+        margin: 0 auto;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        background-color: var(--accent-color);
+        color: var(--light-text);
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+      }
+
+      #new-quote-btn:hover {
+        background-color: #16a085;
+      }
+
+      /* 響應式排版 */
+      @media (max-width: 600px) {
+        nav a {
+          margin: 0 0.5rem;
+        }
+        header h1 {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>戒除甜食</h1>
+      <p>健康・自律・甜蜜的自由</p>
+    </header>
+    <nav>
+      <a href="#principles">基本原則</a>
+      <a href="#methods">實用方法</a>
+      <a href="#tracking">個人化追蹤</a>
+      <a href="#actions">健康行動</a>
+      <a href="#quotes">名言佳句</a>
+    </nav>
+    <main>
+      <!-- 基本原則 -->
+      <section id="principles">
+        <h2>基本原則</h2>
+        <p>
+          對抗甜食誘惑，關鍵在於理解自己的動機並採取適當行動。以下原則能幫助你邁向無糖的健康生活：
+        </p>
+        <ul>
+          <li>
+            <strong>找出戒糖動力：</strong> 思考戒除甜食的理由，例如減重、維持血糖健康或提升整體體能。
+          </li>
+          <li>
+            <strong>漸進減少攝取：</strong> 不必一下子完全戒斷，先減少含糖飲料或甜點的次數，循序漸進。
+          </li>
+          <li>
+            <strong>學會閱讀標籤：</strong> 許多加工食品含糖量高，養成閱讀營養標示的習慣，避免不必要的攝取。
+          </li>
+          <li>
+            <strong>尋找健康替代品：</strong> 以水果、堅果或自然甜味的食物取代高糖零食，既滿足口腹之慾又兼顧營養。
+          </li>
+        </ul>
+      </section>
+
+      <!-- 實用方法 -->
+      <section id="methods">
+        <h2>實用方法</h2>
+        <p>搭配這些策略，可以有效協助你戒除甜食：</p>
+        <ul>
+          <li>
+            <strong>設定無糖挑戰：</strong> 為自己設定 7 天或 30 天無糖挑戰，集中精神克服誘惑。
+          </li>
+          <li>
+            <strong>記錄每日糖份：</strong> 使用筆記本或 App 追蹤每日攝取的糖量，幫助你意識自己的習慣。
+          </li>
+          <li>
+            <strong>建立健康飲食計畫：</strong> 規劃三餐，選擇全食物為主的飲食，降低不必要的精緻糖攝取。
+          </li>
+          <li>
+            <strong>尋求支持：</strong> 邀請家人或朋友加入戒糖行列，互相鼓勵、分享食譜與心得。
+          </li>
+        </ul>
+      </section>
+
+      <!-- 個人化追蹤 -->
+      <section id="tracking">
+        <h2>個人化追蹤</h2>
+        <p>透過會員功能記錄你的戒甜日數，查看當前與最長紀錄。</p>
+        <div id="auth-container">
+          <div id="login-form">
+            <h3>登入</h3>
+            <input type="email" id="login-email" placeholder="電子郵件" />
+            <input type="password" id="login-password" placeholder="密碼" />
+            <button id="login-btn">登入</button>
+            <p>沒有帳戶？ <a href="#" id="show-signup">註冊</a></p>
+          </div>
+          <div id="signup-form" style="display: none;">
+            <h3>註冊</h3>
+            <input type="email" id="signup-email" placeholder="電子郵件" />
+            <input type="password" id="signup-password" placeholder="密碼" />
+            <button id="signup-btn">註冊</button>
+            <p>已有帳戶？ <a href="#" id="show-login">登入</a></p>
+          </div>
+        </div>
+        <div id="user-section" style="display: none;">
+          <p>歡迎，<span id="user-email"></span>！</p>
+          <p>當前戒甜天數：<span id="current-days">0</span> 天</p>
+          <p>最長戒甜天數：<span id="max-days">0</span> 天</p>
+          <button id="reset-streak-btn">我戒除甜食</button>
+          <button id="logout-btn">登出</button>
+          <p id="motivational-message" style="margin-top: 1rem; font-style: italic; color: #7f8c8d;"></p>
+        </div>
+      </section>
+
+      <!-- 健康行動 -->
+      <section id="actions">
+        <h2>健康行動</h2>
+        <p>使用下方待辦清單記錄你的健康行動，例如多喝水、選擇天然食物或運動，幫助你維持無糖生活。</p>
+        <div id="todo-form">
+          <input
+            type="text"
+            id="todo-input"
+            placeholder="輸入你今天想完成的健康行動..."
+          />
+          <button id="todo-button">新增</button>
+        </div>
+        <ul id="todo-list"></ul>
+      </section>
+
+
+      <!-- 名言佳句 -->
+      <section id="quotes">
+        <h2>名言佳句</h2>
+        <p>這些簡短的句子，或許能提供你前進的力量：</p>
+        <div id="quote">正在載入名言...</div>
+        <button id="new-quote-btn">換一則名言</button>
+      </section>
+    </main>
+
+    <!-- Supabase JavaScript SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+      // 名言佳句資料庫
+      const quotes = [
+        "少糖多健康。——不詳",
+        "你吃的每一口，都是對自己身體的投資。——不詳",
+        "控制糖份攝取，就是掌握你的健康。——不詳",
+        "健康是最大的財富。——不詳",
+        "每一次拒絕甜食，都是向健康邁進一大步。——不詳",
+        "選擇天然食物，給身體最好的禮物。——不詳"
+      ];
+
+      function getRandomQuote() {
+        return quotes[Math.floor(Math.random() * quotes.length)];
+      }
+
+      function displayQuote() {
+        const quoteEl = document.getElementById("quote");
+        quoteEl.textContent = getRandomQuote();
+      }
+
+      document.getElementById("new-quote-btn").addEventListener("click", displayQuote);
+
+      // 待辦清單邏輯
+      const todoInput = document.getElementById("todo-input");
+      const todoList = document.getElementById("todo-list");
+
+      function loadTodos() {
+        const stored = JSON.parse(localStorage.getItem("todos") || "[]");
+        stored.forEach((item) => {
+          addTodoItem(item.text, item.completed);
+        });
+      }
+
+      function saveTodos() {
+        const items = [];
+        document.querySelectorAll(".todo-item").forEach((li) => {
+          const text = li.querySelector("span").textContent;
+          const completed = li.classList.contains("completed");
+          items.push({ text, completed });
+        });
+        localStorage.setItem("todos", JSON.stringify(items));
+      }
+
+      function addTodoItem(text, completed = false) {
+        if (!text) return;
+        const li = document.createElement("li");
+        li.className = "todo-item";
+        if (completed) {
+          li.classList.add("completed");
+        }
+        const span = document.createElement("span");
+        span.textContent = text;
+        const actions = document.createElement("div");
+        actions.className = "todo-actions";
+        const completeBtn = document.createElement("button");
+        completeBtn.textContent = completed ? "恢復" : "完成";
+        completeBtn.className = "complete-btn";
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "刪除";
+        deleteBtn.className = "delete-btn";
+        actions.appendChild(completeBtn);
+        actions.appendChild(deleteBtn);
+        li.appendChild(span);
+        li.appendChild(actions);
+        todoList.appendChild(li);
+
+        // 事件：完成或恢復
+        completeBtn.addEventListener("click", () => {
+          li.classList.toggle("completed");
+          if (li.classList.contains("completed")) {
+            completeBtn.textContent = "恢復";
+          } else {
+            completeBtn.textContent = "完成";
+          }
+          saveTodos();
+        });
+
+        // 事件：刪除
+        deleteBtn.addEventListener("click", () => {
+          li.remove();
+          saveTodos();
+        });
+      }
+
+      document.getElementById("todo-button").addEventListener("click", () => {
+        const text = todoInput.value.trim();
+        if (text) {
+          addTodoItem(text);
+          saveTodos();
+          todoInput.value = "";
+        }
+        todoInput.focus();
+      });
+
+      // 按下 Enter 也能新增
+      todoInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          document.getElementById("todo-button").click();
+        }
+      });
+
+      // 初始化
+      window.addEventListener("DOMContentLoaded", () => {
+        displayQuote();
+        loadTodos();
+        initAuth();
+      });
+
+      /**
+       * ===== Supabase 設定與會員功能 =====
+       * 本網站使用 Supabase 提供的身份驗證與資料庫功能來保存每個使用者的戒甜紀錄。
+       * 請將下方的 SUPABASE_URL 與 SUPABASE_ANON_KEY 替換成你自己的專案資訊。
+       */
+
+      const SUPABASE_URL = "YOUR_SUPABASE_URL"; // 例："https://abcd1234.supabase.co"
+      const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY"; // 例："eyJhbGciOi..."
+
+      // 初始化 Supabase 客戶端
+      const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      // 激勵訊息集合，用於登入後展示
+      const motivations = [
+        "堅持戒甜，你的身體會感謝你！",
+        "遠離過多糖分，迎向清新健康。",
+        "控制甜食，就是控制健康的未來。",
+        "你不需要那塊蛋糕，你需要的是健康的自己。",
+        "每一次拒絕甜點，都是對自己更好的投資。"
+      ];
+
+      // 檢查當前登入狀態並初始化頁面
+      async function initAuth() {
+        try {
+          const { data: { session } } = await supabaseClient.auth.getSession();
+          if (session && session.user) {
+            showUser(session.user);
+          } else {
+            showAuth();
+          }
+        } catch (err) {
+          console.error('初始化認證時發生錯誤', err);
+        }
+      }
+
+      // 顯示登入/註冊區塊，隱藏使用者區塊
+      function showAuth() {
+        document.getElementById("auth-container").style.display = "block";
+        document.getElementById("user-section").style.display = "none";
+      }
+
+      // 顯示使用者區塊，隱藏登入/註冊區塊，並刷新紀錄
+      function showUser(user) {
+        document.getElementById("auth-container").style.display = "none";
+        document.getElementById("user-section").style.display = "block";
+        document.getElementById("user-email").textContent = user.email;
+        refreshStreak(user);
+        displayMotivation();
+      }
+
+      // 刷新當前和最長戒甜紀錄
+      async function refreshStreak(user) {
+        if (!user) return;
+        const today = new Date();
+        try {
+          // 讀取紀錄
+          let { data: record, error: fetchError } = await supabaseClient
+            .from('streaks')
+            .select('*')
+            .eq('user_id', user.id)
+            .maybeSingle();
+          if (fetchError) {
+            console.error('取得紀錄失敗', fetchError);
+            return;
+          }
+          // 如果紀錄不存在，創建一筆
+          if (!record) {
+            const startDate = today.toISOString().split('T')[0];
+            const { error: insertError } = await supabaseClient
+              .from('streaks')
+              .insert({ user_id: user.id, current_streak_start_date: startDate, max_streak_days: 0 });
+            if (insertError) {
+              console.error('初始化紀錄失敗', insertError);
+              return;
+            }
+            record = { current_streak_start_date: startDate, max_streak_days: 0 };
+          }
+          // 計算當前天數
+          const start = new Date(record.current_streak_start_date);
+          const diffTime = today.setHours(0,0,0,0) - start.setHours(0,0,0,0);
+          const currentDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+          document.getElementById('current-days').textContent = currentDays;
+          document.getElementById('max-days').textContent = record.max_streak_days;
+        } catch (err) {
+          console.error('刷新紀錄時發生錯誤', err);
+        }
+      }
+
+      // 隨機展示激勵訊息
+      function displayMotivation() {
+        const msg = motivations[Math.floor(Math.random() * motivations.length)];
+        document.getElementById('motivational-message').textContent = msg;
+      }
+
+      // 登入事件
+      document.getElementById('login-btn').addEventListener('click', async () => {
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+        try {
+          const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+          if (error) {
+            alert('登入失敗：' + error.message);
+            return;
+          }
+          showUser(data.user);
+        } catch (err) {
+          alert('登入時發生錯誤');
+          console.error(err);
+        }
+      });
+
+      // 註冊事件
+      document.getElementById('signup-btn').addEventListener('click', async () => {
+        const email = document.getElementById('signup-email').value.trim();
+        const password = document.getElementById('signup-password').value;
+        try {
+          const { data, error } = await supabaseClient.auth.signUp({ email, password });
+          if (error) {
+            alert('註冊失敗：' + error.message);
+            return;
+          }
+          alert('註冊成功，請檢查驗證郵件後登入。');
+          // 切換回登入表單
+          document.getElementById('signup-form').style.display = 'none';
+          document.getElementById('login-form').style.display = 'block';
+        } catch (err) {
+          alert('註冊時發生錯誤');
+          console.error(err);
+        }
+      });
+
+      // 切換至註冊表單
+      document.getElementById('show-signup').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('signup-form').style.display = 'block';
+      });
+
+      // 切換至登入表單
+      document.getElementById('show-login').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('signup-form').style.display = 'none';
+        document.getElementById('login-form').style.display = 'block';
+      });
+
+      // 登出事件
+      document.getElementById('logout-btn').addEventListener('click', async () => {
+        try {
+          await supabaseClient.auth.signOut();
+        } catch (err) {
+          console.error('登出時發生錯誤', err);
+        } finally {
+          showAuth();
+        }
+      });
+
+      // 重置紀錄事件（破戒）
+      document.getElementById('reset-streak-btn').addEventListener('click', async () => {
+        try {
+          const { data: { session } } = await supabaseClient.auth.getSession();
+          const user = session?.user;
+          if (!user) return;
+          // 取得目前紀錄
+          const { data: record, error } = await supabaseClient
+            .from('streaks')
+            .select('*')
+            .eq('user_id', user.id)
+            .single();
+          if (error) {
+            console.error('讀取紀錄失敗', error);
+            return;
+          }
+          const todayStr = new Date().toISOString().split('T')[0];
+          // 計算目前天數
+          const start = new Date(record.current_streak_start_date);
+          const diffDays = Math.floor((new Date().setHours(0,0,0,0) - start.setHours(0,0,0,0)) / (1000 * 60 * 60 * 24));
+          let newMax = record.max_streak_days;
+          if (diffDays > record.max_streak_days) {
+            newMax = diffDays;
+          }
+          // 更新紀錄：重設開始日與最大紀錄
+          const { error: updateError } = await supabaseClient
+            .from('streaks')
+            .update({ current_streak_start_date: todayStr, max_streak_days: newMax })
+            .eq('user_id', user.id);
+          if (updateError) {
+            console.error('更新紀錄失敗', updateError);
+            return;
+          }
+          // 再次刷新顯示
+          refreshStreak(user);
+        } catch (err) {
+          console.error('重置紀錄時發生錯誤', err);
+        }
+      });
+    </script>
+  </body>
+</html>
