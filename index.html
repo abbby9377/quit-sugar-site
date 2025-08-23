@@ -77,12 +77,11 @@
   .step{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
   .step .num{font-weight:800;color:var(--brand)}
 
-  /* ===== 食譜靈感（可左右滑動） ===== */
-  .recipes-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:2px;scroll-snap-type:x mandatory}
-  .recipes-scroll::-webkit-scrollbar{height:8px}
-  .recipes-scroll::-webkit-scrollbar-thumb{background:#e9d5ff;border-radius:999px}
-  .recipe{min-width:270px;flex:0 0 auto;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;scroll-snap-align:start}
-  .recipe .cover{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);display:block;margin-bottom:10px}
+  /* ===== 食譜靈感（卡片，三欄） ===== */
+  .recipes{display:grid;gap:12px;margin:2px 0 20px}
+  @media(min-width:800px){.recipes{grid-template-columns:repeat(3,1fr)}}
+  .recipe{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+  .illust{height:120px;border-radius:12px;background:linear-gradient(135deg,#fee2e2,#fce7f3);display:grid;place-items:center;font-size:42px;margin-bottom:10px}
 
   /* ===== 回饋（兩欄） ===== */
   .testimonials{display:grid;gap:12px;margin:4px 0 20px}
@@ -107,7 +106,6 @@
                  padding:6px 10px;border-radius:999px;font-size:12px;color:#0f172a;box-shadow:0 6px 16px rgba(15,23,42,.08)}
   .bundle .mini{display:flex;gap:8px;align-items:center}
   .bundle .mini img{width:44px;height:60px;border-radius:8px;border:1px solid var(--line);object-fit:cover;box-shadow:0 4px 10px rgba(15,23,42,.06)}
-
   </style>
 
   <!-- 全域錯誤顯示（便於排錯） -->
@@ -154,7 +152,7 @@
     <div id="auth-quick" class="muted"></div>
   </header>
 
-  <!-- 導覽列（新增：電子書商店） -->
+  <!-- 導覽列（含：電子書商店） -->
   <nav class="top-nav">
     <a class="active" href="./">戒糖首頁</a>
     <a href="./analyzer.html">食物卡路里分析器</a>
@@ -181,7 +179,7 @@
     </div>
   </section>
 
-  <!-- Ebook Bundle 橫幅（在海報/內容前） -->
+  <!-- Ebook Bundle 橫幅（在內容前） -->
   <section id="bundle" class="bundle">
     <div>
       <div class="mini">
@@ -233,38 +231,27 @@
     <div class="step"><div class="num">Step 3</div><strong>記錄成就、每週微調</strong><p class="muted">用 streaks 追蹤天數，逐步調整到舒服的節奏。</p></div>
   </div>
 
-  <!-- 食譜靈感（左右滑動） -->
-  <h3 id="recipes" class="section-title">本週食譜靈感（可左右滑動）</h3>
-  <div class="recipes-scroll">
-    <article class="recipe">
-      <picture>
-        <source srcset="./assets/recipe-breakfast.webp" type="image/webp">
-        <img class="cover" src="./assets/recipe-breakfast.jpg" alt="低糖版暖胃燕麥碗">
-      </picture>
+  <!-- 食譜靈感（三欄卡片；已恢復上一版） -->
+  <h3 id="recipes" class="section-title">本週食譜靈感</h3>
+  <div class="recipes">
+    <div class="recipe">
+      <div class="illust">🥣</div>
       <strong>暖胃燕麥碗</strong>
-      <p class="muted">甜味來自香蕉與肉桂，溫暖又清爽。</p>
+      <p class="muted">低糖版早餐，甜味來自香蕉與肉桂。</p>
       <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
-    </article>
-
-    <article class="recipe">
-      <picture>
-        <source srcset="./assets/recipe-salad.webp" type="image/webp">
-        <img class="cover" src="./assets/recipe-salad.jpg" alt="地中海鮪魚沙拉">
-      </picture>
+    </div>
+    <div class="recipe">
+      <div class="illust">🥗</div>
       <strong>地中海鮪魚沙拉</strong>
-      <p class="muted">高蛋白、高纖維，飽足更久。</p>
+      <p class="muted">高蛋白、高纖維，飽足感更久。</p>
       <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
-    </article>
-
-    <article class="recipe">
-      <picture>
-        <source srcset="./assets/recipe-cacao.webp" type="image/webp">
-        <img class="cover" src="./assets/recipe-cacao.jpg" alt="70% 可可小點">
-      </picture>
+    </div>
+    <div class="recipe">
+      <div class="illust">🍫</div>
       <strong>70% 可可小點</strong>
       <p class="muted">想吃甜時的替代選擇，控制份量就不內疚。</p>
       <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
-    </article>
+    </div>
   </div>
 
   <!-- 使用者回饋 -->
