@@ -1,6 +1,3 @@
-下面是已移除指定內容的**完整 `analyzer.html`**（刪掉了 Hero 內那段說明文字與「前往嵌入工具」按鈕；其他維持不變）。
-
-```html
 <!doctype html>
 <html lang="zh-Hant">
 <head>
@@ -28,7 +25,7 @@
   .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(236,72,153,.08)}
   h2{font-size:22px;margin:0 0 10px}
   p,small{color:var(--muted)}
-  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:12px 16px;border-radius:999px;background:#f8fafc;color:var(--text);cursor:pointer;white-space:nowrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:12px 16px;border-radius:999px;background:#f8fafc;color:#0f172a;cursor:pointer;white-space:nowrap}
   .btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:700}
   nav.top-nav{display:flex;gap:16px;align-items:center;padding:8px 0 14px;margin:0 0 16px;border-bottom:1px solid var(--line)}
   nav.top-nav a{color:#2563eb;text-decoration:none}
@@ -57,7 +54,7 @@
   @keyframes b{to{transform:translateY(-6px);opacity:.6}}
   iframe{width:100%;border:0;display:block;height:900px}
 
-  /* ===== Ebook Bundle 橫幅（與首頁一致） ===== */
+  /* ===== Ebook Bundle 橫幅 ===== */
   .bundle{position:relative;display:grid;gap:10px;grid-template-columns:1fr;align-items:center;
           border:1px solid var(--line);border-radius:20px;padding:18px;margin:18px 0 10px;
           background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff)}
@@ -87,17 +84,17 @@
     <div class="muted">分析器</div>
   </header>
 
-  <!-- 導覽列 -->
+  <!-- 導覽列（新增：電子書商店） -->
   <nav class="top-nav">
     <a href="./">戒糖首頁</a>
     <a class="active" href="./analyzer.html">食物卡路里分析器</a>
+    <a href="./ebooks.html">電子書商店</a>
   </nav>
 
-  <!-- Hero -->
+  <!-- Hero（依需求已移除說明段與按鈕） -->
   <section class="hero">
     <div>
       <h2>食物卡路里分析器</h2>
-      <!-- 已依需求移除說明段落與「前往嵌入工具」按鈕 -->
     </div>
     <div class="hero-media">
       <picture>
@@ -126,7 +123,7 @@
     </div>
   </section>
 
-  <!-- Ebook Bundle 橫幅 -->
+  <!-- Ebook Bundle 橫幅（按鈕改連商店） -->
   <section id="bundle" class="bundle">
     <div>
       <div class="mini" style="margin-bottom:8px">
@@ -138,8 +135,8 @@
       <h3 class="title">Ebook Bundle｜一次入手最實用的 4 本指南</h3>
       <p class="desc">從 8 週戒糖入門到外食、早餐與零糖甜點，幫你把減糖落地到日常。</p>
       <div class="actions">
-        <a class="btn primary" href="./#auth">加入會員，解鎖下載</a>
-        <a class="btn" href="./#ebooks">先逛逛封面</a>
+        <a class="btn primary" href="./ebooks.html">前往電子書商店</a>
+        <a class="btn" href="./ebooks.html#bundle">了解套組優惠</a>
       </div>
     </div>
     <div class="right">
@@ -170,30 +167,26 @@
 
   function pollHeight(){
     try {
-      // 同源可讀取
       var doc = frame.contentDocument || frame.contentWindow.document;
       if(doc){
         var h = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
         setH(h);
       }
     } catch (e) {
-      // 若不同源（理論上不會），保持預設高度即可
+      // 若不同源則使用預設高度
     }
   }
 
   frame.addEventListener('load', function(){
     if(skel) skel.style.display = 'none';
-    // 初始多次嘗試（應付延遲載入的圖片）
     pollHeight();
     setTimeout(pollHeight, 200);
     setTimeout(pollHeight, 800);
     setTimeout(pollHeight, 1500);
   });
 
-  // 定時輪詢，處理動態變化
-  var iv = setInterval(pollHeight, 700);
+  setInterval(pollHeight, 700);
 
-  // 兼容：若被嵌入頁有 postMessage 也吃
   window.addEventListener('message', function(e){
     if(!e.data) return;
     if(e.data.type === 'QS_EMBED_HEIGHT'){
@@ -204,4 +197,3 @@
 </script>
 </body>
 </html>
-```
