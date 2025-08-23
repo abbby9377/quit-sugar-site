@@ -4,60 +4,376 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>食物卡路里分析器｜Quit Sugar</title>
-  <meta name="description" content="站內嵌入版：於戒糖網站中直接使用食物卡路里分析器。" />
+  <meta name="description" content="快速估算食物熱量與糖，幫你更輕鬆地實行減糖生活。" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#111827; --brand:#22c55e; --danger:#ef4444; }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;background:#ffffff;color:var(--text);font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
-    .muted{color:var(--muted)}
-    .page{min-height:100svh;display:flex;flex-direction:column}
-    .header-wrap{max-width:980px;margin:0 auto;padding:16px 20px;}
-    header{display:flex;gap:16px;align-items:center;justify-content:space-between}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#16a34a,#22c55e);display:grid;place-items:center;color:#04120b;font-weight:900}
-    h1{margin:0;font-size:20px;letter-spacing:0.5px}
-    nav.top-nav{display:flex;gap:12px;align-items:center;padding:8px 0 12px;margin:8px 0 0;border-bottom:1px solid #e5e7eb;}
-    nav.top-nav a{color:#2563eb;text-decoration:none}
-    nav.top-nav a:hover{text-decoration:underline}
-    nav.top-nav .current{color:#111827;font-weight:700;cursor:default;text-decoration:none}
-    .frame{flex:1;display:flex;min-height:0}
-    .frame iframe{flex:1;width:100%;border:0;background:#0b1220}
-    footer{padding:16px 20px;text-align:center;color:var(--muted)}
-    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid #e5e7eb;border-radius:999px;background:#f9fafb;color:#111827;text-decoration:none}
-    .btn:hover{background:#eef2ff}
-    .btn.back{font-weight:600}
+  /* ===== 共用主題（與首頁一致） ===== */
+  :root {
+    --bg:#ffffff; --card:#ffffff; --muted:#475569; --text:#0f172a;
+    --brand:#ec4899; --brand-2:#f472b6; --brand-3:#fb7185;
+    --accent:#fdf2f8; --line:#e5e7eb; --danger:#ef4444;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+  header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--brand-2),var(--brand-3));display:grid;place-items:center;color:#fff;font-weight:900}
+  h1{margin:0;font-size:24px;letter-spacing:0.5px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(236,72,153,.08)}
+  .grid{display:grid;gap:16px}
+  h2{font-size:20px;margin:0 0 10px}
+  h3{font-size:18px;margin:16px 0 8px}
+  p,li,small{color:var(--muted)}
+  input,button,select{font:inherit}
+  input,select{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;border-radius:12px;color:var(--text)}
+  .row{display:grid;gap:10px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .row3{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px}
+  @media (max-width:720px){ .row3{grid-template-columns:1.4fr 1fr 1fr 1fr auto} }
+  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:12px 16px;border-radius:999px;background:#f8fafc;color:var(--text);cursor:pointer;white-space:nowrap}
+  .btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:700}
+  .btn.ghost{background:transparent}
+  .btn.danger{background:linear-gradient(135deg,#ef4444,#b91c1c);border:none;color:#fff}
+  .btn[disabled]{opacity:.5;cursor:not-allowed}
+  .muted{color:var(--muted)}
+  .kicker{display:inline-block;padding:4px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--brand);font-size:12px;font-weight:700}
+  .error{border-left:3px solid var(--danger);padding:10px 12px;background:#fff5f5;border-radius:12px}
+  footer{margin-top:28px;text-align:center;color:var(--muted)}
+  code{background:#f1f5f9;padding:2px 6px;border-radius:6px;border:1px solid var(--line)}
+  hr{border-color:var(--line)}
+
+  /* 導覽列 */
+  nav.top-nav{display:flex;gap:16px;align-items:center;padding:8px 0 14px;margin:0 0 16px;border-bottom:1px solid var(--line)}
+  nav.top-nav a{color:#2563eb;text-decoration:none}
+  nav.top-nav a:hover{text-decoration:underline}
+  nav.top-nav .active{font-weight:700;color:#1d4ed8}
+
+  /* 副導覽（錨點） */
+  .subnav{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0 16px}
+  .chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff}
+  .chip a{text-decoration:none;color:#334155}
+
+  /* Hero 區（與首頁一致風格） */
+  .hero{background:var(--accent);border:1px solid var(--line);border-radius:24px;padding:24px;margin:8px 0 22px;position:relative}
+  .hero h2{font-size:28px;margin:0 0 8px;color:#0f172a}
+  .hero p{margin:0 0 14px}
+  .hero .actions{display:flex;gap:10px;flex-wrap:wrap}
+  @media(min-width:900px){
+    .hero{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:center}
+    .hero-media{justify-self:end}
+  }
+  .hero-media img{width:100%;max-width:420px;height:auto;border-radius:20px;box-shadow:0 10px 30px rgba(236,72,153,.15)}
+
+  /* 分析器表格樣式 */
+  table{width:100%;border-collapse:separate;border-spacing:0 8px}
+  th, td{padding:8px 6px;text-align:left}
+  th{font-size:12px;color:#64748b}
+  tr.item-row{background:#fff;border:1px solid var(--line)}
+  tr.item-row td{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  tr.item-row td:first-child{border-left:1px solid var(--line);border-top-left-radius:12px;border-bottom-left-radius:12px}
+  tr.item-row td:last-child{border-right:1px solid var(--line);border-top-right-radius:12px;border-bottom-right-radius:12px}
+  .num{width:100%}
+  .remove{border:none;background:#fff;color:#64748b;cursor:pointer;border-radius:8px;padding:8px}
+  .remove:hover{background:#f1f5f9}
+
+  /* 進度條 */
+  .progress-wrap{margin:10px 0}
+  .progress-bar{height:10px;background:#f1f5f9;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+  .progress-bar span{display:block;height:100%;width:0%;background:linear-gradient(135deg,var(--brand-2),var(--brand-3))}
+
+  /* Ebook Bundle 橫幅（與首頁一致） */
+  .bundle{position:relative;display:grid;gap:10px;grid-template-columns:1fr;align-items:center;
+          border:1px solid var(--line);border-radius:20px;padding:18px;margin:14px 0 10px;
+          background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff)}
+  @media(min-width:860px){ .bundle{grid-template-columns:1fr auto} }
+  .bundle .title{font-size:20px;font-weight:800;color:#0f172a;margin:0}
+  .bundle .desc{color:#64748b;margin:0}
+  .bundle .actions{display:flex;gap:10px;flex-wrap:wrap}
+  .bundle .badge{position:absolute;right:12px;top:-10px;background:#fff;border:1px solid var(--line);
+                 padding:6px 10px;border-radius:999px;font-size:12px;color:#0f172a;box-shadow:0 6px 16px rgba(15,23,42,.08)}
+  .bundle .mini{display:flex;gap:8px;align-items:center}
+  .bundle .mini img{width:44px;height:60px;border-radius:8px;border:1px solid var(--line);object-fit:cover;box-shadow:0 4px 10px rgba(15,23,42,.06)}
+  .bundle .right{display:flex;align-items:center;gap:10px}
+
+  /* 快速加入 chips */
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip-btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 10px;cursor:pointer}
+  .chip-btn:hover{background:#f8fafc}
   </style>
 </head>
 <body>
-  <div class="page">
-    <div class="header-wrap">
-      <header>
-        <div class="brand">
-          <div class="logo">QS</div>
-          <div>
-            <h1>Quit Sugar｜食物卡路里分析器</h1>
-            <small class="muted">站內嵌入版</small>
-          </div>
-        </div>
-        <a class="btn back" href="./">← 返回首頁</a>
-      </header>
-      <nav class="top-nav">
-        <a href="./">戒糖首頁</a>
-        <span class="current">食物卡路里分析器（本頁）</span>
-      </nav>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">QS</div>
+      <div>
+        <h1>戒糖計畫 Quit Sugar</h1>
+        <small class="muted">輕鬆開始、持續記錄、看見改變</small>
+      </div>
+    </div>
+    <div class="muted">分析器</div>
+  </header>
+
+  <!-- 導覽列 -->
+  <nav class="top-nav">
+    <a href="./">戒糖首頁</a>
+    <a class="active" href="./analyzer.html">食物卡路里分析器</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div>
+      <h2>食物卡路里分析器</h2>
+      <p class="muted">快速估算一餐的熱量與「自由糖」攝取，搭配你的每日目標更有感。</p>
+      <div class="actions">
+        <a class="btn" href="./">回首頁</a>
+        <a class="btn primary" href="#bundle">看看 Ebook Bundle</a>
+      </div>
+      <div class="subnav">
+        <span class="chip"><a href="#tool">分析器</a></span>
+        <span class="chip"><a href="#bundle">Ebook Bundle</a></span>
+      </div>
+    </div>
+    <div class="hero-media">
+      <picture>
+        <source srcset="./assets/recipe-breakfast.webp" type="image/webp">
+        <img src="./assets/recipe-breakfast.jpg" alt="低糖早餐碗：燕麥、堅果與水果">
+      </picture>
+    </div>
+  </section>
+
+  <!-- 分析器本體 -->
+  <section id="tool" class="card">
+    <span class="kicker">快速估算熱量與糖</span>
+    <h2>輸入食物與份量</h2>
+    <p class="muted" style="margin-top:-6px">小提醒：營養標示可能因品牌/烹調而異，數值僅供自行管理參考。</p>
+
+    <!-- 目標設定 -->
+    <div class="row2" style="margin:12px 0">
+      <label>每日熱量目標（kcal）
+        <select id="target-kcal">
+          <option>1200</option><option>1400</option><option>1600</option>
+          <option selected>1800</option><option>2000</option><option>2200</option>
+        </select>
+      </label>
+      <label>自由糖建議上限（自動依 10% 熱量計算）
+        <input id="sugar-limit" type="text" value="" readonly />
+      </label>
     </div>
 
-    <main class="frame">
-      <iframe src="https://abbby9377.github.io/food-calorie-analyzer/" title="食物卡路里分析器"></iframe>
-    </main>
+    <!-- 快速加入 -->
+    <div class="chips" style="margin:8px 0 6px">
+      <button class="chip-btn" data-name="香蕉" data-kcal="89" data-sugar="12">+ 香蕉 100g</button>
+      <button class="chip-btn" data-name="白飯" data-kcal="130" data-sugar="0">+ 白飯 100g</button>
+      <button class="chip-btn" data-name="雞胸肉" data-kcal="165" data-sugar="0">+ 雞胸肉 100g</button>
+      <button class="chip-btn" data-name="全脂牛奶" data-kcal="60" data-sugar="5">+ 牛奶 100g</button>
+      <button class="chip-btn" data-name="可樂" data-kcal="42" data-sugar="10.6">+ 可樂 100ml</button>
+      <button class="chip-btn" data-name="黑巧克力 70%" data-kcal="600" data-sugar="29">+ 黑巧 100g</button>
+      <button class="chip-btn" data-name="燕麥片" data-kcal="379" data-sugar="1">+ 燕麥 100g</button>
+      <button class="chip-btn" data-name="手搖飲（半糖）" data-kcal="60" data-sugar="8">+ 手搖飲 100ml</button>
+    </div>
 
-    <footer>
-      © 2025 Quit Sugar. 嵌入來源：food-calorie-analyzer（GitHub Pages）
-    </footer>
-  </div>
+    <!-- 表格 -->
+    <div style="overflow:auto;margin-top:10px">
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th>食物名稱</th>
+            <th>份量(g/ml)</th>
+            <th>每100g/ml 熱量</th>
+            <th>每100g/ml 糖</th>
+            <th>移除</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <!-- 動態列 -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row" style="margin-top:10px">
+      <button class="btn" id="add-row">+ 新增一列</button>
+      <button class="btn ghost" id="clear-all">清空</button>
+      <button class="btn" id="copy-text">複製摘要</button>
+    </div>
+
+    <hr style="margin:16px -18px;border-color:#e5e7eb;border-style:solid;border-width:1px 0 0"/>
+
+    <!-- 總結 -->
+    <h3>本次合計</h3>
+    <div class="row2">
+      <div class="card" style="padding:12px">
+        <div class="muted">總熱量（kcal）</div>
+        <div id="sum-kcal" style="font-size:28px;font-weight:800">0</div>
+        <div class="progress-wrap">
+          <div class="progress-bar"><span id="kcal-fill"></span></div>
+          <small class="muted"><span id="kcal-label">0 / 1800 kcal</span></small>
+        </div>
+      </div>
+      <div class="card" style="padding:12px">
+        <div class="muted">自由糖（g）</div>
+        <div id="sum-sugar" style="font-size:28px;font-weight:800">0</div>
+        <div class="progress-wrap">
+          <div class="progress-bar"><span id="sugar-fill"></span></div>
+          <small class="muted"><span id="sugar-label">0 / 45 g（建議上限）</span></small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ebook Bundle 橫幅 -->
+  <section id="bundle" class="bundle">
+    <div>
+      <div class="mini" style="margin-bottom:8px">
+        <img src="./assets/poster-reset-8w.jpg" alt="8 週戒糖入門封面縮圖">
+        <img src="./assets/poster-breakfast-20.jpg" alt="低糖早餐 20 道封面縮圖">
+        <img src="./assets/poster-eating-out.jpg" alt="外食少糖小抄封面縮圖">
+        <img src="./assets/poster-desserts-15.jpg" alt="零糖甜點 15 道封面縮圖">
+      </div>
+      <h3 class="title">Ebook Bundle｜一次入手最實用的 4 本指南</h3>
+      <p class="desc">從 8 週戒糖入門到外食、早餐與零糖甜點，幫你把減糖落地到日常。</p>
+      <div class="actions">
+        <a class="btn primary" href="./#auth">加入會員，解鎖下載</a>
+        <a class="btn" href="./#ebooks">先逛逛封面</a>
+      </div>
+    </div>
+    <div class="right">
+      <span class="badge">🎁 多本合購更划算</span>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Quit Sugar. GitHub Pages</p>
+  </footer>
+</div>
+
+<script>
+  // ===== 共用工具 =====
+  const $ = (id) => document.getElementById(id);
+  const fmt = (n) => (Math.round(n*10)/10).toString().replace(/\.0$/, '');
+
+  // ===== 自由糖上限 = 目標熱量的 10% / 4(kcal/g) =====
+  function updateLimits(){
+    const target = parseInt($('target-kcal').value, 10);
+    const limit = Math.round((target * 0.10) / 4); // g
+    $('sugar-limit').value = `${limit} g（10% 熱量）`;
+    $('kcal-label').textContent = `0 / ${target} kcal`;
+    $('sugar-label').textContent = `0 / ${limit} g（建議上限）`;
+    renderTotals(); // 重新計算進度
+  }
+
+  // ===== 表格行管理 =====
+  function makeRow(item = {name:'', grams:100, kcal100:0, sugar100:0}){
+    const tr = document.createElement('tr');
+    tr.className = 'item-row';
+    tr.innerHTML = `
+      <td><input class="name" placeholder="例如：地瓜" value="${item.name}"/></td>
+      <td><input class="grams num" type="number" min="0" step="1" value="${item.grams}"/></td>
+      <td><input class="kcal100 num" type="number" min="0" step="1" value="${item.kcal100}"/></td>
+      <td><input class="sugar100 num" type="number" min="0" step="0.1" value="${item.sugar100}"/></td>
+      <td><button class="remove" title="移除">✕</button></td>`;
+    tr.addEventListener('input', renderTotals);
+    tr.querySelector('.remove').addEventListener('click', ()=>{ tr.remove(); renderTotals(); saveState(); });
+    return tr;
+  }
+
+  function getRows(){
+    return Array.from(document.querySelectorAll('#tbody tr.item-row')).map(tr=>{
+      return {
+        name: tr.querySelector('.name').value.trim(),
+        grams: parseFloat(tr.querySelector('.grams').value) || 0,
+        kcal100: parseFloat(tr.querySelector('.kcal100').value) || 0,
+        sugar100: parseFloat(tr.querySelector('.sugar100').value) || 0
+      };
+    });
+  }
+
+  // ===== 計算與呈現 =====
+  function renderTotals(){
+    const rows = getRows();
+    let kcal = 0, sugar = 0;
+    rows.forEach(r=>{
+      kcal += r.grams * (r.kcal100/100);
+      sugar += r.grams * (r.sugar100/100);
+    });
+    $('sum-kcal').textContent = fmt(kcal);
+    $('sum-sugar').textContent = fmt(sugar);
+
+    const target = parseInt($('target-kcal').value, 10);
+    const limit = parseInt(($('sugar-limit').value||'0'), 10) || Math.round((target*0.1)/4);
+
+    const kcalPct = Math.min(100, (kcal/target)*100 || 0);
+    const sugarPct = Math.min(100, (sugar/limit)*100 || 0);
+    $('kcal-fill').style.width = kcalPct + '%';
+    $('sugar-fill').style.width = sugarPct + '%';
+    $('kcal-label').textContent = `${fmt(kcal)} / ${target} kcal`;
+    $('sugar-label').textContent = `${fmt(sugar)} / ${limit} g（建議上限）`;
+
+    saveState();
+  }
+
+  // ===== 快速加入 =====
+  function bindChips(){
+    document.querySelectorAll('.chip-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const name = btn.dataset.name;
+        const kcal = parseFloat(btn.dataset.kcal);
+        const sugar = parseFloat(btn.dataset.sugar);
+        const tr = makeRow({name, grams:100, kcal100:kcal, sugar100:sugar});
+        $('tbody').prepend(tr);
+        renderTotals();
+      });
+    });
+  }
+
+  // ===== 狀態保存（localStorage） =====
+  const KEY = 'qs.analyzer.v1';
+  function saveState(){
+    const state = {
+      target: $('target-kcal').value,
+      rows: getRows()
+    };
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
+  }
+  function loadState(){
+    try {
+      const raw = localStorage.getItem(KEY);
+      if(!raw) return false;
+      const st = JSON.parse(raw);
+      if(st.target) $('target-kcal').value = st.target;
+      $('tbody').innerHTML = '';
+      (st.rows||[]).forEach(r => $('tbody').appendChild(makeRow(r)));
+      updateLimits();
+      renderTotals();
+      return true;
+    } catch { return false; }
+  }
+
+  // ===== 初始化 =====
+  window.addEventListener('DOMContentLoaded', ()=>{
+    // 預設一列
+    $('tbody').appendChild(makeRow());
+    // 事件
+    $('add-row').addEventListener('click', ()=>{ $('tbody').appendChild(makeRow()); });
+    $('clear-all').addEventListener('click', ()=>{
+      $('tbody').innerHTML=''; $('tbody').appendChild(makeRow());
+      renderTotals();
+    });
+    $('copy-text').addEventListener('click', ()=>{
+      const rows = getRows().map(r=>`${r.name||'食物'} ${fmt(r.grams)}g：${fmt(r.grams*(r.kcal100/100))} kcal，糖 ${fmt(r.grams*(r.sugar100/100))} g`);
+      const text = `本次合計：${$('sum-kcal').textContent} kcal，糖 ${$('sum-sugar').textContent} g\n` + rows.join('\n');
+      navigator.clipboard.writeText(text).then(()=>{ alert('已複製摘要'); });
+    });
+    $('target-kcal').addEventListener('change', updateLimits);
+
+    bindChips();
+    updateLimits();
+    // 嘗試載入之前的內容
+    loadState();
+  });
+</script>
 </body>
 </html>
