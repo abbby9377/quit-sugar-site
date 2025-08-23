@@ -57,11 +57,16 @@
   .chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff}
   .chip a{text-decoration:none;color:#334155}
 
-  /* ===== Hero ===== */
+  /* ===== Hero（新增圖片區塊） ===== */
   .hero{background:var(--accent);border:1px solid var(--line);border-radius:24px;padding:24px;margin:8px 0 22px;position:relative}
   .hero h2{font-size:28px;margin:0 0 8px;color:#0f172a}
   .hero p{margin:0 0 14px}
   .hero .actions{display:flex;gap:10px;flex-wrap:wrap}
+  @media(min-width:900px){
+    .hero{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:center}
+    .hero-media{justify-self:end}
+  }
+  .hero-media img{width:100%;max-width:420px;height:auto;border-radius:20px;box-shadow:0 10px 30px rgba(236,72,153,.15)}
 
   /* ===== 亮點 / 功能 ===== */
   .section-title{font-size:18px;margin:18px 0 10px}
@@ -94,11 +99,12 @@
   }
   .car-btn.prev{left:-10px} .car-btn.next{right:-10px}
 
-  /* ===== 回饋（兩欄） ===== */
+  /* ===== 回饋（兩欄） + 頭像 ===== */
   .testimonials{display:grid;gap:12px;margin:4px 0 20px}
   @media(min-width:800px){.testimonials{grid-template-columns:repeat(2,1fr)}}
-  .quote{border-left:3px solid var(--brand);background:#fff;border:1px solid var(--line);padding:12px;border-radius:10px}
-  .quote footer{margin-top:6px;color:#64748b}
+  .quote{border-left:3px solid var(--brand);background:#fff;border:1px solid var(--line);padding:12px;border-radius:10px;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+  .quote img.avatar{width:44px;height:44px;border-radius:999px;object-fit:cover;border:1px solid var(--line)}
+  .quote footer{margin-top:4px;color:#64748b}
 
   /* ===== FAQ ===== */
   details.faq{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
@@ -161,20 +167,28 @@
     <a href="./analyzer.html">食物卡路里分析器</a>
   </nav>
 
-  <!-- Hero 區（柔和粉色、清楚 CTA） -->
+  <!-- Hero 區（新增：右側照片） -->
 <section class="hero">
-  <h2>你的輕甜生活，從今天開始</h2>
-  <p class="muted">友善身體的減糖計畫：不必極端，循序漸進；給自己 8 週，換來更穩定的能量與好心情。</p>
-  <div class="actions">
-    <a class="btn primary" href="#auth">加入挑戰 / 登入</a>
-    <a class="btn" href="./analyzer.html">先試用食物卡路里分析器</a>
+  <div>
+    <h2>你的輕甜生活，從今天開始</h2>
+    <p class="muted">友善身體的減糖計畫：不必極端，循序漸進；給自己 8 週，換來更穩定的能量與好心情。</p>
+    <div class="actions">
+      <a class="btn primary" href="#auth">加入挑戰 / 登入</a>
+      <a class="btn" href="./analyzer.html">先試用食物卡路里分析器</a>
+    </div>
+    <div class="subnav">
+      <span class="chip"><a href="#why">為什麼有效</a></span>
+      <span class="chip"><a href="#steps">三步驟開始</a></span>
+      <span class="chip"><a href="#recipes">食譜靈感</a></span>
+      <span class="chip"><a href="#stories">成功故事</a></span>
+      <span class="chip"><a href="#faq">FAQ</a></span>
+    </div>
   </div>
-  <div class="subnav">
-    <span class="chip"><a href="#why">為什麼有效</a></span>
-    <span class="chip"><a href="#steps">三步驟開始</a></span>
-    <span class="chip"><a href="#recipes">食譜靈感</a></span>
-    <span class="chip"><a href="#stories">成功故事</a></span>
-    <span class="chip"><a href="#faq">FAQ</a></span>
+  <div class="hero-media">
+    <picture>
+      <source srcset="./assets/hero-yoga.webp" type="image/webp">
+      <img src="./assets/hero-yoga.jpg" alt="在瑜伽墊上冥想的女性，展現專注與身心平衡">
+    </picture>
   </div>
 </section>
 
@@ -211,15 +225,27 @@
   <div class="step"><div class="num">Step 3</div><strong>記錄成就、每週微調</strong><p class="muted">用 streaks 追蹤天數，逐步調整到舒服的節奏。</p></div>
 </div>
 
-<!-- 食譜靈感（滑動輪播） -->
+<!-- 食譜靈感（滑動輪播 + 實拍照） -->
 <h3 id="recipes" class="section-title">本週食譜靈感（左右滑動）</h3>
 <div class="carousel">
   <button class="car-btn prev" id="car-prev" aria-label="上一個">‹</button>
   <div class="car-track" id="car-track">
     <div class="recipe cardish">
-      <div class="illust">🥣</div>
+      <picture>
+        <source srcset="./assets/recipe-breakfast.webp" type="image/webp">
+        <img class="photo" src="./assets/recipe-breakfast.jpg" alt="低糖早餐碗：燕麥、堅果與水果">
+      </picture>
       <strong>暖胃燕麥碗</strong>
       <p class="muted">低糖版早餐，甜味來自香蕉與肉桂。</p>
+      <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
+    </div>
+    <div class="recipe cardish">
+      <picture>
+        <source srcset="./assets/recipe-choco.webp" type="image/webp">
+        <img class="photo" src="./assets/recipe-choco.jpg" alt="70%黑巧克力搭配莓果的小點">
+      </picture>
+      <strong>70% 可可小點</strong>
+      <p class="muted">想吃甜時的替代選擇，控制份量就不內疚。</p>
       <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
     </div>
     <div class="recipe cardish">
@@ -228,21 +254,27 @@
       <p class="muted">高蛋白、高纖維，飽足感更久。</p>
       <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
     </div>
-    <div class="recipe cardish">
-      <div class="illust">🍫</div>
-      <strong>70% 可可小點</strong>
-      <p class="muted">想吃甜時的替代選擇，控制份量就不內疚。</p>
-      <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
-    </div>
   </div>
   <button class="car-btn next" id="car-next" aria-label="下一個">›</button>
 </div>
 
-<!-- 使用者回饋 -->
+<!-- 使用者回饋（新增頭像） -->
 <h3 id="stories" class="section-title">成功故事</h3>
 <div class="testimonials">
-  <blockquote class="quote"><p>三週後下午崩壞消失了，皮膚也穩定許多！</p><footer>— Yumi．設計師</footer></blockquote>
-  <blockquote class="quote"><p>用「連勝」看進步，比體重計更激勵；現在甜飲一週只喝一次。</p><footer>— Irene．行銷人</footer></blockquote>
+  <blockquote class="quote">
+    <img class="avatar" src="./assets/avatar-asian.jpg" alt="Yumi 頭像">
+    <div>
+      <p>三週後下午崩壞消失了，皮膚也穩定許多！</p>
+      <footer>— Yumi．設計師</footer>
+    </div>
+  </blockquote>
+  <blockquote class="quote">
+    <img class="avatar" src="./assets/avatar-asian.jpg" alt="Irene 頭像">
+    <div>
+      <p>用「連勝」看進步，比體重計更激勵；現在甜飲一週只喝一次。</p>
+      <footer>— Irene．行銷人</footer>
+    </div>
+  </blockquote>
 </div>
 
 <!-- FAQ -->
