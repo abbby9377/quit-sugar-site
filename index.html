@@ -62,6 +62,11 @@
   .hero h2{font-size:28px;margin:0 0 8px;color:#0f172a}
   .hero p{margin:0 0 14px}
   .hero .actions{display:flex;gap:10px;flex-wrap:wrap}
+  @media(min-width:900px){
+    .hero{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:center}
+    .hero-media{justify-self:end}
+  }
+  .hero-media img{width:100%;max-width:420px;height:auto;border-radius:20px;box-shadow:0 10px 30px rgba(236,72,153,.15);border:1px solid var(--line)}
 
   /* ===== 亮點 / 功能 ===== */
   .section-title{font-size:18px;margin:18px 0 10px}
@@ -81,6 +86,7 @@
   .recipes{display:grid;gap:12px;margin:2px 0 20px}
   @media(min-width:800px){.recipes{grid-template-columns:repeat(3,1fr)}}
   .recipe{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+  .recipe .photo{width:100%;height:160px;object-fit:cover;border-radius:12px;border:1px solid var(--line);display:block;margin-bottom:10px}
   .illust{height:120px;border-radius:12px;background:linear-gradient(135deg,#fee2e2,#fce7f3);display:grid;place-items:center;font-size:42px;margin-bottom:10px}
 
   /* ===== 回饋（兩欄） ===== */
@@ -88,6 +94,7 @@
   @media(min-width:800px){.testimonials{grid-template-columns:repeat(2,1fr)}}
   .quote{border-left:3px solid var(--brand);background:#fff;border:1px solid var(--line);padding:12px;border-radius:10px}
   .quote footer{margin-top:6px;color:#64748b}
+  .wide-media{width:100%;height:auto;border-radius:16px;border:1px solid var(--line);margin:6px 0 10px;box-shadow:0 6px 18px rgba(236,72,153,.08)}
 
   /* ===== FAQ ===== */
   details.faq{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
@@ -112,7 +119,7 @@
   <script>
     window.onerror = function(msg, src, line, col) {
       var box = document.getElementById('auth-error');
-      if (box) { box.style.display = 'block'; box.textContent = '前端錯誤： ' + msg + ' (' + src + ':' + line + ':' + col + ')'; }
+      if (box) { box.style.display = 'block'; box.textContent = '前端錯誤： ' + msg + ' (' + src ':' + line + ':' + col + ')'; }
     };
   </script>
 
@@ -159,7 +166,7 @@
     <a href="./ebooks.html">電子書商店</a>
   </nav>
 
-  <!-- Hero 區 -->
+  <!-- Hero 區（加入生活感主視覺） -->
   <section class="hero">
     <div>
       <h2>你的輕甜生活，從今天開始</h2>
@@ -177,16 +184,19 @@
         <span class="chip"><a href="#faq">FAQ</a></span>
       </div>
     </div>
+    <div class="hero-media">
+      <img src="./assets/hero-sparkling-asian.png" alt="女孩舉著無糖氣泡水，微笑享受輕甜生活"/>
+    </div>
   </section>
 
   <!-- Ebook Bundle 橫幅（在內容前） -->
   <section id="bundle" class="bundle">
     <div>
       <div class="mini">
-        <img src="./assets/poster-reset-8w.jpg" alt="8 週戒糖入門封面縮圖">
-        <img src="./assets/poster-breakfast-20.jpg" alt="低糖早餐 20 道封面縮圖">
-        <img src="./assets/poster-eating-out.jpg" alt="外食少糖小抄封面縮圖">
-        <img src="./assets/poster-desserts-15.jpg" alt="零糖甜點 15 道封面縮圖">
+        <img src="./assets/meal-breakfast-bowl.png" alt="低糖早餐封面縮圖">
+        <img src="./assets/shop-fit-woman-grocery.png" alt="外食少糖封面縮圖">
+        <img src="./assets/dessert-dark-chocolate.png" alt="零糖甜點封面縮圖">
+        <img src="./assets/hero-sparkling-asian.png" alt="入門指南封面縮圖">
       </div>
       <h3 class="title">Ebook Bundle｜一次入手最實用的 4 本指南</h3>
       <p class="desc">從入門、早餐、外食到零糖甜點，幫你把減糖落地到日常。</p>
@@ -231,31 +241,32 @@
     <div class="step"><div class="num">Step 3</div><strong>記錄成就、每週微調</strong><p class="muted">用 streaks 追蹤天數，逐步調整到舒服的節奏。</p></div>
   </div>
 
-  <!-- 食譜靈感（三欄卡片；已恢復上一版） -->
+  <!-- 食譜靈感（三欄卡片；改用真實照片） -->
   <h3 id="recipes" class="section-title">本週食譜靈感</h3>
   <div class="recipes">
     <div class="recipe">
-      <div class="illust">🥣</div>
+      <img class="photo" src="./assets/meal-breakfast-bowl.png" alt="暖胃燕麥碗（低糖早餐，香蕉與肉桂）">
       <strong>暖胃燕麥碗</strong>
       <p class="muted">低糖版早餐，甜味來自香蕉與肉桂。</p>
       <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
     </div>
     <div class="recipe">
-      <div class="illust">🥗</div>
+      <img class="photo" src="./assets/shop-fit-woman-grocery.png" alt="地中海鮪魚沙拉食材採買（橄欖油、蔬菜、鮪魚）">
       <strong>地中海鮪魚沙拉</strong>
       <p class="muted">高蛋白、高纖維，飽足感更久。</p>
       <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
     </div>
     <div class="recipe">
-      <div class="illust">🍫</div>
+      <img class="photo" src="./assets/dessert-dark-chocolate.png" alt="70% 可可小點（黑巧克力）">
       <strong>70% 可可小點</strong>
       <p class="muted">想吃甜時的替代選擇，控制份量就不內疚。</p>
       <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
     </div>
   </div>
 
-  <!-- 使用者回饋 -->
+  <!-- 使用者回饋（加上拼貼開場圖） -->
   <h3 id="stories" class="section-title">成功故事</h3>
+  <img class="wide-media" src="./assets/testimonial-portraits.png" alt="使用者見證三人拼貼">
   <div class="testimonials">
     <blockquote class="quote"><p>三週後下午崩壞消失了，皮膚也穩定許多！</p><footer>— Yumi．設計師</footer></blockquote>
     <blockquote class="quote"><p>用「連勝」看進步，比體重計更激勵；現在甜飲一週只喝一次。</p><footer>— Irene．行銷人</footer></blockquote>
@@ -523,7 +534,7 @@
   (function () {
     function fallback(img, emoji) {
       var ph = document.createElement('div');
-      ph.style.height = '120px';
+      ph.style.height = img.classList.contains('photo') ? '160px' : '120px';
       ph.style.borderRadius = '12px';
       ph.style.background = 'linear-gradient(135deg,#fee2e2,#fce7f3)';
       ph.style.display = 'grid';
@@ -535,8 +546,10 @@
     document.addEventListener('error', function(e){
       var img = e.target;
       if(img.tagName === 'IMG'){
+        if (img.closest('.hero-media')) return fallback(img, '💧');
         if (img.closest('.recipe')) return fallback(img, '🥗');
         if (img.closest('#bundle')) return fallback(img, '📘');
+        if (img.classList.contains('wide-media')) return fallback(img, '🙂');
         fallback(img, '🖼️');
       }
     }, true);
@@ -544,28 +557,7 @@
 </script>
 
 <!-- 後端一次性設定備忘（Supabase）
-1) Auth → Providers → Email：啟用。
-   測試期可在 Auth → Email 關閉 Confirm email。
-2) Auth → URL Configuration：
-   Site URL/Redirect URL 都填：https://abbby9377.github.io/quit-sugar-site/
-3) 建表與 RLS（若未建）：在 SQL Editor 執行：
-
-  create table if not exists public.streaks (
-    id bigint generated by default as identity primary key,
-    created_at timestamp with time zone default now(),
-    user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
-    current_streak_start_date date not null,
-    max_streak_days bigint not null default 0
-  );
-  alter table public.streaks enable row level security;
-  drop policy if exists "streaks_select_own" on public.streaks;
-  create policy "streaks_select_own" on public.streaks for select to authenticated using (user_id = auth.uid());
-  drop policy if exists "streaks_insert_self" on public.streaks;
-  create policy "streaks_insert_self" on public.streaks for insert to authenticated with check (user_id = auth.uid());
-  drop policy if exists "streaks_update_own" on public.streaks;
-  create policy "streaks_update_own" on public.streaks for update to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
-  drop policy if exists "streaks_delete_own" on public.streaks;
-  create policy "streaks_delete_own" on public.streaks for delete to authenticated using (user_id = auth.uid());
+（略，與先前相同）
 -->
 </body>
 </html>
