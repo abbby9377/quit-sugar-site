@@ -9,65 +9,90 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#111827; --brand:#22c55e; --danger:#ef4444; }
-    *{box-sizing:border-box}
-    body{margin:0;background:#ffffff;color:var(--text);font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
-    .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px}
-    header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:12px}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#16a34a,#22c55e);display:grid;place-items:center;color:#04120b;font-weight:900}
-    h1{margin:0;font-size:22px;letter-spacing:0.5px}
-    .card{background:var(--card);border:1px solid #e5e7eb;border-radius:18px;padding:18px}
-    .grid{display:grid;gap:16px}
-    @media(min-width:960px){.grid{grid-template-columns:1.1fr 1fr}}
-    h2{font-size:18px;margin:0 0 10px}
-    h3{font-size:16px;margin:16px 0 8px}
-    p,li,small{color:var(--muted)}
-    input,button{font:inherit}
-    input{width:100%;background:#ffffff;border:1px solid #d1d5db;padding:10px 12px;border-radius:10px;color:var(--text)}
-    .row{display:grid;gap:10px}
-    .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid #e5e7eb;padding:10px 14px;border-radius:12px;background:#f9fafb;color:var(--text);cursor:pointer}
-    .btn.primary{background:linear-gradient(135deg,#16a34a,#22c55e);color:#04120b;border:none;font-weight:700}
-    .btn.ghost{background:transparent}
-    .btn.danger{background:linear-gradient(135deg,#ef4444,#b91c1c);border:none;color:#fff}
-    .stat{display:flex;gap:14px;align-items:center}
-    .stat .num{font-size:28px;font-weight:800}
-    .kicker{display:inline-block;padding:4px 8px;border-radius:999px;background:#f1f5f9;border:1px solid #e5e7eb;color:#2563eb;font-size:12px}
-    .list{display:grid;gap:8px}
-    .todo{display:flex;align-items:center;gap:10px}
-    .todo input[type=checkbox]{width:18px;height:18px}
-    .muted{color:var(--muted)}
-    .error{border-left:3px solid var(--danger);padding:10px 12px;background:#fff5f5;border-radius:12px}
-    footer{margin-top:28px;text-align:center;color:var(--muted)}
-    code{background:#f1f5f9;padding:2px 6px;border-radius:6px;border:1px solid #e5e7eb}
-    hr{border-color:#e5e7eb;}
-    nav.top-nav{display:flex;gap:12px;align-items:center;padding:8px 0 12px;margin:0 0 16px;border-bottom:1px solid #e5e7eb;}
-    nav.top-nav a{color:#2563eb;text-decoration:none}
-    nav.top-nav a:hover{text-decoration:underline}
-      /* === 參考 iquitsugar.com 的版型元素（不複製文字與素材）=== */
-    .hero{background:#f9fafb;border:1px solid #e5e7eb;border-radius:20px;padding:20px;margin:8px 0 20px}
-    .hero h2{font-size:26px;margin:0 0 8px}
-    .hero p{margin:0 0 12px}
-    .hero .actions{display:flex;gap:10px;flex-wrap:wrap}
-    .btn.cta{background:linear-gradient(135deg,#16a34a,#22c55e);color:#04120b;border:none;font-weight:700}
-    .btn.secondary{background:#eef2ff;border:1px solid #e5e7eb}
+  /* ===== 視覺主題（女性友善、柔和色調） ===== */
+  :root {
+    --bg:#ffffff; --card:#ffffff; --muted:#475569; --text:#0f172a;
+    --brand:#ec4899; --brand-2:#f472b6; --brand-3:#fb7185;
+    --accent:#fdf2f8; --line:#e5e7eb; --danger:#ef4444;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+  header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--brand-2),var(--brand-3));display:grid;place-items:center;color:#fff;font-weight:900}
+  h1{margin:0;font-size:24px;letter-spacing:0.5px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(236,72,153,.08)}
+  .grid{display:grid;gap:16px}
+  @media(min-width:960px){.grid{grid-template-columns:1.1fr 1fr}}
+  h2{font-size:20px;margin:0 0 10px}
+  h3{font-size:18px;margin:16px 0 8px}
+  p,li,small{color:var(--muted)}
+  input,button{font:inherit}
+  input{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;border-radius:12px;color:var(--text)}
+  .row{display:grid;gap:10px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:12px 16px;border-radius:999px;background:#f8fafc;color:var(--text);cursor:pointer;white-space:nowrap}
+  .btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:700}
+  .btn.ghost{background:transparent}
+  .btn.danger{background:linear-gradient(135deg,#ef4444,#b91c1c);border:none;color:#fff}
+  .stat{display:flex;gap:14px;align-items:center}
+  .stat .num{font-size:28px;font-weight:800}
+  .kicker{display:inline-block;padding:4px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--brand);font-size:12px;font-weight:700}
+  .list{display:grid;gap:8px}
+  .todo{display:flex;align-items:center;gap:10px}
+  .todo input[type=checkbox]{width:18px;height:18px}
+  .muted{color:var(--muted)}
+  .error{border-left:3px solid var(--danger);padding:10px 12px;background:#fff5f5;border-radius:12px}
+  footer{margin-top:28px;text-align:center;color:var(--muted)}
+  code{background:#f1f5f9;padding:2px 6px;border-radius:6px;border:1px solid var(--line)}
+  hr{border-color:var(--line)}
+  nav.top-nav{display:flex;gap:16px;align-items:center;padding:8px 0 14px;margin:0 0 16px;border-bottom:1px solid var(--line)}
+  nav.top-nav a{color:#2563eb;text-decoration:none}
+  nav.top-nav a:hover{text-decoration:underline}
 
-    .section-title{font-size:18px;margin:18px 0 10px}
-    .features{display:grid;gap:12px;margin:0 0 20px}
-    @media(min-width:800px){.features{grid-template-columns:repeat(4,1fr)}}
-    .feature{background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:14px}
-    .feature h4{margin:0 0 6px;font-size:15px}
+  /* ===== 新增：副導覽（錨點） ===== */
+  .subnav{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0 16px}
+  .chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff}
+  .chip a{text-decoration:none;color:#334155}
 
-    .testimonials{display:grid;gap:12px;margin:4px 0 20px}
-    @media(min-width:800px){.testimonials{grid-template-columns:repeat(2,1fr)}}
-    .quote{border-left:3px solid #22c55e;background:#f6fdf9;padding:12px;border-radius:10px}
-    .quote footer{margin-top:6px;color:#4b5563}
+  /* ===== Hero ===== */
+  .hero{background:var(--accent);border:1px solid var(--line);border-radius:24px;padding:24px;margin:8px 0 22px;position:relative}
+  .hero h2{font-size:28px;margin:0 0 8px;color:#0f172a}
+  .hero p{margin:0 0 14px}
+  .hero .actions{display:flex;gap:10px;flex-wrap:wrap}
 
-    details.faq{border:1px solid #e5e7eb;border-radius:12px;padding:10px;background:#fff}
-    details.faq + details.faq{margin-top:10px}
-    details.faq summary{cursor:pointer;font-weight:600}
-  </style>
+  /* ===== 亮點 / 功能 ===== */
+  .section-title{font-size:18px;margin:18px 0 10px}
+  .features{display:grid;gap:12px;margin:0 0 20px}
+  @media(min-width:800px){.features{grid-template-columns:repeat(4,1fr)}}
+  .feature{background:#ffffff;border:1px solid var(--line);border-radius:16px;padding:14px}
+  .feature h4{margin:0 0 6px;font-size:15px}
+  .icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;margin-bottom:6px;background:linear-gradient(135deg,#fde68a,#fca5a5)}
+
+  /* ===== 三步驟 ===== */
+  .steps{display:grid;gap:12px;margin:2px 0 20px}
+  @media(min-width:800px){.steps{grid-template-columns:repeat(3,1fr)}}
+  .step{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+  .step .num{font-weight:800;color:var(--brand)}
+
+  /* ===== 食譜靈感（卡片） ===== */
+  .recipes{display:grid;gap:12px;margin:2px 0 20px}
+  @media(min-width:800px){.recipes{grid-template-columns:repeat(3,1fr)}}
+  .recipe{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+  .illust{height:120px;border-radius:12px;background:linear-gradient(135deg,#fee2e2,#fce7f3);display:grid;place-items:center;font-size:42px;margin-bottom:10px}
+
+  /* ===== 回饋（兩欄） ===== */
+  .testimonials{display:grid;gap:12px;margin:4px 0 20px}
+  @media(min-width:800px){.testimonials{grid-template-columns:repeat(2,1fr)}}
+  .quote{border-left:3px solid var(--brand);background:#fff;border:1px solid var(--line);padding:12px;border-radius:10px}
+  .quote footer{margin-top:6px;color:#64748b}
+
+  /* ===== FAQ ===== */
+  details.faq{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+  details.faq + details.faq{margin-top:10px}
+  details.faq summary{cursor:pointer;font-weight:600}
+</style>
 
   <!-- 全域錯誤顯示（便於排錯） -->
   <script>
@@ -119,44 +144,77 @@
     <a href="./analyzer.html">食物卡路里分析器</a>
   </nav>
 
-  <!-- Hero 區（靈感來自 iquitsugar.com 的清楚 CTA） -->
-  <section class="hero">
-    <h2>你的健康重啟，從今天開始</h2>
-    <p class="muted">加入 8 週戒糖挑戰：每週行動清單、友善的餐單建議、簡易運動與社群支持。</p>
-    <div class="actions">
-      <a class="btn cta" href="#auth">加入挑戰 / 登入</a>
-      <a class="btn secondary" href="./analyzer.html">先試用食物卡路里分析器</a>
-    </div>
-  </section>
-
-  <!-- 四大重點（不複製原站素材，僅參考結構） -->
-  <h3 class="section-title">四個你會喜歡的重點</h3>
-  <div class="features">
-    <div class="feature"><h4>客製化節奏</h4><p class="muted">不用一次全戒，循序漸進；適合忙碌也能做得到。</p></div>
-    <div class="feature"><h4>餐單靈感</h4><p class="muted">提供低糖料理靈感與替代方案，實用好上手。</p></div>
-    <div class="feature"><h4>社群支持</h4><p class="muted">一起挑戰更不孤單，分享心得、更有動力。</p></div>
-    <div class="feature"><h4>可視化成就</h4><p class="muted">以「連勝天數」與「最長紀錄」追蹤你的進步。</p></div>
+  <!-- Hero 區（柔和粉色、清楚 CTA） -->
+<section class="hero">
+  <h2>你的輕甜生活，從今天開始</h2>
+  <p class="muted">友善身體的減糖計畫：不必極端，循序漸進；給自己 8 週，換來更穩定的能量與好心情。</p>
+  <div class="actions">
+    <a class="btn primary" href="#auth">加入挑戰 / 登入</a>
+    <a class="btn" href="./analyzer.html">先試用食物卡路里分析器</a>
   </div>
-
-  <!-- 精選心得（引用格式，文字為自撰示例） -->
-  <h3 class="section-title">使用者回饋</h3>
-  <div class="testimonials">
-    <blockquote class="quote">
-      <p>連做三週後，下午精神下降的狀況明顯改善，下班還有力氣運動！</p>
-      <footer>— Hsuan．上班族</footer>
-    </blockquote>
-    <blockquote class="quote">
-      <p>不是完全不吃甜，而是學會選擇。餐後少糖水果取代蛋糕，超有感。</p>
-      <footer>— Ming．兩寶媽</footer>
-    </blockquote>
+  <div class="subnav">
+    <span class="chip"><a href="#why">為什麼有效</a></span>
+    <span class="chip"><a href="#steps">三步驟開始</a></span>
+    <span class="chip"><a href="#recipes">食譜靈感</a></span>
+    <span class="chip"><a href="#stories">成功故事</a></span>
+    <span class="chip"><a href="#faq">FAQ</a></span>
   </div>
+</section>
 
-  <!-- FAQ（採用 details/summary） -->
-  <h3 class="section-title">常見問題</h3>
-  <details class="faq"><summary>一定要 8 週嗎？</summary><p class="muted">建議 8 週作為一個完整循環；也可以依你的生活節奏調整。</p></details>
-  <details class="faq"><summary>需要完全不吃糖嗎？</summary><p class="muted">不用極端；我們推低糖、少加工，重視可持續。</p></details>
+<!-- 四大重點（女性友善語氣） -->
+<h3 id="why" class="section-title">為什麼這個方法更溫柔、也更有效？</h3>
+<div class="features">
+  <div class="feature">
+    <div class="icon">💗</div>
+    <h4>不必全或無</h4>
+    <p class="muted">循序漸進的低糖節奏，搭配替代選擇，壓力更小、成功率更高。</p>
+  </div>
+  <div class="feature">
+    <div class="icon">🥗</div>
+    <h4>好吃也能少糖</h4>
+    <p class="muted">簡單料理靈感與超市選物建議，日常就能做到。</p>
+  </div>
+  <div class="feature">
+    <div class="icon">🧘‍♀️</div>
+    <h4>身心一起照顧</h4>
+    <p class="muted">結合睡眠、壓力與簡易運動，讓渴望更好管理。</p>
+  </div>
+  <div class="feature">
+    <div class="icon">📈</div>
+    <h4>看得見的成就</h4>
+    <p class="muted">用「連勝天數」與「最長紀錄」追蹤進步，超有成就感。</p>
+  </div>
+</div>
 
-  <div class="grid">
+<!-- 三步驟開始 -->
+<h3 id="steps" class="section-title">三步驟開始（今天就能做）</h3>
+<div class="steps">
+  <div class="step"><div class="num">Step 1</div><strong>登入並建立目標</strong><p class="muted">設定你的起始日與小目標，從 1% 改變開始。</p></div>
+  <div class="step"><div class="num">Step 2</div><strong>每日 1 個小行動</strong><p class="muted">例如：晚餐不喝含糖飲料，或 20 分鐘散步。</p></div>
+  <div class="step"><div class="num">Step 3</div><strong>記錄成就、每週微調</strong><p class="muted">用 streaks 追蹤天數，逐步調整到舒服的節奏。</p></div>
+</div>
+
+<!-- 食譜靈感（示意卡片） -->
+<h3 id="recipes" class="section-title">本週食譜靈感</h3>
+<div class="recipes">
+  <div class="recipe"><div class="illust">🥣</div><strong>暖胃燕麥碗</strong><p class="muted">低糖版早餐，甜味來自香蕉與肉桂。</p><a class="btn" href="./analyzer.html">用分析器估卡路里</a></div>
+  <div class="recipe"><div class="illust">🥗</div><strong>地中海鮪魚沙拉</strong><p class="muted">高蛋白、高纖維，飽足感更久。</p><a class="btn" href="./analyzer.html">用分析器估卡路里</a></div>
+  <div class="recipe"><div class="illust">🍫</div><strong>70% 可可小點</strong><p class="muted">想吃甜時的替代選擇，控制份量就不內疚。</p><a class="btn" href="./analyzer.html">用分析器估卡路里</a></div>
+</div>
+
+<!-- 使用者回饋 -->
+<h3 id="stories" class="section-title">成功故事</h3>
+<div class="testimonials">
+  <blockquote class="quote"><p>三週後哭腔下午崩壞消失了，皮膚也穩定許多！</p><footer>— Yumi．設計師</footer></blockquote>
+  <blockquote class="quote"><p>用「連勝」看進步，比體重計更激勵；現在甜飲一週只喝一次。</p><footer>— Irene．行銷人</footer></blockquote>
+</div>
+
+<!-- FAQ -->
+<h3 id="faq" class="section-title">常見問題</h3>
+<details class="faq"><summary>一定要 8 週嗎？</summary><p class="muted">建議 8 週作為完整循環；也可依生活節奏調整。</p></details>
+<details class="faq"><summary>需要完全不吃糖嗎？</summary><p class="muted">不用極端；我們推「更少糖、少加工」，持續最重要。</p></details>
+
+<div class="grid">
     <!-- 左：內容/激勵 & 代辦 -->
     <section class="card">
       <span class="kicker">基本原則 & 每日激勵</span>
