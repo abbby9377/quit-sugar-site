@@ -13,7 +13,7 @@
     *{box-sizing:border-box}
     body{margin:0;background:#ffffff;color:var(--text);font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
     .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px}
-    header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:24px}
+    header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:12px}
     .brand{display:flex;gap:12px;align-items:center}
     .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#16a34a,#22c55e);display:grid;place-items:center;color:#04120b;font-weight:900}
     h1{margin:0;font-size:22px;letter-spacing:0.5px}
@@ -41,6 +41,32 @@
     .error{border-left:3px solid var(--danger);padding:10px 12px;background:#fff5f5;border-radius:12px}
     footer{margin-top:28px;text-align:center;color:var(--muted)}
     code{background:#f1f5f9;padding:2px 6px;border-radius:6px;border:1px solid #e5e7eb}
+    hr{border-color:#e5e7eb;}
+    nav.top-nav{display:flex;gap:12px;align-items:center;padding:8px 0 12px;margin:0 0 16px;border-bottom:1px solid #e5e7eb;}
+    nav.top-nav a{color:#2563eb;text-decoration:none}
+    nav.top-nav a:hover{text-decoration:underline}
+      /* === 參考 iquitsugar.com 的版型元素（不複製文字與素材）=== */
+    .hero{background:#f9fafb;border:1px solid #e5e7eb;border-radius:20px;padding:20px;margin:8px 0 20px}
+    .hero h2{font-size:26px;margin:0 0 8px}
+    .hero p{margin:0 0 12px}
+    .hero .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn.cta{background:linear-gradient(135deg,#16a34a,#22c55e);color:#04120b;border:none;font-weight:700}
+    .btn.secondary{background:#eef2ff;border:1px solid #e5e7eb}
+
+    .section-title{font-size:18px;margin:18px 0 10px}
+    .features{display:grid;gap:12px;margin:0 0 20px}
+    @media(min-width:800px){.features{grid-template-columns:repeat(4,1fr)}}
+    .feature{background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;padding:14px}
+    .feature h4{margin:0 0 6px;font-size:15px}
+
+    .testimonials{display:grid;gap:12px;margin:4px 0 20px}
+    @media(min-width:800px){.testimonials{grid-template-columns:repeat(2,1fr)}}
+    .quote{border-left:3px solid #22c55e;background:#f6fdf9;padding:12px;border-radius:10px}
+    .quote footer{margin-top:6px;color:#4b5563}
+
+    details.faq{border:1px solid #e5e7eb;border-radius:12px;padding:10px;background:#fff}
+    details.faq + details.faq{margin-top:10px}
+    details.faq summary{cursor:pointer;font-weight:600}
   </style>
 
   <!-- 全域錯誤顯示（便於排錯） -->
@@ -87,6 +113,49 @@
     <div id="auth-quick" class="muted"></div>
   </header>
 
+  <!-- 導覽列（站內頁面） -->
+  <nav class="top-nav">
+    <a href="./">戒糖首頁</a>
+    <a href="./analyzer.html">食物卡路里分析器</a>
+  </nav>
+
+  <!-- Hero 區（靈感來自 iquitsugar.com 的清楚 CTA） -->
+  <section class="hero">
+    <h2>你的健康重啟，從今天開始</h2>
+    <p class="muted">加入 8 週戒糖挑戰：每週行動清單、友善的餐單建議、簡易運動與社群支持。</p>
+    <div class="actions">
+      <a class="btn cta" href="#auth">加入挑戰 / 登入</a>
+      <a class="btn secondary" href="./analyzer.html">先試用食物卡路里分析器</a>
+    </div>
+  </section>
+
+  <!-- 四大重點（不複製原站素材，僅參考結構） -->
+  <h3 class="section-title">四個你會喜歡的重點</h3>
+  <div class="features">
+    <div class="feature"><h4>客製化節奏</h4><p class="muted">不用一次全戒，循序漸進；適合忙碌也能做得到。</p></div>
+    <div class="feature"><h4>餐單靈感</h4><p class="muted">提供低糖料理靈感與替代方案，實用好上手。</p></div>
+    <div class="feature"><h4>社群支持</h4><p class="muted">一起挑戰更不孤單，分享心得、更有動力。</p></div>
+    <div class="feature"><h4>可視化成就</h4><p class="muted">以「連勝天數」與「最長紀錄」追蹤你的進步。</p></div>
+  </div>
+
+  <!-- 精選心得（引用格式，文字為自撰示例） -->
+  <h3 class="section-title">使用者回饋</h3>
+  <div class="testimonials">
+    <blockquote class="quote">
+      <p>連做三週後，下午精神下降的狀況明顯改善，下班還有力氣運動！</p>
+      <footer>— Hsuan．上班族</footer>
+    </blockquote>
+    <blockquote class="quote">
+      <p>不是完全不吃甜，而是學會選擇。餐後少糖水果取代蛋糕，超有感。</p>
+      <footer>— Ming．兩寶媽</footer>
+    </blockquote>
+  </div>
+
+  <!-- FAQ（採用 details/summary） -->
+  <h3 class="section-title">常見問題</h3>
+  <details class="faq"><summary>一定要 8 週嗎？</summary><p class="muted">建議 8 週作為一個完整循環；也可以依你的生活節奏調整。</p></details>
+  <details class="faq"><summary>需要完全不吃糖嗎？</summary><p class="muted">不用極端；我們推低糖、少加工，重視可持續。</p></details>
+
   <div class="grid">
     <!-- 左：內容/激勵 & 代辦 -->
     <section class="card">
@@ -102,7 +171,7 @@
     </section>
 
     <!-- 右：登入/追蹤 -->
-    <section class="card">
+    <section id="auth" class="card">
       <span class="kicker">個人化追蹤</span>
       <h2>註冊 / 登入</h2>
       <div class="row2">
@@ -132,9 +201,9 @@
         </div>
       </div>
       <div class="row2" style="margin-top:12px">
-  <button class="btn primary" id="btn-i-did-good" type="button">我今天戒糖 ✅</button>
-  <button class="btn danger" id="btn-reset" type="button">我失手了，重新開始</button>
-</div>
+        <button class="btn" id="btn-i-did-good">我今天戒糖 ✅</button>
+        <button class="btn danger" id="btn-reset">我失手了，重新開始</button>
+      </div>
       <small class="muted">提示：登入後才會寫入/讀取資料表 <code>streaks</code>。</small>
     </section>
   </div>
@@ -146,7 +215,7 @@
 
 <script>
   // ====== 延遲等待 SDK 載入完成 ======
-  async function waitSupabaseReady(ms = 3000) {
+  async function waitSupabaseReady(ms = 4000) {
     const start = Date.now();
     while (!window.supabase && Date.now() - start < ms) {
       await new Promise(r => setTimeout(r, 50));
@@ -367,4 +436,3 @@
 -->
 </body>
 </html>
-
