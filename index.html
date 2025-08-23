@@ -42,8 +42,37 @@
     footer{margin-top:28px;text-align:center;color:var(--muted)}
     code{background:#0b1220;padding:2px 6px;border-radius:6px;border:1px solid #22314a}
   </style>
-  <!-- Supabase JS CDN -->
-  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+
+  <!-- 全域錯誤顯示（便於排錯） -->
+  <script>
+    window.onerror = function(msg, src, line, col) {
+      var box = document.getElementById('auth-error');
+      if (box) { box.style.display = 'block'; box.textContent = '前端錯誤： ' + msg + ' (' + src + ':' + line + ':' + col + ')'; }
+    };
+  </script>
+
+  <!-- 雙 CDN：先載 jsDelivr，失敗則切到 unpkg；載入完成後才執行主程式 -->
+  <script>
+    (function loadSupabaseSDK() {
+      var primary = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
+      var fallback = "https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
+      function append(src) {
+        var s = document.createElement('script');
+        s.src = src; s.defer = true;
+        s.onload = function(){ window.__supabaseReady = true; };
+        s.onerror = function(){
+          if (src === primary) {
+            append(fallback);
+          } else {
+            var el = document.getElementById('auth-error');
+            if (el) { el.style.display = 'block'; el.textContent = '載入 Supabase SDK 失敗，請稍後再試（或檢查是否被網路擋住 CDN）。'; }
+          }
+        };
+        document.head.appendChild(s);
+      }
+      append(primary);
+    })();
+  </script>
 </head>
 <body>
 <div class="wrap">
@@ -116,32 +145,30 @@
 </div>
 
 <script>
-  // ====== 1) Supabase 連線設定（使用您的專案資訊） ======
-  const SUPABASE_URL = "https://scquprvywjtuvcxxfsco.supabase.co"; // ← 已套用您的 URL
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjcXVwcnZ5d2p0dXZjeHhmc2NvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MzAxMTQsImV4cCI6MjA3MTQwNjExNH0.iUZ_lI-mHoGoz2NfPTifYe44zieUIBUREF6fxsry97I"; // ← 已套用您的 anon key
-  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-      detectSessionInUrl: false, // GitHub Pages 無 SSR，避免 URL 解析干擾
+  // ====== 延遲等待 SDK 載入完成 ======
+  async function waitSupabaseReady(ms = 3000) {
+    const start = Date.now();
+    while (!window.supabase && Date.now() - start < ms) {
+      await new Promise(r => setTimeout(r, 50));
     }
-  });
+    return !!window.supabase;
+  }
 
-  // ====== 2) UI 小工具 ======
+  // ====== UI 小工具 ======
   const $ = (id) => document.getElementById(id);
-  const showErr = (msg) => { const box = $("auth-error"); box.style.display = 'block'; box.textContent = msg; };
-  const hideErr = () => { const box = $("auth-error"); box.style.display = 'none'; box.textContent = ''; };
+  const showErr = (msg) => { const box = document.getElementById('auth-error'); if(!box) return; box.style.display = 'block'; box.textContent = msg; };
+  const hideErr = () => { const box = document.getElementById('auth-error'); if(!box) return; box.style.display = 'none'; box.textContent = ''; };
 
-  // ====== 3) Email 正規化（避免「Email invalid」） ======
+  // ====== Email 正規化（避免「Email invalid」） ======
   function normalizeEmail(raw) {
     return (raw ?? '')
-      .normalize('NFKC')          // 轉半形
-      .replace(/[\u200B-\u200D\uFEFF]/g, '') // 去零寬字元
+      .normalize('NFKC')
+      .replace(/[\u200B-\u200D\uFEFF]/g, '')
       .trim();
   }
   function basicEmailOK(s) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
 
-  // ====== 4) 激勵語句 ======
+  // ====== 激勵語句 ======
   const QUOTES = [
     '少糖一點，清醒多一點。',
     '今天的你，只要比昨天更好 1%。',
@@ -151,16 +178,16 @@
   ];
   function pickQuote(){
     const t = QUOTES[Math.floor(Math.random()*QUOTES.length)];
-    $("motivation").textContent = t;
+    document.getElementById('motivation').textContent = t;
   }
 
-  // ====== 5) TODO（本地儲存即可） ======
+  // ====== TODO（本地儲存） ======
   const TODO_KEY = 'qs.todos.v1';
   function readTodos(){ try { return JSON.parse(localStorage.getItem(TODO_KEY)) || []; } catch { return []; } }
   function writeTodos(list){ localStorage.setItem(TODO_KEY, JSON.stringify(list)); renderTodos(); }
   function renderTodos(){
     const list = readTodos();
-    const wrap = $("todo-list");
+    const wrap = document.getElementById('todo-list');
     wrap.innerHTML='';
     list.forEach((t,i)=>{
       const row = document.createElement('div');
@@ -173,159 +200,153 @@
     });
   }
 
-  // ====== 6) Auth：註冊 / 登入 / 登出 ======
-  async function signup(){
-    hideErr();
-    const email = normalizeEmail($("signup-email").value);
-    const password = $("signup-password").value;
-    if(!basicEmailOK(email)) return showErr('請輸入有效的 Email（避免全形與多餘空白）');
-    if((password||'').length < 6) return showErr('密碼至少 6 碼');
-
-    // 若專案已關閉 Confirm email，將直接建立帳號；否則會寄驗證信
-    const { data, error } = await supabaseClient.auth.signUp({ email, password });
-    if(error){ return showErr('註冊失敗：' + (error.message || '未知錯誤')); }
-
-    // 某些情況下需要驗證信，此時 session 會是 null
-    if(!data.session){
-      return showErr('已寄出驗證信（若有啟用）。請到信箱確認後回到此頁，再按「登入」。');
-    }
-    await afterLogin();
-  }
-
-  async function login(){
-    hideErr();
-    const email = normalizeEmail($("signup-email").value);
-    const password = $("signup-password").value;
-    if(!basicEmailOK(email)) return showErr('請輸入有效的 Email');
-    if((password||'').length < 6) return showErr('密碼至少 6 碼');
-
-    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-    if(error){ return showErr('登入失敗：' + (error.message || '未知錯誤')); }
-    await afterLogin();
-  }
-
-  async function logout(){
-    await supabaseClient.auth.signOut();
-    renderSession(null);
-  }
-
-  function renderSession(session){
-    const quick = $("auth-quick");
-    const btnLogout = $("btn-logout");
-    if(session){
-      const email = session.user?.email || '已登入';
-      quick.textContent = '👤 ' + email;
-      btnLogout.style.display = 'inline-flex';
-    }else{
-      quick.textContent = '未登入';
-      btnLogout.style.display = 'none';
-      $("current-streak").textContent = '—';
-      $("max-streak").textContent = '—';
-    }
-  }
-
-  // ====== 7) Streaks：首次登入自動建一筆，後續讀寫 ======
-  function daysBetween(start){
-    const s = new Date(start + 'T00:00:00');
-    const today = new Date();
-    const diff = Math.floor((Date.UTC(today.getFullYear(),today.getMonth(),today.getDate()) - Date.UTC(s.getFullYear(),s.getMonth(),s.getDate())) / (1000*60*60*24));
-    return Math.max(0, diff+1); // 當天算第 1 天
-  }
-
-  async function ensureStreakRow(userId){
-    const { data, error } = await supabaseClient.from('streaks').select('*').eq('user_id', userId).maybeSingle();
-    if(error){ showErr('讀取 streaks 失敗：' + error.message); return null; }
-    if(data){ return data; }
-    const today = new Date().toISOString().slice(0,10);
-    const { data: inserted, error: e2 } = await supabaseClient.from('streaks').insert({
-      user_id: userId,
-      current_streak_start_date: today,
-      max_streak_days: 0
-    }).select().single();
-    if(e2){ showErr('建立 streaks 失敗：' + e2.message); return null; }
-    return inserted;
-  }
-
-  async function refreshStreaks(){
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if(!session){ return; }
-    const row = await ensureStreakRow(session.user.id);
-    if(!row) return;
-    const current = daysBetween(row.current_streak_start_date);
-    $("current-streak").textContent = current;
-    $("max-streak").textContent = row.max_streak_days ?? 0;
-  }
-
-  async function markGoodToday(){
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if(!session) return showErr('請先登入');
-    const row = await ensureStreakRow(session.user.id);
-    if(!row) return;
-    const current = daysBetween(row.current_streak_start_date);
-    const newMax = Math.max(row.max_streak_days ?? 0, current);
-    // 不重置開始日，只更新最長紀錄（每日完成按鈕，僅作提示）
-    const { error } = await supabaseClient.from('streaks').update({ max_streak_days: newMax }).eq('user_id', session.user.id);
-    if(error) return showErr('更新失敗：' + error.message);
-    await refreshStreaks();
-  }
-
-  async function resetStreak(){
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if(!session) return showErr('請先登入');
-    const today = new Date().toISOString().slice(0,10);
-    const { error } = await supabaseClient.from('streaks').update({ current_streak_start_date: today }).eq('user_id', session.user.id);
-    if(error) return showErr('重置失敗：' + error.message);
-    await refreshStreaks();
-  }
-
-  async function afterLogin(){
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    renderSession(session);
-    await refreshStreaks();
-  }
-
-  // ====== 8) 綁定事件 ======
+  // ====== 主流程 ======
   window.addEventListener('DOMContentLoaded', async () => {
     pickQuote();
     renderTodos();
 
-    // todo
-    $("todo-add").addEventListener('click', ()=>{
-      const v = $("todo-input").value.trim();
+    // 等待 Supabase SDK
+    const ok = await waitSupabaseReady(4000);
+    if (!ok) { showErr('Supabase SDK 未載入完成，請重新整理或稍後再試。'); return; }
+
+    // 1) Supabase 連線設定（使用你的專案資訊）
+    const SUPABASE_URL = "https://scquprvywjtuvcxxfsco.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjcXVwcnZ5d2p0dXZjeHhmc2NvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MzAxMTQsImV4cCI6MjA3MTQwNjExNH0.iUZ_lI-mHoGoz2NfPTifYe44zieUIBUREF6fxsry97I";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+    });
+
+    // Auth：註冊 / 登入 / 登出
+    async function signup(){
+      hideErr();
+      const email = normalizeEmail(document.getElementById('signup-email').value);
+      const password = document.getElementById('signup-password').value;
+      if(!basicEmailOK(email)) return showErr('請輸入有效的 Email（避免全形與多餘空白）');
+      if((password||'').length < 6) return showErr('密碼至少 6 碼');
+      const { data, error } = await supabaseClient.auth.signUp({ email, password });
+      if(error){ return showErr('註冊失敗：' + (error.message || '未知錯誤')); }
+      if(!data.session){ return showErr('若啟用信箱驗證，請至信箱收信後再回來按「登入」。'); }
+      await afterLogin();
+    }
+
+    async function login(){
+      hideErr();
+      const email = normalizeEmail(document.getElementById('signup-email').value);
+      const password = document.getElementById('signup-password').value;
+      if(!basicEmailOK(email)) return showErr('請輸入有效的 Email');
+      if((password||'').length < 6) return showErr('密碼至少 6 碼');
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if(error){ return showErr('登入失敗：' + (error.message || '未知錯誤')); }
+      await afterLogin();
+    }
+
+    async function logout(){ await supabaseClient.auth.signOut(); renderSession(null); }
+
+    function renderSession(session){
+      const quick = document.getElementById('auth-quick');
+      const btnLogout = document.getElementById('btn-logout');
+      if(session){
+        const email = session.user?.email || '已登入';
+        quick.textContent = '👤 ' + email;
+        btnLogout.style.display = 'inline-flex';
+      }else{
+        quick.textContent = '未登入';
+        btnLogout.style.display = 'none';
+        document.getElementById('current-streak').textContent = '—';
+        document.getElementById('max-streak').textContent = '—';
+      }
+    }
+
+    // Streaks
+    function daysBetween(start){
+      const s = new Date(start + 'T00:00:00');
+      const today = new Date();
+      const diff = Math.floor((Date.UTC(today.getFullYear(),today.getMonth(),today.getDate()) - Date.UTC(s.getFullYear(),s.getMonth(),s.getDate())) / (1000*60*60*24));
+      return Math.max(0, diff+1);
+    }
+
+    async function ensureStreakRow(userId){
+      const { data, error } = await supabaseClient.from('streaks').select('*').eq('user_id', userId).maybeSingle();
+      if(error){ showErr('讀取 streaks 失敗：' + error.message); return null; }
+      if(data){ return data; }
+      const today = new Date().toISOString().slice(0,10);
+      const { data: inserted, error: e2 } = await supabaseClient.from('streaks').insert({
+        user_id: userId,
+        current_streak_start_date: today,
+        max_streak_days: 0
+      }).select().single();
+      if(e2){ showErr('建立 streaks 失敗：' + e2.message); return null; }
+      return inserted;
+    }
+
+    async function refreshStreaks(){
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if(!session){ return; }
+      const row = await ensureStreakRow(session.user.id);
+      if(!row) return;
+      const current = daysBetween(row.current_streak_start_date);
+      document.getElementById('current-streak').textContent = current;
+      document.getElementById('max-streak').textContent = row.max_streak_days ?? 0;
+    }
+
+    async function markGoodToday(){
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if(!session) return showErr('請先登入');
+      const row = await ensureStreakRow(session.user.id);
+      if(!row) return;
+      const current = daysBetween(row.current_streak_start_date);
+      const newMax = Math.max(row.max_streak_days ?? 0, current);
+      const { error } = await supabaseClient.from('streaks').update({ max_streak_days: newMax }).eq('user_id', session.user.id);
+      if(error) return showErr('更新失敗：' + error.message);
+      await refreshStreaks();
+    }
+
+    async function resetStreak(){
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if(!session) return showErr('請先登入');
+      const today = new Date().toISOString().slice(0,10);
+      const { error } = await supabaseClient.from('streaks').update({ current_streak_start_date: today }).eq('user_id', session.user.id);
+      if(error) return showErr('重置失敗：' + error.message);
+      await refreshStreaks();
+    }
+
+    async function afterLogin(){
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      renderSession(session);
+      await refreshStreaks();
+    }
+
+    // 綁定事件
+    document.getElementById('todo-add').addEventListener('click', ()=>{
+      const v = document.getElementById('todo-input').value.trim();
       if(!v) return;
       const list = readTodos();
       list.unshift({ text:v, done:false });
       writeTodos(list);
-      $("todo-input").value = '';
+      document.getElementById('todo-input').value = '';
     });
-
-    // auth
-    $("btn-signup").addEventListener('click', signup);
-    $("btn-login").addEventListener('click', login);
-    $("btn-logout").addEventListener('click', logout);
-
-    // streaks
-    $("btn-i-did-good").addEventListener('click', markGoodToday);
-    $("btn-reset").addEventListener('click', resetStreak);
+    document.getElementById('btn-signup').addEventListener('click', signup);
+    document.getElementById('btn-login').addEventListener('click', login);
+    document.getElementById('btn-logout').addEventListener('click', logout);
+    document.getElementById('btn-i-did-good').addEventListener('click', markGoodToday);
+    document.getElementById('btn-reset').addEventListener('click', resetStreak);
 
     // Session 初始化
     const { data: { session } } = await supabaseClient.auth.getSession();
     renderSession(session);
     if(session){ await refreshStreaks(); }
 
-    // 監聽登入狀態變化
-    supabaseClient.auth.onAuthStateChange((_evt, sess) => { renderSession(sess); if(sess){ refreshStreaks(); } });
+    // 監聽登入狀態
+    supabaseClient.auth.onAuthStateChange(function(_evt, sess){ renderSession(sess); if(sess){ refreshStreaks(); } });
   });
 </script>
 
-<!--
-【後端一次性設定備忘（Supabase）】
+<!-- 後端一次性設定備忘（Supabase）
 1) Auth → Providers → Email：啟用。
-   若測試期：Auth → Email → 關閉 Confirm email（免驗證即可登入）。
+   測試期可在 Auth → Email 關閉 Confirm email。
 2) Auth → URL Configuration：
-   Site URL 及 Additional Redirect URLs 填：
-   https://abbby9377.github.io/quit-sugar-site/
-3) 建表與 RLS（若尚未建）：請到 SQL Editor 執行下列指令：
+   Site URL/Redirect URL 都填：https://abbby9377.github.io/quit-sugar-site/
+3) 建表與 RLS（若未建）：在 SQL Editor 執行：
 
   create table if not exists public.streaks (
     id bigint generated by default as identity primary key,
