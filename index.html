@@ -36,9 +36,10 @@
   .btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:700}
   .btn.ghost{background:transparent}
   .btn.danger{background:linear-gradient(135deg,#ef4444,#b91c1c);border:none;color:#fff}
+  .btn[disabled]{opacity:.5;cursor:not-allowed}
   .stat{display:flex;gap:14px;align-items:center}
   .stat .num{font-size:28px;font-weight:800}
-  .kicker{display:inline-block;padding:4px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color:#ff2f99;font-size:12px;font-weight:700}
+  .kicker{display:inline-block;padding:4px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--brand);font-size:12px;font-weight:700}
   .list{display:grid;gap:8px}
   .todo{display:flex;align-items:center;gap:10px}
   .todo input[type=checkbox]{width:18px;height:18px}
@@ -50,23 +51,22 @@
   nav.top-nav{display:flex;gap:16px;align-items:center;padding:8px 0 14px;margin:0 0 16px;border-bottom:1px solid var(--line)}
   nav.top-nav a{color:#2563eb;text-decoration:none}
   nav.top-nav a:hover{text-decoration:underline}
-  nav.top-nav .active{font-weight:700;color:#1d4ed8}
 
-  /* ===== 新增：副導覽（錨點） ===== */
+  /* ===== 副導覽（錨點） ===== */
   .subnav{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0 16px}
   .chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff}
   .chip a{text-decoration:none;color:#334155}
 
-  /* ===== Hero ===== */
+  /* ===== Hero（新增圖片區塊） ===== */
   .hero{background:var(--accent);border:1px solid var(--line);border-radius:24px;padding:24px;margin:8px 0 22px;position:relative}
   .hero h2{font-size:28px;margin:0 0 8px;color:#0f172a}
   .hero p{margin:0 0 14px}
   .hero .actions{display:flex;gap:10px;flex-wrap:wrap}
   @media(min-width:900px){
-    .hero{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:center}
+    .hero{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:center}
     .hero-media{justify-self:end}
   }
-  .hero-media img{width:100%;max-width:420px;height:auto;border-radius:20px;box-shadow:0 10px 30px rgba(236,72,153,.15);border:1px solid var(--line)}
+  .hero-media img{width:100%;max-width:420px;height:auto;border-radius:20px;box-shadow:0 10px 30px rgba(236,72,153,.15)}
 
   /* ===== 亮點 / 功能 ===== */
   .section-title{font-size:18px;margin:18px 0 10px}
@@ -82,28 +82,27 @@
   .step{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
   .step .num{font-weight:800;color:var(--brand)}
 
-  /* ===== 食譜靈感（卡片，三欄） ===== */
+  /* ===== 食譜靈感（卡片） —— 輪播 ===== */
   .recipes{display:grid;gap:12px;margin:2px 0 20px}
-  @media(min-width:800px){.recipes{grid-template-columns:repeat(3,1fr)}}
   .recipe{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
-  .recipe .photo{width:100%;height:160px;object-fit:cover;border-radius:12px;border:1px solid var(--line);display:block;margin-bottom:10px}
   .illust{height:120px;border-radius:12px;background:linear-gradient(135deg,#fee2e2,#fce7f3);display:grid;place-items:center;font-size:42px;margin-bottom:10px}
-
-  /* ===== 回饋（兩欄） ===== */
-  .testimonials{display:grid;gap:12px;margin:4px 0 20px}
-  @media(min-width:800px){.testimonials{grid-template-columns:repeat(2,1fr)}}
-  .quote{border-left:3px solid var(--brand);background:#fff;border:1px solid var(--line);padding:12px;border-radius:10px}
-  .quote footer{margin-top:6px;color:#64748b}
-  .wide-media{width:100%;height:auto;border-radius:16px;border:1px solid var(--line);margin:6px 0 10px;box-shadow:0 6px 18px rgba(236,72,153,.08)}
-
-  /* ===== FAQ ===== */
-  details.faq{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
-  details.faq + details.faq{margin-top:10px}
-  details.faq summary{cursor:pointer;font-weight:600}
+  .carousel{position:relative;margin-bottom:8px}
+  .car-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scroll-behavior:smooth}
+  .car-track::-webkit-scrollbar{height:8px}
+  .car-track::-webkit-scrollbar-thumb{background:#e5e7eb;border-radius:999px}
+  .recipe.cardish{scroll-snap-align:center;min-width:88%}
+  @media (min-width:800px){ .recipe.cardish{min-width:40%} }
+  .car-btn{
+    position:absolute; top:38%; transform:translateY(-50%);
+    border:none; width:42px; height:42px; border-radius:999px;
+    background:#fff; box-shadow:0 6px 16px rgba(15,23,42,.08); cursor:pointer; z-index:2
+  }
+  .car-btn.prev{left:-10px} .car-btn.next{right:-10px}
+  .photo{width:100%;height:160px;border-radius:12px;object-fit:cover;margin-bottom:10px;border:1px solid var(--line)}
 
   /* ===== Ebook Bundle 橫幅 ===== */
   .bundle{position:relative;display:grid;gap:10px;grid-template-columns:1fr;align-items:center;
-          border:1px solid var(--line);border-radius:20px;padding:18px;margin:18px 0;
+          border:1px solid var(--line);border-radius:20px;padding:18px;margin:14px 0 10px;
           background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff)}
   @media(min-width:860px){ .bundle{grid-template-columns:1fr auto} }
   .bundle .title{font-size:20px;font-weight:800;color:#0f172a;margin:0}
@@ -113,13 +112,40 @@
                  padding:6px 10px;border-radius:999px;font-size:12px;color:#0f172a;box-shadow:0 6px 16px rgba(15,23,42,.08)}
   .bundle .mini{display:flex;gap:8px;align-items:center}
   .bundle .mini img{width:44px;height:60px;border-radius:8px;border:1px solid var(--line);object-fit:cover;box-shadow:0 4px 10px rgba(15,23,42,.06)}
-  </style>
+  .bundle .right{display:flex;align-items:center;gap:10px}
+
+  /* ===== 電子書海報（封面格狀/橫滑） ===== */
+  .posters{margin:6px 0 24px}
+  .poster-row{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 10px}
+  .poster{flex:0 0 auto; width:220px; scroll-snap-align:center; border-radius:16px; background:#fff; border:1px solid var(--line); box-shadow:0 8px 22px rgba(15,23,42,.06); padding:10px; text-align:center}
+  .poster img{width:100%;height:auto;border-radius:12px;display:block}
+  .poster .meta{font-size:12px;color:#64748b;margin-top:6px}
+  .poster .cta{margin-top:8px}
+  .poster .cta .btn{width:100%;justify-content:center}
+
+  /* ===== 回饋（兩欄） + 頭像 ===== */
+  .testimonials{display:grid;gap:12px;margin:4px 0 20px}
+  @media(min-width:800px){.testimonials{grid-template-columns:repeat(2,1fr)}}
+  .quote{border-left:3px solid var(--brand);background:#fff;border:1px solid var(--line);padding:12px;border-radius:10px;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+  .quote img.avatar{width:44px;height:44px;border-radius:999px;object-fit:cover;border:1px solid var(--line)}
+  .quote footer{margin-top:4px;color:#64748b}
+
+  /* ===== FAQ ===== */
+  details.faq{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+  details.faq + details.faq{margin-top:10px}
+  details.faq summary{cursor:pointer;font-weight:600}
+
+  /* ===== 每週挑戰進度條 ===== */
+  .progress-wrap{margin-top:10px}
+  .progress-bar{height:10px;background:#f1f5f9;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+  .progress-bar span{display:block;height:100%;width:0%;background:linear-gradient(135deg,var(--brand-2),var(--brand-3))}
+</style>
 
   <!-- 全域錯誤顯示（便於排錯） -->
   <script>
     window.onerror = function(msg, src, line, col) {
       var box = document.getElementById('auth-error');
-      if (box) { box.style.display = 'block'; box.textContent = '前端錯誤： ' + msg + ' (' + src ':' + line + ':' + col + ')'; }
+      if (box) { box.style.display = 'block'; box.textContent = '前端錯誤： ' + msg + ' (' + src + ':' + line + ':' + col + ')'; }
     };
   </script>
 
@@ -159,125 +185,184 @@
     <div id="auth-quick" class="muted"></div>
   </header>
 
-  <!-- 導覽列（含：電子書商店） -->
+  <!-- 導覽列（站內頁面） -->
   <nav class="top-nav">
-    <a class="active" href="./">戒糖首頁</a>
+    <a href="./">戒糖首頁</a>
     <a href="./analyzer.html">食物卡路里分析器</a>
     <a href="./ebooks.html">電子書商店</a>
   </nav>
 
-  <!-- Hero 區（加入生活感主視覺） -->
-  <section class="hero">
-    <div>
-      <h2>你的輕甜生活，從今天開始</h2>
-      <p class="muted">友善身體的減糖計畫：不必極端，循序漸進；給自己 8 週，換來更穩定的能量與好心情。</p>
-      <div class="actions">
-        <a class="btn primary" href="#auth">加入挑戰 / 登入</a>
-        <a class="btn" href="./analyzer.html">先試用食物卡路里分析器</a>
-        <a class="btn" href="./ebooks.html">逛逛電子書商店</a>
-      </div>
-      <div class="subnav">
-        <span class="chip"><a href="#why">為什麼有效</a></span>
-        <span class="chip"><a href="#steps">三步驟開始</a></span>
-        <span class="chip"><a href="#recipes">食譜靈感</a></span>
-        <span class="chip"><a href="#stories">成功故事</a></span>
-        <span class="chip"><a href="#faq">FAQ</a></span>
-      </div>
+  <!-- Hero 區（新增：右側照片） -->
+<section class="hero">
+  <div>
+    <h2>你的輕甜生活，從今天開始</h2>
+    <p class="muted">友善身體的減糖計畫：不必極端，循序漸進；給自己 8 週，換來更穩定的能量與好心情。</p>
+    <div class="actions">
+      <a class="btn primary" href="#auth">加入挑戰 / 登入</a>
+      <a class="btn" href="./analyzer.html">先試用食物卡路里分析器</a>
+      <a class="btn" href="./ebooks.html">逛逛電子書商店</a>
     </div>
-    <div class="hero-media">
-      <img src="./assets/hero-sparkling-asian.png" alt="女孩舉著無糖氣泡水，微笑享受輕甜生活"/>
-    </div>
-  </section>
-
-  <!-- Ebook Bundle 橫幅（在內容前） -->
-  <section id="bundle" class="bundle">
-    <div>
-      <div class="mini">
-        <img src="./assets/meal-breakfast-bowl.png" alt="低糖早餐封面縮圖">
-        <img src="./assets/shop-fit-woman-grocery.png" alt="外食少糖封面縮圖">
-        <img src="./assets/dessert-dark-chocolate.png" alt="零糖甜點封面縮圖">
-        <img src="./assets/hero-sparkling-asian.png" alt="入門指南封面縮圖">
-      </div>
-      <h3 class="title">Ebook Bundle｜一次入手最實用的 4 本指南</h3>
-      <p class="desc">從入門、早餐、外食到零糖甜點，幫你把減糖落地到日常。</p>
-      <div class="actions">
-        <a class="btn primary" href="./ebooks.html">前往電子書商店</a>
-        <a class="btn" href="./ebooks.html#bundle">了解套組優惠</a>
-      </div>
-      <span class="badge">🎁 多本合購更划算</span>
-    </div>
-  </section>
-
-  <!-- 四大重點 -->
-  <h3 id="why" class="section-title">為什麼這個方法更溫柔、也更有效？</h3>
-  <div class="features">
-    <div class="feature">
-      <div class="icon">💗</div>
-      <h4>不必全或無</h4>
-      <p class="muted">循序漸進的低糖節奏，搭配替代選擇，壓力更小、成功率更高。</p>
-    </div>
-    <div class="feature">
-      <div class="icon">🥗</div>
-      <h4>好吃也能少糖</h4>
-      <p class="muted">簡單料理靈感與超市選物建議，日常就能做到。</p>
-    </div>
-    <div class="feature">
-      <div class="icon">🧘‍♀️</div>
-      <h4>身心一起照顧</h4>
-      <p class="muted">結合睡眠、壓力與簡易運動，讓渴望更好管理。</p>
-    </div>
-    <div class="feature">
-      <div class="icon">📈</div>
-      <h4>看得見的成就</h4>
-      <p class="muted">用「連勝天數」與「最長紀錄」追蹤進步，超有成就感。</p>
+    <div class="subnav">
+      <span class="chip"><a href="#why">為什麼有效</a></span>
+      <span class="chip"><a href="#steps">三步驟開始</a></span>
+      <span class="chip"><a href="#recipes">食譜靈感</a></span>
+      <span class="chip"><a href="#bundle">Ebook Bundle</a></span>
+      <span class="chip"><a href="#ebooks">電子書精選</a></span>
+      <span class="chip"><a href="./ebooks.html">電子書商店</a></span>
+      <span class="chip"><a href="#stories">成功故事</a></span>
+      <span class="chip"><a href="#faq">FAQ</a></span>
     </div>
   </div>
-
-  <!-- 三步驟開始 -->
-  <h3 id="steps" class="section-title">三步驟開始（今天就能做）</h3>
-  <div class="steps">
-    <div class="step"><div class="num">Step 1</div><strong>登入並建立目標</strong><p class="muted">設定你的起始日與小目標，從 1% 改變開始。</p></div>
-    <div class="step"><div class="num">Step 2</div><strong>每日 1 個小行動</strong><p class="muted">例如：晚餐不喝含糖飲料，或 20 分鐘散步。</p></div>
-    <div class="step"><div class="num">Step 3</div><strong>記錄成就、每週微調</strong><p class="muted">用 streaks 追蹤天數，逐步調整到舒服的節奏。</p></div>
+  <div class="hero-media">
+    <picture>
+      <source srcset="./assets/hero-yoga.webp" type="image/webp">
+      <img src="./assets/hero-yoga.jpg" alt="在瑜伽墊上冥想的女性，展現專注與身心平衡">
+    </picture>
   </div>
+</section>
 
-  <!-- 食譜靈感（三欄卡片；改用真實照片） -->
-  <h3 id="recipes" class="section-title">本週食譜靈感</h3>
-  <div class="recipes">
-    <div class="recipe">
-      <img class="photo" src="./assets/meal-breakfast-bowl.png" alt="暖胃燕麥碗（低糖早餐，香蕉與肉桂）">
+<!-- 四大重點（女性友善語氣） -->
+<h3 id="why" class="section-title">為什麼這個方法更溫柔、也更有效？</h3>
+<div class="features">
+  <div class="feature">
+    <div class="icon">💗</div>
+    <h4>不必全或無</h4>
+    <p class="muted">循序漸進的低糖節奏，搭配替代選擇，壓力更小、成功率更高。</p>
+  </div>
+  <div class="feature">
+    <div class="icon">🥗</div>
+    <h4>好吃也能少糖</h4>
+    <p class="muted">簡單料理靈感與超市選物建議，日常就能做到。</p>
+  </div>
+  <div class="feature">
+    <div class="icon">🧘‍♀️</div>
+    <h4>身心一起照顧</h4>
+    <p class="muted">結合睡眠、壓力與簡易運動，讓渴望更好管理。</p>
+  </div>
+  <div class="feature">
+    <div class="icon">📈</div>
+    <h4>看得見的成就</h4>
+    <p class="muted">用「連勝天數」與「最長紀錄」追蹤進步，超有成就感。</p>
+  </div>
+</div>
+
+<!-- 三步驟開始 -->
+<h3 id="steps" class="section-title">三步驟開始（今天就能做）</h3>
+<div class="steps">
+  <div class="step"><div class="num">Step 1</div><strong>登入並建立目標</strong><p class="muted">設定你的起始日與小目標，從 1% 改變開始。</p></div>
+  <div class="step"><div class="num">Step 2</div><strong>每日 1 個小行動</strong><p class="muted">例如：晚餐不喝含糖飲料，或 20 分鐘散步。</p></div>
+  <div class="step"><div class="num">Step 3</div><strong>記錄成就、每週微調</strong><p class="muted">用 streaks 追蹤天數，逐步調整到舒服的節奏。</p></div>
+</div>
+
+<!-- 食譜靈感（滑動輪播 + 實拍照） -->
+<h3 id="recipes" class="section-title">本週食譜靈感（左右滑動）</h3>
+<div class="carousel">
+  <button class="car-btn prev" id="car-prev" aria-label="上一個">‹</button>
+  <div class="car-track" id="car-track">
+    <div class="recipe cardish">
+      <picture>
+        <source srcset="./assets/recipe-breakfast.webp" type="image/webp">
+        <img class="photo" src="./assets/recipe-breakfast.jpg" alt="低糖早餐碗：燕麥、堅果與水果">
+      </picture>
       <strong>暖胃燕麥碗</strong>
       <p class="muted">低糖版早餐，甜味來自香蕉與肉桂。</p>
       <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
     </div>
-    <div class="recipe">
-      <img class="photo" src="./assets/shop-fit-woman-grocery.png" alt="地中海鮪魚沙拉食材採買（橄欖油、蔬菜、鮪魚）">
-      <strong>地中海鮪魚沙拉</strong>
-      <p class="muted">高蛋白、高纖維，飽足感更久。</p>
-      <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
-    </div>
-    <div class="recipe">
-      <img class="photo" src="./assets/dessert-dark-chocolate.png" alt="70% 可可小點（黑巧克力）">
+    <div class="recipe cardish">
+      <picture>
+        <source srcset="./assets/recipe-choco.webp" type="image/webp">
+        <img class="photo" src="./assets/recipe-choco.jpg" alt="70%黑巧克力搭配莓果的小點">
+      </picture>
       <strong>70% 可可小點</strong>
       <p class="muted">想吃甜時的替代選擇，控制份量就不內疚。</p>
       <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
     </div>
+    <div class="recipe cardish">
+      <picture>
+        <source srcset="./assets/recipe-salad.webp" type="image/webp">
+        <img class="photo" src="./assets/recipe-salad.jpg" alt="地中海鮪魚沙拉：高蛋白、高纖維，飽足感更久。">
+      </picture>
+      <strong>地中海鮪魚沙拉</strong>
+      <p class="muted">高蛋白、高纖維，飽足感更久。</p>
+      <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
+    </div>
   </div>
+  <button class="car-btn next" id="car-next" aria-label="下一個">›</button>
+</div>
 
-  <!-- 使用者回饋（加上拼貼開場圖） -->
-  <h3 id="stories" class="section-title">成功故事</h3>
-  <img class="wide-media" src="./assets/testimonial-portraits.png" alt="使用者見證三人拼貼">
-  <div class="testimonials">
-    <blockquote class="quote"><p>三週後下午崩壞消失了，皮膚也穩定許多！</p><footer>— Yumi．設計師</footer></blockquote>
-    <blockquote class="quote"><p>用「連勝」看進步，比體重計更激勵；現在甜飲一週只喝一次。</p><footer>— Irene．行銷人</footer></blockquote>
+<!-- Ebook Bundle 橫幅（參考 bundle 分類的集合宣傳區） -->
+<section id="bundle" class="bundle">
+  <div>
+    <div class="mini" style="margin-bottom:8px">
+      <img src="./assets/poster-reset-8w.jpg" alt="8 週戒糖入門封面縮圖">
+      <img src="./assets/poster-breakfast-20.jpg" alt="低糖早餐 20 道封面縮圖">
+      <img src="./assets/poster-eating-out.jpg" alt="外食少糖小抄封面縮圖">
+      <img src="./assets/poster-desserts-15.jpg" alt="零糖甜點 15 道封面縮圖">
+    </div>
+    <h3 class="title">Ebook Bundle｜一次入手最實用的 4 本指南</h3>
+    <p class="desc">從 8 週戒糖入門到外食、早餐與零糖甜點，幫你把減糖落地到日常。</p>
+    <div class="actions">
+      <a class="btn primary" href="./ebooks.html">前往電子書商店</a>
+      <a class="btn" href="./ebooks.html#bundle">了解套組優惠</a>
+    </div>
   </div>
+  <div class="right">
+    <span class="badge">🎁 多本合購更划算</span>
+  </div>
+</section>
 
-  <!-- FAQ -->
-  <h3 id="faq" class="section-title">常見問題</h3>
-  <details class="faq"><summary>一定要 8 週嗎？</summary><p class="muted">建議 8 週作為完整循環；也可依生活節奏調整。</p></details>
-  <details class="faq"><summary>需要完全不吃糖嗎？</summary><p class="muted">不用極端；我們推「更少糖、少加工」，持續最重要。</p></details>
+<!-- 電子書海報（封面格狀/橫滑） -->
+<h3 id="ebooks" class="section-title">電子書精選（封面海報）</h3>
+<div class="posters">
+  <div class="poster-row">
+    <div class="poster">
+      <picture><source srcset="./assets/poster-reset-8w.webp" type="image/webp"><img src="./assets/poster-reset-8w.jpg" alt="8 週戒糖入門：Complete Reset 電子書封面"></picture>
+      <div class="meta">循序減糖、穩定能量與心情</div>
+      <div class="cta"><a class="btn primary" href="./ebooks.html#reset-8w" aria-label="前往購買 8 週戒糖入門">立即購買</a></div>
+    </div>
+    <div class="poster">
+      <picture><source srcset="./assets/poster-breakfast-20.webp" type="image/webp"><img src="./assets/poster-breakfast-20.jpg" alt="低糖早餐 20 道：Low-Sugar Breakfasts 電子書封面"></picture>
+      <div class="meta">一天的輕甜開始</div>
+      <div class="cta"><a class="btn" href="./ebooks.html#breakfast-20" aria-label="前往購買 低糖早餐 20 道">立即購買</a></div>
+    </div>
+    <div class="poster">
+      <picture><source srcset="./assets/poster-eating-out.webp" type="image/webp"><img src="./assets/poster-eating-out.jpg" alt="外食少糖小抄：Eating Out Smart 電子書封面"></picture>
+      <div class="meta">外食族友善攻略</div>
+      <div class="cta"><a class="btn" href="./ebooks.html#eating-out" aria-label="前往購買 外食少糖小抄">立即購買</a></div>
+    </div>
+    <div class="poster">
+      <picture><source srcset="./assets/poster-desserts-15.webp" type="image/webp"><img src="./assets/poster-desserts-15.jpg" alt="零糖甜點 15 道：Guilt-Free Treats 電子書封面"></picture>
+      <div class="meta">甜而不膩的儀式感</div>
+      <div class="cta"><a class="btn" href="./ebooks.html#desserts-15" aria-label="前往購買 零糖甜點 15 道">立即購買</a></div>
+    </div>
+  </div>
+</div>
 
-  <div class="grid">
+<!-- 使用者回饋（新增頭像） -->
+<h3 id="stories" class="section-title">成功故事</h3>
+<div class="testimonials">
+  <blockquote class="quote">
+    <img class="avatar" src="./assets/avatar-asian.jpg" alt="Yumi 頭像">
+    <div>
+      <p>三週後下午崩壞消失了，皮膚也穩定許多！</p>
+      <footer>— Yumi．設計師</footer>
+    </div>
+  </blockquote>
+  <blockquote class="quote">
+    <img class="avatar" src="./assets/avatar-asian.jpg" alt="Irene 頭像">
+    <div>
+      <p>用「連勝」看進步，比體重計更激勵；現在甜飲一週只喝一次。</p>
+      <footer>— Irene．行銷人</footer>
+    </div>
+  </blockquote>
+</div>
+
+<!-- FAQ -->
+<h3 id="faq" class="section-title">常見問題</h3>
+<details class="faq"><summary>一定要 8 週嗎？</summary><p class="muted">建議 8 週作為完整循環；也可依生活節奏調整。</p></details>
+<details class="faq"><summary>需要完全不吃糖嗎？</summary><p class="muted">不用極端；我們推「更少糖、少加工」，持續最重要。</p></details>
+
+<div class="grid">
     <!-- 左：內容/激勵 & 代辦 -->
     <section class="card">
       <span class="kicker">基本原則 & 每日激勵</span>
@@ -321,6 +406,14 @@
           <div class="num" id="max-streak">—</div>
         </div>
       </div>
+
+      <!-- 每週挑戰進度條 -->
+      <div class="progress-wrap">
+        <div class="muted" style="margin:8px 0 6px"><strong>每週挑戰：</strong>晚餐不喝含糖飲料</div>
+        <div class="progress-bar"><span id="week-fill"></span></div>
+        <small class="muted"><span id="week-label">本週完成 0 / 7 天</span></small>
+      </div>
+
       <div class="row2" style="margin-top:12px">
         <button class="btn" id="btn-i-did-good">我今天戒糖 ✅</button>
         <button class="btn danger" id="btn-reset">我失手了，重新開始</button>
@@ -390,14 +483,96 @@
     });
   }
 
+  // ====== 週進度（本地儲存） ======
+  function isoWeek(d=new Date()){
+    const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    const dayNum = t.getUTCDay() || 7;
+    t.setUTCDate(t.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(t.getUTCFullYear(),0,1));
+    const weekNum = Math.ceil((((t - yearStart)/86400000) + 1)/7);
+    return {year: t.getUTCFullYear(), week: weekNum};
+  }
+  function todayStr(){ return new Date().toISOString().slice(0,10); }
+  const WEEK_KEY_PREFIX = 'qs.weekMarks.';
+  function weekKey(d=new Date()){
+    const w = isoWeek(d);
+    return `${WEEK_KEY_PREFIX}${w.year}-${w.week.toString().padStart(2,'0')}`;
+  }
+  function getWeekSet(){
+    const raw = localStorage.getItem(weekKey()) || '[]';
+    try { return new Set(JSON.parse(raw)); } catch { return new Set(); }
+  }
+  function saveWeekSet(set){
+    localStorage.setItem(weekKey(), JSON.stringify(Array.from(set)));
+  }
+  function updateWeekUI(){
+    const set = getWeekSet();
+    const n = Math.min(7, set.size);
+    const percent = (n/7)*100;
+    const fill = document.getElementById('week-fill');
+    const label = document.getElementById('week-label');
+    if(fill){ fill.style.width = percent + '%'; }
+    if(label){ label.textContent = `本週完成 ${n} / 7 天`; }
+  }
+  function recordTodayIfNew(){
+    const set = getWeekSet();
+    const t = todayStr();
+    if(!set.has(t)){ set.add(t); saveWeekSet(set); }
+    updateWeekUI();
+  }
+
+  // ====== 輪播初始化（不依賴 Supabase） ======
+  function initCarousel(){
+    const track = document.getElementById('car-track');
+    const prev = document.getElementById('car-prev');
+    const next = document.getElementById('car-next');
+    if(!track || !prev || !next) return;
+
+    const firstCard = track.querySelector('.recipe');
+    const gap = 12; // 與 CSS 一致
+    const stepPx = () => (firstCard ? firstCard.clientWidth + gap : Math.max(300, track.clientWidth * 0.9));
+
+    function updateArrows(){
+      const canScroll = track.scrollWidth > track.clientWidth + 1;
+      prev.style.display = next.style.display = canScroll ? 'inline-flex' : 'none';
+    }
+
+    prev.addEventListener('click', () => track.scrollBy({ left: -stepPx(), behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left:  stepPx(), behavior: 'smooth' }));
+    window.addEventListener('resize', updateArrows);
+    updateArrows();
+  }
+
   // ====== 主流程 ======
   window.addEventListener('DOMContentLoaded', async () => {
+    // 與 Supabase 無關的 UI：先初始化，避免 CDN 失敗時整頁停擺
     pickQuote();
     renderTodos();
+    updateWeekUI();
+    initCarousel();
+
+    // 預先把需要登入的按鈕禁用；等拿到 session 再開
+    const btnGood = $('btn-i-did-good');
+    const btnReset = $('btn-reset');
+    if(btnGood) btnGood.disabled = true;
+    if(btnReset) btnReset.disabled = true;
+
+    // 讓「加入」待辦的事件先綁定（不依賴 Supabase）
+    $('todo-add').addEventListener('click', ()=>{
+      const v = $('todo-input').value.trim();
+      if(!v) return;
+      const list = readTodos();
+      list.unshift({ text:v, done:false });
+      writeTodos(list);
+      $('todo-input').value = '';
+    });
 
     // 等待 Supabase SDK
     const ok = await waitSupabaseReady(4000);
-    if (!ok) { showErr('Supabase SDK 未載入完成，請重新整理或稍後再試。'); return; }
+    if (!ok) {
+      showErr('Supabase SDK 未載入完成，登入/連勝功能暫不可用；其他功能正常。');
+      return;
+    }
 
     // 1) Supabase 連線設定（使用你的專案資訊）
     const SUPABASE_URL = "https://scquprvywjtuvcxxfsco.supabase.co";
@@ -435,15 +610,21 @@
     function renderSession(session){
       const quick = document.getElementById('auth-quick');
       const btnLogout = document.getElementById('btn-logout');
+      const btnGood = document.getElementById('btn-i-did-good');
+      const btnReset = document.getElementById('btn-reset');
       if(session){
         const email = session.user?.email || '已登入';
         quick.textContent = '👤 ' + email;
         btnLogout.style.display = 'inline-flex';
+        if(btnGood) btnGood.disabled = false;
+        if(btnReset) btnReset.disabled = false;
       }else{
         quick.textContent = '未登入';
         btnLogout.style.display = 'none';
         document.getElementById('current-streak').textContent = '—';
         document.getElementById('max-streak').textContent = '—';
+        if(btnGood) btnGood.disabled = true;
+        if(btnReset) btnReset.disabled = true;
       }
     }
 
@@ -488,12 +669,17 @@
       const newMax = Math.max(row.max_streak_days ?? 0, current);
       const { error } = await supabaseClient.from('streaks').update({ max_streak_days: newMax }).eq('user_id', session.user.id);
       if(error) return showErr('更新失敗：' + error.message);
+      // 本週進度 +1（一天只記一次）
+      recordTodayIfNew();
       await refreshStreaks();
     }
 
     async function resetStreak(){
       const { data: { session } } = await supabaseClient.auth.getSession();
       if(!session) return showErr('請先登入');
+      // 確保先有資料列
+      const row = await ensureStreakRow(session.user.id);
+      if(!row) return;
       const today = new Date().toISOString().slice(0,10);
       const { error } = await supabaseClient.from('streaks').update({ current_streak_start_date: today }).eq('user_id', session.user.id);
       if(error) return showErr('重置失敗：' + error.message);
@@ -506,15 +692,7 @@
       await refreshStreaks();
     }
 
-    // 綁定事件
-    document.getElementById('todo-add').addEventListener('click', ()=>{
-      const v = document.getElementById('todo-input').value.trim();
-      if(!v) return;
-      const list = readTodos();
-      list.unshift({ text:v, done:false });
-      writeTodos(list);
-      document.getElementById('todo-input').value = '';
-    });
+    // 綁定需登入的事件
     document.getElementById('btn-signup').addEventListener('click', signup);
     document.getElementById('btn-login').addEventListener('click', login);
     document.getElementById('btn-logout').addEventListener('click', logout);
@@ -529,35 +707,52 @@
     // 監聽登入狀態
     supabaseClient.auth.onAuthStateChange(function(_evt, sess){ renderSession(sess); if(sess){ refreshStreaks(); } });
   });
+</script>
 
-  // ===== 圖片 fallback（避免破圖） =====
-  (function () {
-    function fallback(img, emoji) {
-      var ph = document.createElement('div');
-      ph.style.height = img.classList.contains('photo') ? '160px' : '120px';
-      ph.style.borderRadius = '12px';
-      ph.style.background = 'linear-gradient(135deg,#fee2e2,#fce7f3)';
-      ph.style.display = 'grid';
-      ph.style.placeItems = 'center';
-      ph.style.fontSize = '42px';
-      ph.textContent = emoji || '🖼️';
-      img.replaceWith(ph);
-    }
-    document.addEventListener('error', function(e){
-      var img = e.target;
-      if(img.tagName === 'IMG'){
-        if (img.closest('.hero-media')) return fallback(img, '💧');
-        if (img.closest('.recipe')) return fallback(img, '🥗');
-        if (img.closest('#bundle')) return fallback(img, '📘');
-        if (img.classList.contains('wide-media')) return fallback(img, '🙂');
-        fallback(img, '🖼️');
-      }
-    }, true);
-  })();
+<!-- 圖片 fallback：若資源遺失或 404，自動以柔和占位取代，避免破圖 -->
+<script>
+(function () {
+  function fallback(node, emoji) {
+    var ph = document.createElement('div');
+    ph.className = 'illust';
+    ph.textContent = emoji || '🖼️';
+    ph.style.height = (node.classList.contains('photo') ? '160px' : '120px');
+    node.replaceWith(ph);
+  }
+  document.querySelectorAll('img').forEach(function (img) {
+    img.addEventListener('error', function () {
+      if (img.closest('.recipe')) return fallback(img, '🥗');     // 食譜
+      if (img.closest('.poster')) return fallback(img, '📘');     // 電子書海報
+      if (img.closest('.bundle')) return fallback(img, '🎁');     // Bundle 橫幅
+      fallback(img);
+    }, { once:true });
+  });
+})();
 </script>
 
 <!-- 後端一次性設定備忘（Supabase）
-（略，與先前相同）
+1) Auth → Providers → Email：啟用。
+   測試期可在 Auth → Email 關閉 Confirm email。
+2) Auth → URL Configuration：
+   Site URL/Redirect URL 都填：https://abbby9377.github.io/quit-sugar-site/
+3) 建表與 RLS（若未建）：在 SQL Editor 執行：
+
+  create table if not exists public.streaks (
+    id bigint generated by default as identity primary key,
+    created_at timestamp with time zone default now(),
+    user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
+    current_streak_start_date date not null,
+    max_streak_days bigint not null default 0
+  );
+  alter table public.streaks enable row level security;
+  drop policy if exists "streaks_select_own" on public.streaks;
+  create policy "streaks_select_own" on public.streaks for select to authenticated using (user_id = auth.uid());
+  drop policy if exists "streaks_insert_self" on public.streaks;
+  create policy "streaks_insert_self" on public.streaks for insert to authenticated with check (user_id = auth.uid());
+  drop policy if exists "streaks_update_own" on public.streaks;
+  create policy "streaks_update_own" on public.streaks for update to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
+  drop policy if exists "streaks_delete_own" on public.streaks;
+  create policy "streaks_delete_own" on public.streaks for delete to authenticated using (user_id = auth.uid());
 -->
 </body>
 </html>
