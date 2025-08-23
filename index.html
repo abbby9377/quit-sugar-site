@@ -275,7 +275,10 @@
       <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
     </div>
     <div class="recipe cardish">
-      <div class="illust" aria-hidden="true">🥗</div>
+      <picture>
+        <source srcset="./assets/recipe-salad.webp" type="image/webp">
+        <img class="photo" src="./assets/recipe-salad.jpg" alt="地中海鮪魚沙拉：高蛋白、高纖維，飽足感更久。">
+      </picture>
       <strong>地中海鮪魚沙拉</strong>
       <p class="muted">高蛋白、高纖維，飽足感更久。</p>
       <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
@@ -703,6 +706,27 @@
   });
 </script>
 
+<!-- 圖片 fallback：若資源遺失或 404，自動以柔和占位取代，避免破圖 -->
+<script>
+(function () {
+  function fallback(node, emoji) {
+    var ph = document.createElement('div');
+    ph.className = 'illust';
+    ph.textContent = emoji || '🖼️';
+    ph.style.height = (node.classList.contains('photo') ? '160px' : '120px');
+    node.replaceWith(ph);
+  }
+  document.querySelectorAll('img').forEach(function (img) {
+    img.addEventListener('error', function () {
+      if (img.closest('.recipe')) return fallback(img, '🥗');     // 食譜
+      if (img.closest('.poster')) return fallback(img, '📘');     // 電子書海報
+      if (img.closest('.bundle')) return fallback(img, '🎁');     // Bundle 橫幅
+      fallback(img);
+    }, { once:true });
+  });
+})();
+</script>
+
 <!-- 後端一次性設定備忘（Supabase）
 1) Auth → Providers → Email：啟用。
    測試期可在 Auth → Email 關閉 Confirm email。
@@ -729,4 +753,3 @@
 -->
 </body>
 </html>
-
