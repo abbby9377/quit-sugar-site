@@ -1,3 +1,6 @@
+下面是已移除指定內容的**完整 `analyzer.html`**（刪掉了 Hero 內那段說明文字與「前往嵌入工具」按鈕；其他維持不變）。
+
+```html
 <!doctype html>
 <html lang="zh-Hant">
 <head>
@@ -35,7 +38,6 @@
   /* Hero（與首頁一致） */
   .hero{background:var(--accent);border:1px solid var(--line);border-radius:24px;padding:24px;margin:8px 0 22px;position:relative}
   .hero h2{font-size:28px;margin:0 0 8px;color:#0f172a}
-  .hero p{margin:0 0 14px}
   .hero .actions{display:flex;gap:10px;flex-wrap:wrap}
   @media(min-width:900px){
     .hero{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:center}
@@ -95,11 +97,7 @@
   <section class="hero">
     <div>
       <h2>食物卡路里分析器</h2>
-      <p class="muted">此頁面嵌入你的「食物卡路里分析器」站點，維持與首頁一致的視覺風格。</p>
-      <div class="actions">
-        <a class="btn primary" href="#embed">前往嵌入工具</a>
-        <!-- 已移除「在新分頁開啟」按鈕 -->
-      </div>
+      <!-- 已依需求移除說明段落與「前往嵌入工具」按鈕 -->
     </div>
     <div class="hero-media">
       <picture>
@@ -113,7 +111,6 @@
   <section id="embed" class="card embed-wrap">
     <div class="embed-head">
       <div class="title">外部分析器（嵌入）</div>
-      <!-- 已移除右上角「在新分頁開啟」按鈕 -->
     </div>
     <div class="embed-body">
       <div id="skel" class="embed-skel">
@@ -207,3 +204,4 @@
 </script>
 </body>
 </html>
+```
