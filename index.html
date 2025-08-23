@@ -9,68 +9,64 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-  :root { --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#111827; --brand:#22c55e; --danger:#ef4444; }
-  *{box-sizing:border-box}
-  body{margin:0;background:#ffffff;color:var(--text);font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
-  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px}
-  header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:24px}
-  .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#16a34a,#22c55e);display:grid;place-items:center;color:#04120b;font-weight:900}
-  h1{margin:0;font-size:22px;letter-spacing:0.5px}
-  .card{background:var(--card);border:1px solid #e5e7eb;border-radius:18px;padding:18px}
-  .grid{display:grid;gap:16px}
-  @media(min-width:960px){.grid{grid-template-columns:1.1fr 1fr}}
-  h2{font-size:18px;margin:0 0 10px}
-  h3{font-size:16px;margin:16px 0 8px}
-  p,li,small{color:var(--muted)}
-  input,button{font:inherit}
-  input{width:100%;background:#ffffff;border:1px solid #d1d5db;padding:10px 12px;border-radius:10px;color:var(--text)}
-  .row{display:grid;gap:10px}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid #e5e7eb;padding:10px 14px;border-radius:12px;background:#f9fafb;color:var(--text);cursor:pointer}
-  .btn.primary{background:linear-gradient(135deg,#16a34a,#22c55e);color:#04120b;border:none;font-weight:700}
-  .btn.ghost{background:transparent}
-  .btn.danger{background:linear-gradient(135deg,#ef4444,#b91c1c);border:none;color:#fff}
-  .stat{display:flex;gap:14px;align-items:center}
-  .stat .num{font-size:28px;font-weight:800}
-  .kicker{display:inline-block;padding:4px 8px;border-radius:999px;background:#f1f5f9;border:1px solid #e5e7eb;color:#2563eb;font-size:12px}
-  .list{display:grid;gap:8px}
-  .todo{display:flex;align-items:center;gap:10px}
-  .todo input[type=checkbox]{width:18px;height:18px}
-  .muted{color:var(--muted)}
-  .error{border-left:3px solid var(--danger);padding:10px 12px;background:#fff5f5;border-radius:12px}
-  footer{margin-top:28px;text-align:center;color:var(--muted)}
-  code{background:#f1f5f9;padding:2px 6px;border-radius:6px;border:1px solid #e5e7eb}
-  hr{border-color:#e5e7eb;}
-  nav.top-nav{display:flex;gap:12px;align-items:center;padding:8px 0 12px;margin:0 0 16px;border-bottom:1px solid #e5e7eb;}
-  nav.top-nav a{color:#2563eb;text-decoration:none}
-  nav.top-nav a:hover{text-decoration:underline}
-</style>
+    :root { --bg:#0f172a; --card:#111827; --muted:#94a3b8; --text:#e5e7eb; --brand:#22c55e; --danger:#ef4444; }
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,#1f2937 0%,#0b1220 52%,#050816 100%),var(--bg);color:var(--text);font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+    .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+    header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:24px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#16a34a,#22c55e);display:grid;place-items:center;color:#04120b;font-weight:900}
+    h1{margin:0;font-size:22px;letter-spacing:0.5px}
+    .card{background:rgba(255,255,255,.04);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:18px}
+    .grid{display:grid;gap:16px}
+    @media(min-width:960px){.grid{grid-template-columns:1.1fr 1fr}}
+    h2{font-size:18px;margin:0 0 10px}
+    h3{font-size:16px;margin:16px 0 8px}
+    p,li,small{color:var(--muted)}
+    input,button{font:inherit}
+    input{width:100%;background:#0b1220;border:1px solid #22314a;padding:10px 12px;border-radius:10px;color:var(--text)}
+    .row{display:grid;gap:10px}
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid #1f2937;padding:10px 14px;border-radius:12px;background:#0b1220;color:var(--text);cursor:pointer}
+    .btn.primary{background:linear-gradient(135deg,#16a34a,#22c55e);color:#04120b;border:none;font-weight:700}
+    .btn.ghost{background:transparent}
+    .btn.danger{background:linear-gradient(135deg,#ef4444,#b91c1c);border:none}
+    .stat{display:flex;gap:14px;align-items:center}
+    .stat .num{font-size:28px;font-weight:800}
+    .kicker{display:inline-block;padding:4px 8px;border-radius:999px;background:#0b1220;border:1px solid #1f2937;color:#93c5fd;font-size:12px}
+    .list{display:grid;gap:8px}
+    .todo{display:flex;align-items:center;gap:10px}
+    .todo input[type=checkbox]{width:18px;height:18px}
+    .muted{color:var(--muted)}
+    .error{border-left:3px solid var(--danger);padding:10px 12px;background:#160b0b;border-radius:12px}
+    footer{margin-top:28px;text-align:center;color:var(--muted)}
+    code{background:#0b1220;padding:2px 6px;border-radius:6px;border:1px solid #22314a}
+  </style>
 
-  <!-- 全域錯誤顯示 -->
+  <!-- 全域錯誤顯示（便於排錯） -->
   <script>
     window.onerror = function(msg, src, line, col) {
-      const el = document.getElementById("auth-error");
-      if (el) {
-        el.style.display = "block";
-        el.textContent = "前端錯誤： " + msg + " (" + src + ":" + line + ":" + col + ")";
-      }
+      var box = document.getElementById('auth-error');
+      if (box) { box.style.display = 'block'; box.textContent = '前端錯誤： ' + msg + ' (' + src + ':' + line + ':' + col + ')'; }
     };
   </script>
 
-  <!-- Supabase JS：雙 CDN with fallback -->
+  <!-- 雙 CDN：先載 jsDelivr，失敗則切到 unpkg；載入完成後才執行主程式 -->
   <script>
     (function loadSupabaseSDK() {
-      const primary = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
-      const fallback = "https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
+      var primary = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
+      var fallback = "https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
       function append(src) {
-        const s = document.createElement("script");
-        s.src = src;
-        s.defer = true;
-        s.onload = () => console.log("Supabase SDK loaded: ", src);
-        s.onerror = () => {
-          if (src === primary) append(fallback);
-          else alert("載入 Supabase SDK 失敗，請稍後重試。");
+        var s = document.createElement('script');
+        s.src = src; s.defer = true;
+        s.onload = function(){ window.__supabaseReady = true; };
+        s.onerror = function(){
+          if (src === primary) {
+            append(fallback);
+          } else {
+            var el = document.getElementById('auth-error');
+            if (el) { el.style.display = 'block'; el.textContent = '載入 Supabase SDK 失敗，請稍後再試（或檢查是否被網路擋住 CDN）。'; }
+          }
         };
         document.head.appendChild(s);
       }
@@ -91,12 +87,8 @@
     <div id="auth-quick" class="muted"></div>
   </header>
 
-  <!-- 導覽列（可自行調整/新增連結） -->
-  <nav class="top-nav">
-    <a href="./">戒糖首頁</a>
-    <a href="https://abbby9377.github.io/food-calorie-analyzer/" target="_blank" rel="noopener">食物卡路里分析器</a></nav>
-
   <div class="grid">
+    <!-- 左：內容/激勵 & 代辦 -->
     <section class="card">
       <span class="kicker">基本原則 & 每日激勵</span>
       <h2>今天就開始，先做到 1 件小事</h2>
@@ -109,6 +101,7 @@
       </div>
     </section>
 
+    <!-- 右：登入/追蹤 -->
     <section class="card">
       <span class="kicker">個人化追蹤</span>
       <h2>註冊 / 登入</h2>
@@ -152,34 +145,225 @@
 </div>
 
 <script>
-  window.addEventListener('DOMContentLoaded', async () => {
-    // 等待 Supabase SDK 載入
+  // ====== 延遲等待 SDK 載入完成 ======
+  async function waitSupabaseReady(ms = 3000) {
     const start = Date.now();
-    while (!window.supabase && Date.now() - start < 5000) {
-      await new Promise(r => setTimeout(r, 100));
+    while (!window.supabase && Date.now() - start < ms) {
+      await new Promise(r => setTimeout(r, 50));
     }
-    if (!window.supabase) {
-      const el = document.getElementById("auth-error");
-      if (el) {
-        el.style.display = "block";
-        el.textContent = "Supabase SDK 未載入完成，請重新整理或稍後再試。";
-      }
-      return;
-    }
+    return !!window.supabase;
+  }
 
-    // Supabase client init
+  // ====== UI 小工具 ======
+  const $ = (id) => document.getElementById(id);
+  const showErr = (msg) => { const box = document.getElementById('auth-error'); if(!box) return; box.style.display = 'block'; box.textContent = msg; };
+  const hideErr = () => { const box = document.getElementById('auth-error'); if(!box) return; box.style.display = 'none'; box.textContent = ''; };
+
+  // ====== Email 正規化（避免「Email invalid」） ======
+  function normalizeEmail(raw) {
+    return (raw ?? '')
+      .normalize('NFKC')
+      .replace(/[\u200B-\u200D\uFEFF]/g, '')
+      .trim();
+  }
+  function basicEmailOK(s) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
+
+  // ====== 激勵語句 ======
+  const QUOTES = [
+    '少糖一點，清醒多一點。',
+    '今天的你，只要比昨天更好 1%。',
+    '戒掉不是快狠準，而是持續做小事。',
+    '想吃甜的？先喝一杯水，等五分鐘再決定。',
+    '把渴望寫下來，讓它離開腦袋。',
+  ];
+  function pickQuote(){
+    const t = QUOTES[Math.floor(Math.random()*QUOTES.length)];
+    document.getElementById('motivation').textContent = t;
+  }
+
+  // ====== TODO（本地儲存） ======
+  const TODO_KEY = 'qs.todos.v1';
+  function readTodos(){ try { return JSON.parse(localStorage.getItem(TODO_KEY)) || []; } catch { return []; } }
+  function writeTodos(list){ localStorage.setItem(TODO_KEY, JSON.stringify(list)); renderTodos(); }
+  function renderTodos(){
+    const list = readTodos();
+    const wrap = document.getElementById('todo-list');
+    wrap.innerHTML='';
+    list.forEach((t,i)=>{
+      const row = document.createElement('div');
+      row.className = 'todo';
+      const cb = document.createElement('input'); cb.type='checkbox'; cb.checked = !!t.done; cb.addEventListener('change',()=>{ list[i].done = cb.checked; writeTodos(list); });
+      const span = document.createElement('span'); span.textContent = t.text; span.className='muted';
+      const del = document.createElement('button'); del.className='btn ghost'; del.textContent='刪除'; del.addEventListener('click',()=>{ list.splice(i,1); writeTodos(list); });
+      row.append(cb, span, del);
+      wrap.append(row);
+    });
+  }
+
+  // ====== 主流程 ======
+  window.addEventListener('DOMContentLoaded', async () => {
+    pickQuote();
+    renderTodos();
+
+    // 等待 Supabase SDK
+    const ok = await waitSupabaseReady(4000);
+    if (!ok) { showErr('Supabase SDK 未載入完成，請重新整理或稍後再試。'); return; }
+
+    // 1) Supabase 連線設定（使用你的專案資訊）
     const SUPABASE_URL = "https://scquprvywjtuvcxxfsco.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjcXVwcnZ5d2p0dXZjeHhmc2NvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MzAxMTQsImV4cCI6MjA3MTQwNjExNH0.iUZ_lI-mHoGoz2NfPTifYe44zieUIBUREF6fxsry97I";
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
       auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
     });
 
-    // 簡化：僅示範 UI 初始化 + 確認 SDK 可用
-    document.getElementById("motivation").textContent = "少糖一點，清醒多一點。";
-    document.getElementById("todo-add").addEventListener("click", () => {
-      alert("TODO 測試正常");
+    // Auth：註冊 / 登入 / 登出
+    async function signup(){
+      hideErr();
+      const email = normalizeEmail(document.getElementById('signup-email').value);
+      const password = document.getElementById('signup-password').value;
+      if(!basicEmailOK(email)) return showErr('請輸入有效的 Email（避免全形與多餘空白）');
+      if((password||'').length < 6) return showErr('密碼至少 6 碼');
+      const { data, error } = await supabaseClient.auth.signUp({ email, password });
+      if(error){ return showErr('註冊失敗：' + (error.message || '未知錯誤')); }
+      if(!data.session){ return showErr('若啟用信箱驗證，請至信箱收信後再回來按「登入」。'); }
+      await afterLogin();
+    }
+
+    async function login(){
+      hideErr();
+      const email = normalizeEmail(document.getElementById('signup-email').value);
+      const password = document.getElementById('signup-password').value;
+      if(!basicEmailOK(email)) return showErr('請輸入有效的 Email');
+      if((password||'').length < 6) return showErr('密碼至少 6 碼');
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if(error){ return showErr('登入失敗：' + (error.message || '未知錯誤')); }
+      await afterLogin();
+    }
+
+    async function logout(){ await supabaseClient.auth.signOut(); renderSession(null); }
+
+    function renderSession(session){
+      const quick = document.getElementById('auth-quick');
+      const btnLogout = document.getElementById('btn-logout');
+      if(session){
+        const email = session.user?.email || '已登入';
+        quick.textContent = '👤 ' + email;
+        btnLogout.style.display = 'inline-flex';
+      }else{
+        quick.textContent = '未登入';
+        btnLogout.style.display = 'none';
+        document.getElementById('current-streak').textContent = '—';
+        document.getElementById('max-streak').textContent = '—';
+      }
+    }
+
+    // Streaks
+    function daysBetween(start){
+      const s = new Date(start + 'T00:00:00');
+      const today = new Date();
+      const diff = Math.floor((Date.UTC(today.getFullYear(),today.getMonth(),today.getDate()) - Date.UTC(s.getFullYear(),s.getMonth(),s.getDate())) / (1000*60*60*24));
+      return Math.max(0, diff+1);
+    }
+
+    async function ensureStreakRow(userId){
+      const { data, error } = await supabaseClient.from('streaks').select('*').eq('user_id', userId).maybeSingle();
+      if(error){ showErr('讀取 streaks 失敗：' + error.message); return null; }
+      if(data){ return data; }
+      const today = new Date().toISOString().slice(0,10);
+      const { data: inserted, error: e2 } = await supabaseClient.from('streaks').insert({
+        user_id: userId,
+        current_streak_start_date: today,
+        max_streak_days: 0
+      }).select().single();
+      if(e2){ showErr('建立 streaks 失敗：' + e2.message); return null; }
+      return inserted;
+    }
+
+    async function refreshStreaks(){
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if(!session){ return; }
+      const row = await ensureStreakRow(session.user.id);
+      if(!row) return;
+      const current = daysBetween(row.current_streak_start_date);
+      document.getElementById('current-streak').textContent = current;
+      document.getElementById('max-streak').textContent = row.max_streak_days ?? 0;
+    }
+
+    async function markGoodToday(){
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if(!session) return showErr('請先登入');
+      const row = await ensureStreakRow(session.user.id);
+      if(!row) return;
+      const current = daysBetween(row.current_streak_start_date);
+      const newMax = Math.max(row.max_streak_days ?? 0, current);
+      const { error } = await supabaseClient.from('streaks').update({ max_streak_days: newMax }).eq('user_id', session.user.id);
+      if(error) return showErr('更新失敗：' + error.message);
+      await refreshStreaks();
+    }
+
+    async function resetStreak(){
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if(!session) return showErr('請先登入');
+      const today = new Date().toISOString().slice(0,10);
+      const { error } = await supabaseClient.from('streaks').update({ current_streak_start_date: today }).eq('user_id', session.user.id);
+      if(error) return showErr('重置失敗：' + error.message);
+      await refreshStreaks();
+    }
+
+    async function afterLogin(){
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      renderSession(session);
+      await refreshStreaks();
+    }
+
+    // 綁定事件
+    document.getElementById('todo-add').addEventListener('click', ()=>{
+      const v = document.getElementById('todo-input').value.trim();
+      if(!v) return;
+      const list = readTodos();
+      list.unshift({ text:v, done:false });
+      writeTodos(list);
+      document.getElementById('todo-input').value = '';
     });
+    document.getElementById('btn-signup').addEventListener('click', signup);
+    document.getElementById('btn-login').addEventListener('click', login);
+    document.getElementById('btn-logout').addEventListener('click', logout);
+    document.getElementById('btn-i-did-good').addEventListener('click', markGoodToday);
+    document.getElementById('btn-reset').addEventListener('click', resetStreak);
+
+    // Session 初始化
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    renderSession(session);
+    if(session){ await refreshStreaks(); }
+
+    // 監聽登入狀態
+    supabaseClient.auth.onAuthStateChange(function(_evt, sess){ renderSession(sess); if(sess){ refreshStreaks(); } });
   });
 </script>
+
+<!-- 後端一次性設定備忘（Supabase）
+1) Auth → Providers → Email：啟用。
+   測試期可在 Auth → Email 關閉 Confirm email。
+2) Auth → URL Configuration：
+   Site URL/Redirect URL 都填：https://abbby9377.github.io/quit-sugar-site/
+3) 建表與 RLS（若未建）：在 SQL Editor 執行：
+
+  create table if not exists public.streaks (
+    id bigint generated by default as identity primary key,
+    created_at timestamp with time zone default now(),
+    user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
+    current_streak_start_date date not null,
+    max_streak_days bigint not null default 0
+  );
+  alter table public.streaks enable row level security;
+  drop policy if exists "streaks_select_own" on public.streaks;
+  create policy "streaks_select_own" on public.streaks for select to authenticated using (user_id = auth.uid());
+  drop policy if exists "streaks_insert_self" on public.streaks;
+  create policy "streaks_insert_self" on public.streaks for insert to authenticated with check (user_id = auth.uid());
+  drop policy if exists "streaks_update_own" on public.streaks;
+  create policy "streaks_update_own" on public.streaks for update to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
+  drop policy if exists "streaks_delete_own" on public.streaks;
+  create policy "streaks_delete_own" on public.streaks for delete to authenticated using (user_id = auth.uid());
+-->
 </body>
 </html>
