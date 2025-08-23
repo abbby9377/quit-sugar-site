@@ -52,7 +52,7 @@
   nav.top-nav a{color:#2563eb;text-decoration:none}
   nav.top-nav a:hover{text-decoration:underline}
 
-  /* ===== 新增：副導覽（錨點） ===== */
+  /* ===== 副導覽（錨點） ===== */
   .subnav{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0 16px}
   .chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff}
   .chip a{text-decoration:none;color:#334155}
@@ -98,6 +98,30 @@
     background:#fff; box-shadow:0 6px 16px rgba(15,23,42,.08); cursor:pointer; z-index:2
   }
   .car-btn.prev{left:-10px} .car-btn.next{right:-10px}
+  .photo{width:100%;height:160px;border-radius:12px;object-fit:cover;margin-bottom:10px;border:1px solid var(--line)}
+
+  /* ===== Ebook Bundle 橫幅 ===== */
+  .bundle{position:relative;display:grid;gap:10px;grid-template-columns:1fr;align-items:center;
+          border:1px solid var(--line);border-radius:20px;padding:18px;margin:14px 0 10px;
+          background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff)}
+  @media(min-width:860px){ .bundle{grid-template-columns:1fr auto} }
+  .bundle .title{font-size:20px;font-weight:800;color:#0f172a;margin:0}
+  .bundle .desc{color:#64748b;margin:0}
+  .bundle .actions{display:flex;gap:10px;flex-wrap:wrap}
+  .bundle .badge{position:absolute;right:12px;top:-10px;background:#fff;border:1px solid var(--line);
+                 padding:6px 10px;border-radius:999px;font-size:12px;color:#0f172a;box-shadow:0 6px 16px rgba(15,23,42,.08)}
+  .bundle .mini{display:flex;gap:8px;align-items:center}
+  .bundle .mini img{width:44px;height:60px;border-radius:8px;border:1px solid var(--line);object-fit:cover;box-shadow:0 4px 10px rgba(15,23,42,.06)}
+  .bundle .right{display:flex;align-items:center;gap:10px}
+
+  /* ===== 電子書海報（封面格狀/橫滑） ===== */
+  .posters{margin:6px 0 24px}
+  .poster-row{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 10px}
+  .poster{flex:0 0 auto; width:220px; scroll-snap-align:center; border-radius:16px; background:#fff; border:1px solid var(--line); box-shadow:0 8px 22px rgba(15,23,42,.06); padding:10px; text-align:center}
+  .poster img{width:100%;height:auto;border-radius:12px;display:block}
+  .poster .meta{font-size:12px;color:#64748b;margin-top:6px}
+  .poster .cta{margin-top:8px}
+  .poster .cta .btn{width:100%;justify-content:center}
 
   /* ===== 回饋（兩欄） + 頭像 ===== */
   .testimonials{display:grid;gap:12px;margin:4px 0 20px}
@@ -180,6 +204,8 @@
       <span class="chip"><a href="#why">為什麼有效</a></span>
       <span class="chip"><a href="#steps">三步驟開始</a></span>
       <span class="chip"><a href="#recipes">食譜靈感</a></span>
+      <span class="chip"><a href="#bundle">Ebook Bundle</a></span>
+      <span class="chip"><a href="#ebooks">電子書精選</a></span>
       <span class="chip"><a href="#stories">成功故事</a></span>
       <span class="chip"><a href="#faq">FAQ</a></span>
     </div>
@@ -249,13 +275,61 @@
       <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
     </div>
     <div class="recipe cardish">
-      <div class="illust">🥗</div>
+      <div class="illust" aria-hidden="true">🥗</div>
       <strong>地中海鮪魚沙拉</strong>
       <p class="muted">高蛋白、高纖維，飽足感更久。</p>
       <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
     </div>
   </div>
   <button class="car-btn next" id="car-next" aria-label="下一個">›</button>
+</div>
+
+<!-- Ebook Bundle 橫幅（參考 bundle 分類的集合宣傳區） -->
+<section id="bundle" class="bundle">
+  <div>
+    <div class="mini" style="margin-bottom:8px">
+      <img src="./assets/poster-reset-8w.jpg" alt="8 週戒糖入門封面縮圖">
+      <img src="./assets/poster-breakfast-20.jpg" alt="低糖早餐 20 道封面縮圖">
+      <img src="./assets/poster-eating-out.jpg" alt="外食少糖小抄封面縮圖">
+      <img src="./assets/poster-desserts-15.jpg" alt="零糖甜點 15 道封面縮圖">
+    </div>
+    <h3 class="title">Ebook Bundle｜一次入手最實用的 4 本指南</h3>
+    <p class="desc">從 8 週戒糖入門到外食、早餐與零糖甜點，幫你把減糖落地到日常。</p>
+    <div class="actions">
+      <a class="btn primary" href="#auth">加入會員，解鎖下載</a>
+      <a class="btn" href="#ebooks">先逛逛封面</a>
+    </div>
+  </div>
+  <div class="right">
+    <span class="badge">🎁 多本合購更划算</span>
+  </div>
+</section>
+
+<!-- 電子書海報（封面格狀/橫滑） -->
+<h3 id="ebooks" class="section-title">電子書精選（封面海報）</h3>
+<div class="posters">
+  <div class="poster-row">
+    <div class="poster">
+      <picture><source srcset="./assets/poster-reset-8w.webp" type="image/webp"><img src="./assets/poster-reset-8w.jpg" alt="8 週戒糖入門：Complete Reset 電子書封面"></picture>
+      <div class="meta">循序減糖、穩定能量與心情</div>
+      <div class="cta"><a class="btn primary" href="#auth">登入後下載</a></div>
+    </div>
+    <div class="poster">
+      <picture><source srcset="./assets/poster-breakfast-20.webp" type="image/webp"><img src="./assets/poster-breakfast-20.jpg" alt="低糖早餐 20 道：Low-Sugar Breakfasts 電子書封面"></picture>
+      <div class="meta">一天的輕甜開始</div>
+      <div class="cta"><a class="btn" href="#auth">加入書櫃</a></div>
+    </div>
+    <div class="poster">
+      <picture><source srcset="./assets/poster-eating-out.webp" type="image/webp"><img src="./assets/poster-eating-out.jpg" alt="外食少糖小抄：Eating Out Smart 電子書封面"></picture>
+      <div class="meta">外食族友善攻略</div>
+      <div class="cta"><a class="btn" href="#auth">加入書櫃</a></div>
+    </div>
+    <div class="poster">
+      <picture><source srcset="./assets/poster-desserts-15.webp" type="image/webp"><img src="./assets/poster-desserts-15.jpg" alt="零糖甜點 15 道：Guilt-Free Treats 電子書封面"></picture>
+      <div class="meta">甜而不膩的儀式感</div>
+      <div class="cta"><a class="btn" href="#auth">加入書櫃</a></div>
+    </div>
+  </div>
 </div>
 
 <!-- 使用者回饋（新增頭像） -->
@@ -655,3 +729,4 @@
 -->
 </body>
 </html>
+
