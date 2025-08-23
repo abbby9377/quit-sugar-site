@@ -82,15 +82,15 @@
   .recipe{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
   .illust{height:120px;border-radius:12px;background:linear-gradient(135deg,#fee2e2,#fce7f3);display:grid;place-items:center;font-size:42px;margin-bottom:10px}
   .carousel{position:relative;margin-bottom:8px}
-  .car-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
+  .car-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scroll-behavior:smooth}
   .car-track::-webkit-scrollbar{height:8px}
   .car-track::-webkit-scrollbar-thumb{background:#e5e7eb;border-radius:999px}
-  .recipe.cardish{scroll-snap-align:center;min-width:82%}
-  @media (min-width:800px){ .recipe.cardish{min-width:32%} }
+  .recipe.cardish{scroll-snap-align:center;min-width:88%}
+  @media (min-width:800px){ .recipe.cardish{min-width:40%} }
   .car-btn{
     position:absolute; top:38%; transform:translateY(-50%);
     border:none; width:42px; height:42px; border-radius:999px;
-    background:#fff; box-shadow:0 6px 16px rgba(15,23,42,.08); cursor:pointer
+    background:#fff; box-shadow:0 6px 16px rgba(15,23,42,.08); cursor:pointer; z-index:2
   }
   .car-btn.prev{left:-10px} .car-btn.next{right:-10px}
 
@@ -241,7 +241,7 @@
 <!-- 使用者回饋 -->
 <h3 id="stories" class="section-title">成功故事</h3>
 <div class="testimonials">
-  <blockquote class="quote"><p>三週後哭腔下午崩壞消失了，皮膚也穩定許多！</p><footer>— Yumi．設計師</footer></blockquote>
+  <blockquote class="quote"><p>三週後下午崩壞消失了，皮膚也穩定許多！</p><footer>— Yumi．設計師</footer></blockquote>
   <blockquote class="quote"><p>用「連勝」看進步，比體重計更激勵；現在甜飲一週只喝一次。</p><footer>— Irene．行銷人</footer></blockquote>
 </div>
 
@@ -409,14 +409,58 @@
     updateWeekUI();
   }
 
+  // ====== 輪播初始化（不依賴 Supabase） ======
+  function initCarousel(){
+    const track = document.getElementById('car-track');
+    const prev = document.getElementById('car-prev');
+    const next = document.getElementById('car-next');
+    if(!track || !prev || !next) return;
+
+    const firstCard = track.querySelector('.recipe');
+    const gap = 12; // 與 CSS 一致
+    const stepPx = () => (firstCard ? firstCard.clientWidth + gap : Math.max(300, track.clientWidth * 0.9));
+
+    function updateArrows(){
+      const canScroll = track.scrollWidth > track.clientWidth + 1;
+      prev.style.display = next.style.display = canScroll ? 'inline-flex' : 'none';
+    }
+
+    prev.addEventListener('click', () => track.scrollBy({ left: -stepPx(), behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left:  stepPx(), behavior: 'smooth' }));
+    window.addEventListener('resize', updateArrows);
+    updateArrows();
+  }
+
   // ====== 主流程 ======
   window.addEventListener('DOMContentLoaded', async () => {
+    // 與 Supabase 無關的 UI：先初始化，避免 CDN 失敗時整頁停擺
     pickQuote();
     renderTodos();
+    updateWeekUI();
+    initCarousel();
+
+    // 預先把需要登入的按鈕禁用；等拿到 session 再開
+    const btnGood = $('btn-i-did-good');
+    const btnReset = $('btn-reset');
+    if(btnGood) btnGood.disabled = true;
+    if(btnReset) btnReset.disabled = true;
+
+    // 讓「加入」待辦的事件先綁定（不依賴 Supabase）
+    $('todo-add').addEventListener('click', ()=>{
+      const v = $('todo-input').value.trim();
+      if(!v) return;
+      const list = readTodos();
+      list.unshift({ text:v, done:false });
+      writeTodos(list);
+      $('todo-input').value = '';
+    });
 
     // 等待 Supabase SDK
     const ok = await waitSupabaseReady(4000);
-    if (!ok) { showErr('Supabase SDK 未載入完成，請重新整理或稍後再試。'); return; }
+    if (!ok) {
+      showErr('Supabase SDK 未載入完成，登入/連勝功能暫不可用；其他功能正常。');
+      return;
+    }
 
     // 1) Supabase 連線設定（使用你的專案資訊）
     const SUPABASE_URL = "https://scquprvywjtuvcxxfsco.supabase.co";
@@ -536,15 +580,7 @@
       await refreshStreaks();
     }
 
-    // 綁定事件
-    document.getElementById('todo-add').addEventListener('click', ()=>{
-      const v = document.getElementById('todo-input').value.trim();
-      if(!v) return;
-      const list = readTodos();
-      list.unshift({ text:v, done:false });
-      writeTodos(list);
-      document.getElementById('todo-input').value = '';
-    });
+    // 綁定需登入的事件
     document.getElementById('btn-signup').addEventListener('click', signup);
     document.getElementById('btn-login').addEventListener('click', login);
     document.getElementById('btn-logout').addEventListener('click', logout);
@@ -558,19 +594,6 @@
 
     // 監聽登入狀態
     supabaseClient.auth.onAuthStateChange(function(_evt, sess){ renderSession(sess); if(sess){ refreshStreaks(); } });
-
-    // 初始化每週進度
-    updateWeekUI();
-
-    // 初始化輪播左右鍵
-    const track = document.getElementById('car-track');
-    const prev = document.getElementById('car-prev');
-    const next = document.getElementById('car-next');
-    if(track && prev && next){
-      const step = () => track.clientWidth * 0.9;
-      prev.addEventListener('click', () => track.scrollBy({left: -step(), behavior:'smooth'}));
-      next.addEventListener('click', () => track.scrollBy({left: step(), behavior:'smooth'}));
-    }
   });
 </script>
 
