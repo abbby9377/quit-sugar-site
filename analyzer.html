@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>食物卡路里分析器｜Quit Sugar</title>
+  <meta name="description" content="站內嵌入版：於戒糖網站中直接使用食物卡路里分析器。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#ffffff; --card:#ffffff; --muted:#4b5563; --text:#111827; --brand:#22c55e; --danger:#ef4444; }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:#ffffff;color:var(--text);font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+    .muted{color:var(--muted)}
+    .page{min-height:100svh;display:flex;flex-direction:column}
+    .header-wrap{max-width:980px;margin:0 auto;padding:16px 20px;}
+    header{display:flex;gap:16px;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#16a34a,#22c55e);display:grid;place-items:center;color:#04120b;font-weight:900}
+    h1{margin:0;font-size:20px;letter-spacing:0.5px}
+    nav.top-nav{display:flex;gap:12px;align-items:center;padding:8px 0 12px;margin:8px 0 0;border-bottom:1px solid #e5e7eb;}
+    nav.top-nav a{color:#2563eb;text-decoration:none}
+    nav.top-nav a:hover{text-decoration:underline}
+    nav.top-nav .current{color:#111827;font-weight:700;cursor:default;text-decoration:none}
+    .frame{flex:1;display:flex;min-height:0}
+    .frame iframe{flex:1;width:100%;border:0;background:#0b1220}
+    footer{padding:16px 20px;text-align:center;color:var(--muted)}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid #e5e7eb;border-radius:999px;background:#f9fafb;color:#111827;text-decoration:none}
+    .btn:hover{background:#eef2ff}
+    .btn.back{font-weight:600}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="header-wrap">
+      <header>
+        <div class="brand">
+          <div class="logo">QS</div>
+          <div>
+            <h1>Quit Sugar｜食物卡路里分析器</h1>
+            <small class="muted">站內嵌入版</small>
+          </div>
+        </div>
+        <a class="btn back" href="./">← 返回首頁</a>
+      </header>
+      <nav class="top-nav">
+        <a href="./">戒糖首頁</a>
+        <span class="current">食物卡路里分析器（本頁）</span>
+      </nav>
+    </div>
+
+    <main class="frame">
+      <iframe src="https://abbby9377.github.io/food-calorie-analyzer/" title="食物卡路里分析器"></iframe>
+    </main>
+
+    <footer>
+      © 2025 Quit Sugar. 嵌入來源：food-calorie-analyzer（GitHub Pages）
+    </footer>
+  </div>
+</body>
+</html>
