@@ -4,48 +4,71 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>食物卡路里分析器｜Quit Sugar</title>
-  <meta name="description" content="將外部的食物卡路里分析器嵌入到戒糖計畫網站中，維持一致的視覺風格與導覽。"/>
+  <meta name="description" content="將外部的食物卡路里分析器嵌入到戒糖計畫網站中，並沿用與首頁一致的柔和美型風格。" />
+  <meta name="theme-color" content="#f472b6" />
+
+  <!-- 字體（與首頁一致） -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+
   <style>
-  /* ===== 共用主題（與首頁一致） ===== */
-  :root {
-    --bg:#ffffff; --card:#ffffff; --muted:#475569; --text:#0f172a;
+  :root{
+    --bg:#ffffff; --panel:#ffffff; --ink:#0b1220; --muted:#475569; --line:#e5e7eb;
     --brand:#ec4899; --brand-2:#f472b6; --brand-3:#fb7185;
-    --accent:#fdf2f8; --line:#e5e7eb; --danger:#ef4444;
+    --promo:#fff1f5; --accent:#fdf2f8;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
-  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px}
-  header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:12px}
-  .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--brand-2),var(--brand-3));display:grid;place-items:center;color:#fff;font-weight:900}
-  h1{margin:0;font-size:24px;letter-spacing:0.5px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(236,72,153,.08)}
-  h2{font-size:22px;margin:0 0 10px}
-  p,small{color:var(--muted)}
-  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:12px 16px;border-radius:999px;background:#f8fafc;color:#0f172a;cursor:pointer;white-space:nowrap}
-  .btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:700}
-  nav.top-nav{display:flex;gap:16px;align-items:center;padding:8px 0 14px;margin:0 0 16px;border-bottom:1px solid var(--line)}
-  nav.top-nav a{color:#2563eb;text-decoration:none}
-  nav.top-nav a:hover{text-decoration:underline}
-  nav.top-nav .active{font-weight:700;color:#1d4ed8}
-
-  /* Hero（與首頁一致） */
-  .hero{background:var(--accent);border:1px solid var(--line);border-radius:24px;padding:24px;margin:8px 0 22px;position:relative}
-  .hero h2{font-size:28px;margin:0 0 8px;color:#0f172a}
-  .hero .actions{display:flex;gap:10px;flex-wrap:wrap}
-  @media(min-width:900px){
-    .hero{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:center}
-    .hero-media{justify-self:end}
+  html,body{height:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
   }
-  .hero-media img{width:100%;max-width:420px;height:auto;border-radius:20px;box-shadow:0 10px 30px rgba(236,72,153,.15)}
+  img{max-width:100%;display:block}
+  a{color:#2563eb;text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
 
-  /* ===== 嵌入框樣式 ===== */
-  .embed-wrap{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
+  /* 促銷條（與首頁一致） */
+  .promo{
+    background:var(--promo);border-bottom:1px solid var(--line);
+    text-align:center;padding:10px 12px;color:#7a294a;font-weight:700
+  }
+  .promo .btn{margin-left:10px}
+
+  /* Header（與首頁一致） */
+  header.site{position:sticky;top:0;background:#fff;z-index:20;border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--brand-2),var(--brand));display:grid;place-items:center;color:#fff;font-weight:900}
+  .title{margin:0;font-size:22px;letter-spacing:.3px}
+  .nav-links{display:flex;gap:16px;align-items:center}
+  .nav-links a.active{font-weight:800;color:#1d4ed8}
+
+  /* Buttons（與首頁一致） */
+  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
+       padding:12px 16px;border-radius:999px;background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap}
+  .btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:800}
+  .btn.ghost{background:transparent}
+  .btn[disabled]{opacity:.6;cursor:not-allowed}
+
+  /* Hero（與首頁一致的版型/漸層） */
+  .hero{background:linear-gradient(180deg,#fff,#fff 34%,#fdf2f8 34%,#fdf2f8);border-bottom:1px solid var(--line)}
+  .hero-inner{display:grid;gap:26px;grid-template-columns:1.1fr 1fr;align-items:center;padding:34px 0}
+  .eyebrow{display:inline-block;color:#a21caf;background:#fce7f3;border:1px solid #fbcfe8;padding:4px 10px;border-radius:999px;font-weight:700;font-size:12px;margin-bottom:8px}
+  .hero h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:34px;line-height:1.25;margin:0 0 10px;letter-spacing:.2px}
+  .hero p{color:#475569;margin:0 0 16px;max-width:60ch}
+  .hero-media{justify-self:end}
+  .hero-media img{width:min(480px,100%);height:auto;border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(236,72,153,.15)}
+
+  /* 內頁主內容容器（對齊首頁 panel/card 風格） */
+  .panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:0}
+  .muted{color:var(--muted)}
+
+  /* 嵌入框樣式 */
   .embed-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff)}
-  .embed-head .title{font-weight:800;color:#0f172a}
+  .embed-head .title{font-weight:800;color:#0b1220}
   .embed-body{position:relative}
   .embed-skel{position:absolute;inset:0;display:grid;place-items:center;background:#fff}
   .embed-skel .dot{width:10px;height:10px;border-radius:999px;background:#f0abfc;animation:b 1.2s infinite alternate}
@@ -54,103 +77,104 @@
   @keyframes b{to{transform:translateY(-6px);opacity:.6}}
   iframe{width:100%;border:0;display:block;height:900px}
 
-  /* ===== Ebook Bundle 橫幅 ===== */
-  .bundle{position:relative;display:grid;gap:10px;grid-template-columns:1fr;align-items:center;
-          border:1px solid var(--line);border-radius:20px;padding:18px;margin:18px 0 10px;
-          background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff)}
-  @media(min-width:860px){ .bundle{grid-template-columns:1fr auto} }
-  .bundle .title{font-size:20px;font-weight:800;color:#0f172a;margin:0}
-  .bundle .desc{color:#64748b;margin:0}
-  .bundle .actions{display:flex;gap:10px;flex-wrap:wrap}
-  .bundle .badge{position:absolute;right:12px;top:-10px;background:#fff;border:1px solid var(--line);
-                 padding:6px 10px;border-radius:999px;font-size:12px;color:#0f172a;box-shadow:0 6px 16px rgba(15,23,42,.08)}
-  .bundle .mini{display:flex;gap:8px;align-items:center}
-  .bundle .mini img{width:44px;height:60px;border-radius:8px;border:1px solid var(--line);object-fit:cover;box-shadow:0 4px 10px rgba(15,23,42,.06)}
-  .bundle .right{display:flex;align-items:center;gap:10px}
+  /* CTA 條（與首頁一致） */
+  .cta{margin:22px 0;background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:12px}
+  .wrap.cta{max-width:880px;margin-left:auto;margin-right:auto;}
+  @media(min-width:860px){
+    .cta{grid-template-columns:auto auto;align-items:center;justify-content:center;column-gap:24px}
+  }
+  @media(max-width:859px){
+    .cta{text-align:center}
+    .cta > div:last-child{justify-self:center}
+  }
 
-  footer{margin-top:28px;text-align:center;color:#64748b}
+  footer{margin-top:32px;color:#94a3b8;text-align:center}
   </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="brand">
-      <div class="logo">QS</div>
-      <div>
-        <h1>戒糖計畫 Quit Sugar</h1>
-        <small class="muted">輕鬆開始、持續記錄、看見改變</small>
-      </div>
-    </div>
-    <div class="muted">分析器</div>
-  </header>
 
-  <!-- 導覽列（新增：電子書商店） -->
-  <nav class="top-nav">
-    <a href="./">戒糖首頁</a>
-    <a class="active" href="./analyzer.html">食物卡路里分析器</a>
-    <a href="./ebooks.html">電子書商店</a>
-  </nav>
+  <!-- 促銷條 -->
+  <div class="promo" role="region" aria-label="促銷訊息">
+    8 週戒糖 Reset 開放報名 — 限時名額。
+    <a class="btn" href="./#join" aria-label="立即加入">立即加入</a>
+  </div>
 
-  <!-- Hero（依需求已移除說明段與按鈕） -->
-  <section class="hero">
-    <div>
-      <h2>食物卡路里分析器</h2>
-    </div>
-    <div class="hero-media">
-      <picture>
-        <source srcset="./assets/recipe-breakfast.webp" type="image/webp">
-        <img src="./assets/recipe-breakfast.jpg" alt="低糖早餐碗：燕麥、堅果與水果">
-      </picture>
-    </div>
-  </section>
-
-  <!-- 嵌入外部分析器 -->
-  <section id="embed" class="card embed-wrap">
-    <div class="embed-head">
-      <div class="title">外部分析器（嵌入）</div>
-    </div>
-    <div class="embed-body">
-      <div id="skel" class="embed-skel">
-        <div style="display:flex;gap:8px;align-items:center">
-          <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+  <!-- Header -->
+  <header class="site" role="banner">
+    <div class="wrap nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">QS</div>
+        <div>
+          <h1 class="title" style="margin:0">戒糖計畫 Quit Sugar</h1>
+          <small class="muted">溫柔開始・持續記錄・看見改變</small>
         </div>
       </div>
-      <iframe id="fc-embed"
-        src="https://abbby9377.github.io/food-calorie-analyzer/"
-        title="Food Calorie Analyzer（外部站）"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <nav class="nav-links" aria-label="主導覽">
+        <a href="./">戒糖首頁</a>
+        <a class="active" href="./analyzer.html">食物卡路里分析器</a>
+        <a href="./ebooks.html">電子書商店</a>
+        <a class="btn primary" href="./#join">加入 8 週 Reset</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <span class="eyebrow">工具</span>
+        <h1>食物卡路里分析器</h1>
+        <p>快速估算餐點熱量，搭配我們的「小步慢走」策略，幫你更聰明地做選擇，不必逼自己計算每一餐。</p>
+      </div>
+      <div class="hero-media" aria-hidden="true">
+        <picture>
+          <source srcset="./assets/feature-tasty-low-sugar.webp" type="image/webp">
+          <img src="./assets/feature-tasty-low-sugar.jpg" alt="低糖早餐碗：燕麥、堅果與水果">
+        </picture>
+      </div>
     </div>
   </section>
 
-  <!-- Ebook Bundle 橫幅（按鈕改連商店） -->
-  <section id="bundle" class="bundle">
+  <!-- 外部分析器（沿用首頁 panel/card 視覺） -->
+  <section class="wrap">
+    <div class="panel">
+      <div class="embed-head">
+        <div class="title">外部分析器（嵌入）</div>
+        <div class="muted">由第三方提供 · 供參考使用</div>
+      </div>
+      <div class="embed-body">
+        <div id="skel" class="embed-skel" aria-hidden="true">
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+          </div>
+        </div>
+        <iframe id="fc-embed"
+          src="https://abbby9377.github.io/food-calorie-analyzer/"
+          title="Food Calorie Analyzer（外部站）"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA（與首頁一致） -->
+  <section class="wrap cta" aria-label="加入計畫">
     <div>
-      <div class="mini" style="margin-bottom:8px">
-        <img src="./assets/poster-reset-8w.jpg" alt="8 週戒糖入門封面縮圖">
-        <img src="./assets/poster-breakfast-20.jpg" alt="低糖早餐 20 道封面縮圖">
-        <img src="./assets/poster-eating-out.jpg" alt="外食少糖小抄封面縮圖">
-        <img src="./assets/poster-desserts-15.jpg" alt="零糖甜點 15 道封面縮圖">
-      </div>
-      <h3 class="title">Ebook Bundle｜一次入手最實用的 4 本指南</h3>
-      <p class="desc">從 8 週戒糖入門到外食、早餐與零糖甜點，幫你把減糖落地到日常。</p>
-      <div class="actions">
-        <a class="btn primary" href="./ebooks.html">前往電子書商店</a>
-        <a class="btn" href="./ebooks.html#bundle">了解套組優惠</a>
-      </div>
+      <h3 style="margin:6px 0">8 週戒糖 Reset・現在就啟動</h3>
+      <p class="muted" style="margin:0">把分析器當作輔助，真正帶來改變的是每日 1% 的小行動。</p>
     </div>
-    <div class="right">
-      <span class="badge">🎁 多本合購更划算</span>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <a class="btn primary" href="./#auth" aria-label="加入或登入">立即加入 / 登入</a>
+      <a class="btn" href="./ebooks.html" aria-label="領取電子書">領取電子書</a>
     </div>
   </section>
 
-  <footer>
+  <footer class="wrap" role="contentinfo">
     <p>© 2025 Quit Sugar. GitHub Pages</p>
   </footer>
-</div>
 
 <script>
-/* ============ 自動高度調整（同網域可直接讀取；跨網域則使用訊息或預設高） ============ */
+/* ============ 自動高度調整（跨網域以訊息為輔） ============ */
 (function () {
   var frame = document.getElementById('fc-embed');
   var skel = document.getElementById('skel');
@@ -193,6 +217,35 @@
       setH(e.data.height);
     }
   });
+})();
+</script>
+
+<!-- 圖片 fallback（與首頁一致的 DataURI 佔位） -->
+<script>
+(function(){
+  const META={
+    "feature-tasty-low-sugar":{label:"Tasty Low Sugar",bg:"#fff4de"},
+  };
+  const cache={};
+  function gen(key,w=720,h=450){
+    if(cache[key]) return cache[key];
+    const m=META[key]||{label:key,bg:'#f1f5f9'};
+    const c=document.createElement('canvas'); c.width=w; c.height=h; const g=c.getContext('2d');
+    g.fillStyle=m.bg; g.fillRect(0,0,w,h);
+    g.strokeStyle='#c8ccd8'; g.lineWidth=3; g.strokeRect(10,10,w-20,h-20);
+    g.fillStyle='#334155'; g.font='bold 28px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif';
+    const tw=g.measureText(m.label).width; g.fillText(m.label,(w-tw)/2,Math.round(h*0.55));
+    g.fillStyle='#94a3b8'; g.font='16px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif';
+    const tag='Quit Sugar'; const tw2=g.measureText(tag).width; g.fillText(tag,w-12-tw2,h-12);
+    return (cache[key]=c.toDataURL('image/webp',0.9));
+  }
+  function attach(img){
+    const src=img.getAttribute('src')||''; const m=src.match(/(?:^|\.|\/)assets\/([a-z0-9\-_]+)\.(?:webp|jpe?g|png)$/i);
+    if(!m) return; const key=m[1];
+    function onErr(){ img.removeEventListener('error',onErr); const w=img.clientWidth||720; const h=img.clientHeight||450; img.src=gen(key,w,h); }
+    img.addEventListener('error',onErr,{once:true});
+  }
+  document.addEventListener('DOMContentLoaded',()=>{ document.querySelectorAll('img').forEach(attach); });
 })();
 </script>
 </body>

@@ -5,80 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>電子書商店｜Quit Sugar</title>
   <meta name="description" content="戒糖主題電子書商店：一次入手 8 週戒糖入門、低糖早餐、外食少糖、零糖甜點等實用指南。支援購物車與套組優惠，結帳導向 Google 表單收單。" />
+  <meta name="theme-color" content="#f472b6" />
+
+  <!-- 字體（與首頁一致） -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+
   <style>
   :root{
-    --bg:#ffffff; --card:#ffffff; --muted:#475569; --text:#0f172a;
+    --bg:#ffffff; --panel:#ffffff; --ink:#0b1220; --muted:#475569; --line:#e5e7eb;
     --brand:#ec4899; --brand-2:#f472b6; --brand-3:#fb7185;
-    --accent:#fdf2f8; --line:#e5e7eb; --danger:#ef4444; --ok:#16a34a;
+    --promo:#fff1f5; --accent:#fdf2f8;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
-  .wrap{max-width:1080px;margin:0 auto;padding:32px 20px 80px}
-  header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:12px}
-  .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--brand-2),var(--brand-3));display:grid;place-items:center;color:#fff;font-weight:900}
-  h1{margin:0;font-size:24px;letter-spacing:0.5px}
-  .muted{color:var(--muted)}
-  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:12px 16px;border-radius:999px;background:#f8fafc;color:var(--text);cursor:pointer;white-space:nowrap}
-  .btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:700}
-  .btn.ghost{background:transparent}
-  .btn.danger{background:linear-gradient(135deg,#ef4444,#b91c1c);border:none;color:#fff}
-  .btn[disabled]{opacity:.5;cursor:not-allowed}
-  nav.top-nav{display:flex;gap:16px;align-items:center;padding:8px 0 14px;margin:0 0 16px;border-bottom:1px solid var(--line)}
-  nav.top-nav a{color:#2563eb;text-decoration:none}
-  nav.top-nav a:hover{text-decoration:underline}
-  nav.top-nav .active{font-weight:700;color:#1d4ed8}
-
-  /* Hero */
-  .hero{background:var(--accent);border:1px solid var(--line);border-radius:24px;padding:24px;margin:8px 0 22px;position:relative}
-  .hero h2{font-size:28px;margin:0 0 8px}
-  .hero p{margin:0 0 14px}
-  .hero .actions{display:flex;gap:10px;flex-wrap:wrap}
-  @media(min-width:900px){
-    .hero{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:center}
-    .hero-media{justify-self:end}
+  html,body{height:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
   }
-  .hero-media img{width:100%;max-width:420px;height:auto;border-radius:20px;box-shadow:0 10px 30px rgba(236,72,153,.15)}
+  img{max-width:100%;display:block}
+  a{color:#2563eb;text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
 
-  /* Filter / sort */
-  .toolbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;margin:10px 0 12px}
+  /* 促銷條（與首頁一致） */
+  .promo{
+    background:var(--promo);border-bottom:1px solid var(--line);
+    text-align:center;padding:10px 12px;color:#7a294a;font-weight:700
+  }
+  .promo .btn{margin-left:10px}
+
+  /* Header（與首頁一致） */
+  header.site{position:sticky;top:0;background:#fff;z-index:20;border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--brand-2),var(--brand));display:grid;place-items:center;color:#fff;font-weight:900}
+  .title{margin:0;font-size:22px;letter-spacing:.3px}
+  .nav-links{display:flex;gap:16px;align-items:center}
+  .nav-links a.active{font-weight:800;color:#1d4ed8}
+
+  /* Buttons（與首頁一致） */
+  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
+       padding:12px 16px;border-radius:999px;background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap}
+  .btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:800}
+  .btn.ghost{background:transparent}
+  .btn[disabled]{opacity:.6;cursor:not-allowed}
+
+  /* Hero（與首頁一致的版型/漸層） */
+  .hero{background:linear-gradient(180deg,#fff,#fff 34%,#fdf2f8 34%,#fdf2f8);border-bottom:1px solid var(--line)}
+  .hero-inner{display:grid;gap:26px;grid-template-columns:1.1fr 1fr;align-items:center;padding:34px 0}
+  .eyebrow{display:inline-block;color:#a21caf;background:#fce7f3;border:1px solid #fbcfe8;padding:4px 10px;border-radius:999px;font-weight:700;font-size:12px;margin-bottom:8px}
+  .hero h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:34px;line-height:1.25;margin:0 0 10px;letter-spacing:.2px}
+  .hero p{color:#475569;margin:0 0 16px;max-width:60ch}
+  .hero-media{justify-self:end}
+  .hero-media img{width:min(480px,100%);height:auto;border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(236,72,153,.15)}
+
+  /* 工具列（過濾/排序） */
+  .toolbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;margin:18px 0 14px}
   .chips{display:flex;flex-wrap:wrap;gap:8px}
   .chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;cursor:pointer}
   .chip.active{border-color:#d946ef;color:#a21caf;background:#fdf4ff}
   select.sort{border:1px solid var(--line);border-radius:12px;padding:8px 10px;background:#fff}
 
-  /* Grid */
-  .grid{display:grid;gap:14px;grid-template-columns:repeat(2,1fr)}
-  @media(min-width:960px){ .grid{grid-template-columns:repeat(3,1fr)} }
-  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 6px 20px rgba(236,72,153,.08)}
-  .product .cover{width:100%;height:auto;border-radius:12px;display:block;border:1px solid var(--line)}
-  .product h4{margin:8px 0 6px;font-size:16px}
+  /* 商品格狀（與首頁卡片風格一致） */
+  .grid{display:grid;gap:14px;grid-template-columns:repeat(1,1fr)}
+  @media(min-width:720px){ .grid{grid-template-columns:repeat(2,1fr)} }
+  @media(min-width:1024px){ .grid{grid-template-columns:repeat(3,1fr)} }
+  .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;
+        box-shadow:0 6px 20px rgba(236,72,153,.08)}
+  .product .cover{width:100%;height:auto;border-radius:14px;border:1px solid var(--line)}
+  .product h4{margin:10px 0 6px;font-size:16px}
+  .product .muted{font-size:14px}
   .price{display:flex;gap:8px;align-items:center}
   .price .now{font-weight:800}
   .price .was{color:#94a3b8;text-decoration:line-through}
-  .badges{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0}
+  .badges{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 6px}
   .badge{font-size:12px;padding:4px 8px;border-radius:999px;border:1px solid var(--line);background:#fff}
   .badge.sale{color:#b91c1c;border-color:#fecaca;background:#fff1f2}
   .badge.new{color:#065f46;border-color:#bbf7d0;background:#ecfdf5}
 
-  /* Bundle banner */
-  .bundle{position:relative;display:grid;gap:10px;grid-template-columns:1fr;align-items:center;
-          border:1px solid var(--line);border-radius:20px;padding:18px;margin:14px 0 18px;
-          background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff)}
-  @media(min-width:860px){ .bundle{grid-template-columns:1fr auto} }
+  /* 套組橫幅（與首頁 CTA/Bundle 一致） */
+  .bundle{position:relative;margin:18px 0;background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff);
+          border:1px solid var(--line);border-radius:20px;padding:18px;display:grid;gap:12px}
+  @media(min-width:860px){ .bundle{grid-template-columns:1fr auto;align-items:center} }
   .bundle .title{font-size:20px;font-weight:800;margin:0}
   .bundle .desc{color:#64748b;margin:0}
-  .bundle .mini{display:flex;gap:8px;align-items:center;margin:6px 0}
+  .bundle .mini{display:flex;gap:8px;align-items:center}
   .bundle .mini img{width:44px;height:60px;border-radius:8px;border:1px solid var(--line);object-fit:cover;box-shadow:0 4px 10px rgba(15,23,42,.06)}
   .bundle .badge{position:absolute;right:12px;top:-10px;background:#fff;border:1px solid var(--line);
                  padding:6px 10px;border-radius:999px;font-size:12px;color:#0f172a;box-shadow:0 6px 16px rgba(15,23,42,.08)}
 
-  /* Drawer cart */
+  /* 浮動購物車按鈕與抽屜 */
   .cart-toggle{position:fixed;right:16px;bottom:18px;z-index:40}
-  .drawer{position:fixed;right:0;top:0;height:100dvh;width:380px;max-width:92vw;background:#fff;border-left:1px solid var(--line);box-shadow:-12px 0 30px rgba(15,23,42,.12);transform:translateX(100%);transition:transform .28s ease;z-index:50;display:flex;flex-direction:column}
+  .drawer{position:fixed;right:0;top:0;height:100dvh;width:380px;max-width:92vw;background:#fff;border-left:1px solid var(--line);
+          box-shadow:-12px 0 30px rgba(15,23,42,.12);transform:translateX(100%);transition:transform .28s ease;z-index:50;display:flex;flex-direction:column}
   .drawer.open{transform:none}
   .drawer header{display:flex;justify-content:space-between;align-items:center;padding:14px;border-bottom:1px solid var(--line)}
   .drawer .list{flex:1;overflow:auto;padding:10px}
@@ -91,7 +113,7 @@
   .row{display:flex;justify-content:space-between;align-items:center;margin:6px 0}
   .total{font-weight:800;font-size:20px}
 
-  /* Modal quick view */
+  /* 快速預覽 Modal */
   .modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(15,23,42,.35);z-index:60;padding:20px}
   .modal.open{display:grid}
   .modal .box{max-width:880px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:16px;background:#fff;border-radius:18px;border:1px solid var(--line);padding:16px}
@@ -100,141 +122,157 @@
   .modal h3{margin:0 0 6px}
   .modal .close{position:absolute;right:20px;top:20px;border:none;background:#fff;width:42px;height:42px;border-radius:999px;box-shadow:0 6px 18px rgba(15,23,42,.12);cursor:pointer}
 
-  /* Minor */
-  footer{margin-top:28px;text-align:center;color:#64748b}
+  footer{margin-top:32px;color:#94a3b8;text-align:center}
   .illust{height:120px;border-radius:12px;background:linear-gradient(135deg,#fee2e2,#fce7f3);display:grid;place-items:center;font-size:42px}
   </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="brand">
-      <div class="logo">QS</div>
-      <div>
-        <h1>戒糖計畫 Quit Sugar</h1>
-        <small class="muted">輕鬆開始、持續記錄、看見改變</small>
-      </div>
-    </div>
-    <div class="muted">電子書商店</div>
-  </header>
 
-  <nav class="top-nav">
-    <a href="./">戒糖首頁</a>
-    <a href="./analyzer.html">食物卡路里分析器</a>
-    <a class="active" href="./ebooks.html">電子書商店</a>
-  </nav>
-
-  <section class="hero">
-    <div>
-      <h2>電子書商店</h2>
-      <p class="muted">從入門到進階，將「少糖」落地到你的每一天。單本選購或一次入手套組更划算，結帳會帶到 Google 表單完成下單。</p>
-      <div class="actions">
-        <a class="btn primary" href="#bundle">查看套組優惠</a>
-        <a class="btn" href="#list">瀏覽所有電子書</a>
-      </div>
-    </div>
-    <div class="hero-media">
-      <picture>
-        <source srcset="./assets/poster-reset-8w.webp" type="image/webp">
-        <img src="./assets/poster-reset-8w.jpg" alt="8 週戒糖入門電子書的封面展示">
-      </picture>
-    </div>
-  </section>
-
-  <!-- Bundle banner -->
-  <section id="bundle" class="bundle">
-    <div>
-      <div class="mini">
-        <img src="./assets/poster-reset-8w.jpg" alt="8 週戒糖入門封面縮圖">
-        <img src="./assets/poster-breakfast-20.jpg" alt="低糖早餐 20 道封面縮圖">
-        <img src="./assets/poster-eating-out.jpg" alt="外食少糖小抄封面縮圖">
-        <img src="./assets/poster-desserts-15.jpg" alt="零糖甜點 15 道封面縮圖">
-      </div>
-      <h3 class="title">Ebook Bundle｜一次入手最實用的 4 本</h3>
-      <p class="desc">「入門 × 早餐 × 外食 × 甜點」完整打包，更容易從生活各面向實踐少糖。</p>
-      <div class="actions">
-        <button class="btn primary" id="add-bundle">加入購物車</button>
-        <span class="badge">🎁 套組價 <span id="bundle-price">—</span>（省 <span id="bundle-save">—</span>）</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Filter & sort -->
-  <div class="toolbar">
-    <div class="chips" id="filters">
-      <button class="chip active" data-filter="all">全部</button>
-      <button class="chip" data-filter="beginner">入門</button>
-      <button class="chip" data-filter="breakfast">早餐</button>
-      <button class="chip" data-filter="eatingout">外食</button>
-      <button class="chip" data-filter="desserts">甜點</button>
-    </div>
-    <div>
-      <label class="muted" for="sort">排序：</label>
-      <select id="sort" class="sort">
-        <option value="rec">推薦</option>
-        <option value="price-asc">價格 低→高</option>
-        <option value="price-desc">價格 高→低</option>
-        <option value="new">最新上架</option>
-      </select>
-    </div>
+  <!-- 促銷條 -->
+  <div class="promo" role="region" aria-label="促銷訊息">
+    8 週戒糖 Reset 開放報名 — 限時名額。
+    <a class="btn" href="./#join" aria-label="立即加入">立即加入</a>
   </div>
 
-  <!-- Product grid -->
-  <section id="list" class="grid"></section>
+  <!-- Header（Sticky，與首頁一致） -->
+  <header class="site" role="banner">
+    <div class="wrap nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">QS</div>
+        <div>
+          <h1 class="title" style="margin:0">戒糖計畫 Quit Sugar</h1>
+          <small class="muted">溫柔開始・持續記錄・看見改變</small>
+        </div>
+      </div>
+      <nav class="nav-links" aria-label="主導覽">
+        <a href="./">戒糖首頁</a>
+        <a href="./analyzer.html">食物卡路里分析器</a>
+        <a class="active" href="./ebooks.html">電子書商店</a>
+        <a class="btn primary" href="./#join">加入 8 週 Reset</a>
+      </nav>
+    </div>
+  </header>
 
-  <footer>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <span class="eyebrow">商店</span>
+        <h1>電子書商店</h1>
+        <p>從入門到進階，將「少糖」落地到你的每一天。單本選購或一次入手套組更划算，結帳會帶到 Google 表單完成下單。</p>
+        <div class="actions" style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn primary" href="#bundle">查看套組優惠</a>
+          <a class="btn" href="#list">瀏覽所有電子書</a>
+        </div>
+      </div>
+      <div class="hero-media" aria-hidden="true">
+        <picture>
+          <source srcset="./assets/poster-reset-8w.webp" type="image/webp">
+          <img src="./assets/poster-reset-8w.jpg" alt="8 週戒糖入門電子書的封面展示">
+        </picture>
+      </div>
+    </div>
+  </section>
+
+  <!-- 套組橫幅 -->
+  <section class="wrap">
+    <div id="bundle" class="bundle">
+      <div>
+        <div class="mini">
+          <img src="./assets/poster-reset-8w.jpg" alt="8 週戒糖入門封面縮圖">
+          <img src="./assets/poster-breakfast-20.jpg" alt="低糖早餐 20 道封面縮圖">
+          <img src="./assets/poster-eating-out.jpg" alt="外食少糖小抄封面縮圖">
+          <img src="./assets/poster-desserts-15.jpg" alt="零糖甜點 15 道封面縮圖">
+        </div>
+        <h3 class="title">Ebook Bundle｜一次入手最實用的 4 本</h3>
+        <p class="desc">「入門 × 早餐 × 外食 × 甜點」完整打包，更容易從生活各面向實踐少糖。</p>
+        <div class="actions" style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn primary" id="add-bundle">加入購物車</button>
+          <span class="badge">🎁 套組價 <span id="bundle-price">—</span>（省 <span id="bundle-save">—</span>）</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 工具列 -->
+  <section class="wrap">
+    <div class="toolbar">
+      <div class="chips" id="filters">
+        <button class="chip active" data-filter="all">全部</button>
+        <button class="chip" data-filter="beginner">入門</button>
+        <button class="chip" data-filter="breakfast">早餐</button>
+        <button class="chip" data-filter="eatingout">外食</button>
+        <button class="chip" data-filter="desserts">甜點</button>
+      </div>
+      <div>
+        <label class="muted" for="sort">排序：</label>
+        <select id="sort" class="sort">
+          <option value="rec">推薦</option>
+          <option value="price-asc">價格 低→高</option>
+          <option value="price-desc">價格 高→低</option>
+          <option value="new">最新上架</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- 商品清單 -->
+  <section class="wrap">
+    <div id="list" class="grid"></div>
+  </section>
+
+  <footer class="wrap" role="contentinfo">
     <p>© 2025 Quit Sugar. 所有價格為新台幣（NT$），為數位商品。下單後你會收到電子郵件與下載連結。</p>
   </footer>
-</div>
 
-<!-- Cart floating button -->
-<div class="cart-toggle">
-  <button id="btn-cart" class="btn primary">🛒 購物車（<span id="cart-count">0</span>）</button>
-</div>
+  <!-- 浮動購物車按鈕 -->
+  <div class="cart-toggle">
+    <button id="btn-cart" class="btn primary">🛒 購物車（<span id="cart-count">0</span>）</button>
+  </div>
 
-<!-- Drawer cart -->
-<aside id="drawer" class="drawer" aria-hidden="true">
-  <header>
-    <strong>購物車</strong>
-    <button id="cart-close" class="btn ghost">關閉</button>
-  </header>
-  <div class="list" id="cart-list"></div>
-  <footer>
-    <div class="row"><span class="muted">小計</span><span id="sum-sub">NT$0</span></div>
-    <div class="row"><span class="muted">折扣</span><span id="sum-off">- NT$0</span></div>
-    <div class="row total"><span>合計</span><span id="sum-total">NT$0</span></div>
-    <div class="row" style="margin-top:10px">
-      <input id="coupon" placeholder="輸入折扣碼（例如：WELCOME10）" style="flex:1;border:1px solid var(--line);border-radius:12px;padding:10px 12px"/>
-      <button id="apply-coupon" class="btn">套用</button>
-    </div>
-    <div class="row" style="margin-top:10px">
-      <button id="checkout" class="btn primary" style="width:100%;justify-content:center">前往結帳（Google 表單）</button>
-    </div>
-    <small class="muted">提示：結帳會開啟 Google 表單，提交後我們將人工寄送下載連結。</small>
-  </footer>
-</aside>
-
-<!-- Quick view modal -->
-<div id="modal" class="modal" aria-hidden="true">
-  <button class="close" id="modal-close">✕</button>
-  <div class="box">
-    <div id="modal-cover"></div>
-    <div>
-      <h3 id="modal-title">—</h3>
-      <div class="badges" id="modal-badges"></div>
-      <p id="modal-desc" class="muted">—</p>
-      <ul id="modal-bullets" class="muted" style="margin:0 0 8px 18px"></ul>
-      <div class="price" style="margin:10px 0">
-        <div class="now" id="modal-price">NT$—</div>
-        <div class="was" id="modal-was" style="display:none">NT$—</div>
+  <!-- 購物車抽屜 -->
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <header>
+      <strong>購物車</strong>
+      <button id="cart-close" class="btn ghost">關閉</button>
+    </header>
+    <div class="list" id="cart-list"></div>
+    <footer>
+      <div class="row"><span class="muted">小計</span><span id="sum-sub">NT$0</span></div>
+      <div class="row"><span class="muted">折扣</span><span id="sum-off">- NT$0</span></div>
+      <div class="row total"><span>合計</span><span id="sum-total">NT$0</span></div>
+      <div class="row" style="margin-top:10px">
+        <input id="coupon" placeholder="輸入折扣碼（例如：WELCOME10）" style="flex:1;border:1px solid var(--line);border-radius:12px;padding:10px 12px"/>
+        <button id="apply-coupon" class="btn">套用</button>
       </div>
-      <div class="actions" style="display:flex;gap:8px;flex-wrap:wrap">
-        <button id="modal-add" class="btn primary">加入購物車</button>
-        <button id="modal-sample" class="btn">查看試閱</button>
+      <div class="row" style="margin-top:10px">
+        <button id="checkout" class="btn primary" style="width:100%;justify-content:center">前往結帳（Google 表單）</button>
+      </div>
+      <small class="muted">提示：結帳會開啟 Google 表單，提交後我們將人工寄送下載連結。</small>
+    </footer>
+  </aside>
+
+  <!-- 快速預覽 Modal -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <button class="close" id="modal-close">✕</button>
+    <div class="box">
+      <div id="modal-cover"></div>
+      <div>
+        <h3 id="modal-title">—</h3>
+        <div class="badges" id="modal-badges"></div>
+        <p id="modal-desc" class="muted">—</p>
+        <ul id="modal-bullets" class="muted" style="margin:0 0 8px 18px"></ul>
+        <div class="price" style="margin:10px 0">
+          <div class="now" id="modal-price">NT$—</div>
+          <div class="was" id="modal-was" style="display:none">NT$—</div>
+        </div>
+        <div class="actions" style="display:flex;gap:8px;flex-wrap:wrap">
+          <button id="modal-add" class="btn primary">加入購物車</button>
+          <button id="modal-sample" class="btn">查看試閱</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 <script>
 /* ========= 產品定義 ========= */
@@ -259,10 +297,10 @@ const PRODUCTS = [
 // 套組折扣：比單買總和便宜 20%
 const BUNDLE = { id:'bundle4', name:'Ebook Bundle（4 本）', contains:['reset8w','breakfast20','eatingout','desserts15'], discountRate:0.20 };
 
-/* ========= Google 表單結帳設定（你提供的資料） ========= */
+/* ========= Google 表單結帳設定（你的表單） ========= */
 const FORM = {
-  url: 'https://forms.gle/gQGQkyC8BH6mk4D56',          // 你的表單網址（短網址 OK）
-  entryKey: 'entry.1911580507'                          // 唯一的文字欄位代號（將放入整張訂單摘要）
+  url: 'https://forms.gle/gQGQkyC8BH6mk4D56',     // 你的 Google 表單網址
+  entryKey: 'entry.1911580507'                      // 單一文字欄位代號（用來放整張訂單摘要）
 };
 /* ==================================================== */
 
@@ -348,7 +386,7 @@ function cartTotals(){
   return { sub, off, total: sub - off };
 }
 
-/* ========= Google 表單預填連結（單一文字欄位） ========= */
+/* ========= Google 表單預填連結 ========= */
 function buildFormURL(order){
   if(!FORM.url || !FORM.entryKey) return null;
   const u = new URL(FORM.url);
@@ -458,12 +496,12 @@ window.addEventListener('DOMContentLoaded', ()=>{
     else { state.coupon=null; updateCartUI(); toast('折扣碼無效'); }
   });
 
-  // 結帳 → 導向 Google 表單（預填單一欄位）
+  // 結帳 → Google 表單（預填單一欄位）
   document.getElementById('checkout').addEventListener('click', ()=>{
     const lines = cartLines(); if(!lines.length){ toast('購物車是空的'); return; }
     const t = cartTotals();
     const order = {
-      items: lines.map(l=>({ id:l.id, name:l.name, qty:l.qty, unit:l.price })), // 單價用數字
+      items: lines.map(l=>({ id:l.id, name:l.name, qty:l.qty, unit:l.price })),
       sub: t.sub, off: t.off, total: t.total, coupon: state.coupon
     };
     const url = buildFormURL(order);
@@ -477,10 +515,13 @@ window.addEventListener('DOMContentLoaded', ()=>{
     }
   });
 
+  // Modal 關閉
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+
   updateCartUI();
 });
 
-/* ========= 小工具：toast ========= */
+/* ========= 小工具：toast（與首頁調性一致） ========= */
 function toast(msg){
   const n = document.createElement('div');
   n.textContent = msg;
