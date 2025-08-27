@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>五行測驗｜Quit Sugar</title>
+  <meta name="description" content="10 題快速測出你的主/副五行元素，並可選擇留下 Email 保存結果；延續 Quit Sugar 的亮色風格與卡片排版。" />
+  <meta name="theme-color" content="#f472b6" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+  :root{
+    --bg:#ffffff; --panel:#ffffff; --ink:#0b1220; --muted:#475569; --line:#e5e7eb;
+    --brand:#ec4899; --brand-2:#f472b6; --brand-3:#fb7185;
+    --accent:#fdf2f8; --promo:#fff1f5; --ok:#16a34a; --danger:#ef4444;
+
+    /* 五行色（柔和） */
+    --wood:#34d399;  /* 綠松 */
+    --fire:#fb7185;  /* 珊瑚紅 */
+    --earth:#fbbf24; /* 琥珀黃 */
+    --metal:#93c5fd; /* 天藍 */
+    --water:#60a5fa; /* 湖藍 */
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  a{color:#2563eb;text-decoration:none}
+  a:hover{text-decoration:underline}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
+
+  /* Header */
+  header.site{position:sticky;top:0;background:#fff;z-index:20;border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--brand-2),var(--brand));display:grid;place-items:center;color:#fff;font-weight:900}
+  .title{margin:0;font-size:22px;letter-spacing:.3px}
+  .nav-links{display:flex;gap:16px;align-items:center}
+  .nav-links a.active{font-weight:800;color:#1d4ed8}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:12px 16px;border-radius:999px;background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap}
+  .btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:800}
+  .btn[disabled]{opacity:.6;cursor:not-allowed}
+
+  /* Hero */
+  .hero{background:linear-gradient(180deg,#fff,#fff 34%,var(--accent) 34%,var(--accent));border-bottom:1px solid var(--line)}
+  .hero-inner{display:grid;gap:26px;grid-template-columns:1.1fr 1fr;align-items:center;padding:34px 0}
+  .eyebrow{display:inline-block;color:#a21caf;background:#fce7f3;border:1px solid #fbcfe8;padding:4px 10px;border-radius:999px;font-weight:700;font-size:12px;margin-bottom:8px}
+  .hero h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:34px;line-height:1.25;margin:0 0 10px;letter-spacing:.2px}
+  .hero p{color:#475569;margin:0 0 16px;max-width:60ch}
+  .hero-media{justify-self:end;width:min(520px,100%);height:300px;border-radius:24px;border:1px solid var(--line);
+    background:conic-gradient(from 90deg at 60% 40%, var(--brand) 0 25%, var(--brand-2) 0 50%, #ffd6e7 0 75%, #ffeef6 0 100%);
+    box-shadow:0 20px 60px rgba(236,72,153,.15)}
+
+  /* 卡片與版塊 */
+  .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(236,72,153,.08)}
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+  .feature{border:1px dashed #f9a8d4;background:#fff0f6;border-radius:14px;padding:14px}
+  .kicker{display:inline-block;padding:4px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color: var(--brand);font-size:12px;font-weight:700}
+  .row{display:grid;gap:10px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  input{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;border-radius:12px;color:var(--ink);font:inherit}
+  .stat{display:flex;gap:14px;align-items:center}
+  .stat .num{font-size:28px;font-weight:800}
+  .error{border-left:3px solid var(--danger);padding:10px 12px;background:#fff5f5;border-radius:12px}
+  .badges{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+  .badge{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 10px;background:#f8fafc;color:#64748b}
+  .badge.unlocked{background:#ecfeff;border-color:#67e8f9;color:#0e7490;font-weight:700}
+  .progress-wrap{margin-top:10px}
+  .progress-bar{height:10px;background:#f1f5f9;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+  .progress-bar span{display:block;height:100%;width:0%;background:linear-gradient(135deg,var(--brand-2),var(--brand-3))}
+
+  /* 測驗區塊 */
+  .quiz-wrap{margin-top:18px}
+  .progress{height:10px;background:#fff;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-bottom:12px}
+  .progress > div{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-2));width:0%}
+  .q-title{font-size:20px;line-height:1.5;margin:4px 0 14px 0}
+  .options{display:grid;gap:10px}
+  .opt{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;transition:border-color .15s, box-shadow .15s}
+  .opt:hover{border-color:#cbd5e1}
+  .opt input{display:none}
+  .opt.active{border-color:var(--brand-2);box-shadow:0 0 0 2px rgba(244,114,182,.25) inset}
+  .opt .tag{font-size:12px;color:var(--muted)}
+  .nav-ctrl{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .hint{font-size:13px;color:var(--muted);margin-top:6px}
+
+  /* 結果 */
+  .result{margin-top:18px}
+  .pill{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:700}
+  .pill .dot{width:10px;height:10px;border-radius:999px}
+  .bars{display:grid;gap:8px;margin-top:10px}
+  .bar{display:grid;grid-template-columns:90px 1fr minmax(40px,80px);align-items:center;gap:10px}
+  .bar .name{color:var(--muted);font-size:14px}
+  .bar .track{height:12px;background:#fff;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .bar .fill{height:100%;width:0%}
+  .bar .val{text-align:right;color:#334155;font-size:13px}
+
+  footer{margin-top:28px;text-align:center;color:#64748b}
+
+  @media (max-width:900px){
+    .hero-inner{grid-template-columns:1fr}
+    .features{grid-template-columns:1fr}
+  }
+
+  /* 無障礙小工具 */
+  .sr{position:absolute;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+  </style>
+
+  <script>
+    window.onerror = function(msg, src, line, col) {
+      var box = document.getElementById('global-error');
+      if (box) { box.style.display = 'block'; box.textContent = '前端錯誤： ' + msg + ' (' + src + ':' + line + ':' + col + ')'; }
+    };
+  </script>
+
+  <script>
+    (function loadSupabaseSDK() {
+      var primary = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
+      var fallback = "https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
+      function append(src) {
+        var s = document.createElement('script');
+        s.src = src; s.defer = true;
+        s.onload = function(){ window.__supabaseReady = true; };
+        s.onerror = function(){ if (src === primary) append(fallback); };
+        document.head.appendChild(s);
+      }
+      append(primary);
+    })();
+  </script>
+</head>
+<body>
+ 
+
+  <header class="site" role="banner">
+    <div class="wrap nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">QS</div>
+        <div>
+          <h1 class="title" style="margin:0">戒糖計畫 Quit Sugar</h1>
+          <small class="muted">溫柔開始・持續記錄・看見改變</small>
+        </div>
+      </div>
+      <nav class="nav-links" aria-label="主導覽">
+        <a href="./">戒糖首頁</a>
+        <a class="active" href="./element-quiz.html">五行測驗</a>
+        <a href="./analyzer.html">食物卡路里分析器</a>
+        <a href="./ebooks.html">電子書商店</a>
+        <a id="nav-auth" class="btn primary" href="./#auth">加入挑戰 / 登入</a>
+      </nav>    
+
+</div>
+  </header>
+
+
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <span class="eyebrow">10 題就搞定</span>
+        <h1>五行元素測驗：找出你的 <br/>主元素與副元素</h1>
+        <p>以日常偏好切入：木、火、土、金、水。完成後會看到各元素的比例長條圖與你的主／副元素，並可選擇留下 Email 保存結果。</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+          <a class="btn primary" href="#quiz" id="btnStart">開始測驗</a>
+          <a class="btn" href="#how">怎麼算分？</a>
+        </div>
+      </div>
+      <div class="hero-media" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <main class="wrap" role="main">
+    <div id="global-error" class="card" style="display:none;margin-top:10px"></div>
+
+    <section id="how" class="card" style="margin-top:18px">
+      <h3 style="margin:0 0 8px">如何計分？</h3>
+      <p class="muted" style="margin:0">每題 5 個選項分別對應五行之一。10 題總分統計後，最高者為主元素、次高者為副元素。（同分則以題序權重輕微調整）</p>
+    </section>
+
+    <section id="quiz" class="quiz-wrap card">
+      <div class="progress" aria-label="測驗進度">
+        <div id="pg"></div>
+      </div>
+
+      <div id="card"></div>
+
+      <div class="nav-ctrl">
+        <button class="btn" id="btnPrev">← 上一題</button>
+        <button class="btn primary" id="btnNext">下一題 →</button>
+        <button class="btn primary" id="btnSubmit" style="display:none">看結果 ✅</button>
+      </div>
+      <div class="hint" id="hint">共 10 題，約 1～2 分鐘完成。</div>
+    </section>
+
+    <section id="result" class="result card" style="display:none">
+      <div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <div class="pill" id="pillPrimary"><span class="dot"></span><span id="primaryText">主元素：</span></div>
+          <div class="pill" id="pillSecondary"><span class="dot"></span><span id="secondaryText">副元素：</span></div>
+        </div>
+
+        <div class="bars" id="bars" aria-label="五行分數條">
+          </div>
+      </div>
+    </section>
+
+    <section id="auth" class="card" style="margin-top:18px">
+      <span class="kicker">個人化追蹤</span>
+      <h2>註冊 / 登入</h2>
+      <div class="row2">
+        <input id="signup-email" placeholder="Email（建議手動輸入）" autocomplete="username" />
+        <input id="signup-password" placeholder="密碼（至少 6 碼）" type="password" autocomplete="new-password" />
+      </div>
+      <div class="row2" style="margin-top:8px">
+        <button class="btn primary" id="btn-signup">註冊</button>
+        <button class="btn" id="btn-login">登入</button>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn ghost" id="btn-logout" style="display:none">登出</button>
+      </div>
+      <div id="auth-error" class="error" style="display:none;margin-top:10px"></div>
+    </section>
+
+    <section class="card" style="margin-top:18px">
+      <h3 style="margin:0 0 8px">更多工具</h3>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn" href="./ebooks.html">電子書商店</a>
+        <a class="btn" href="./analyzer.html">卡路里分析器</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap" role="contentinfo">
+    <p>© 2025 Quit Sugar. GitHub Pages × Supabase</p>
+  </footer>
+
+<script>
+  // ===== 延遲等待 SDK =====
+  async function waitSupabaseReady(ms = 4000) {
+    const start = Date.now();
+    while (!window.supabase && Date.now() - start < ms) {
+      await new Promise(r => setTimeout(r, 50));
+    }
+    return !!window.supabase;
+  }
+
+  // ===== 小工具 =====
+  const $ = (id) => document.getElementById(id);
+  const showErr = (msg) => { const box = $('auth-error'); if(!box) return; box.style.display = 'block'; box.textContent = msg; };
+  const hideErr = () => { const box = $('auth-error'); if(!box) return; box.style.display = 'none'; box.textContent = ''; };
+  function normalizeEmail(raw){ return (raw ?? '').normalize('NFKC').replace(/[\u200B-\u200D\uFEFF]/g, '').trim(); }
+  function basicEmailOK(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
+
+  // ===== Supabase（你的專案）=====
+  const SUPABASE_URL = "https://scquprvywjtuvcxxfsco.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjcXVwcnZ5d2p0dXZjeHhmc2NvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MzAxMTQsImV4cCI6MjA3MTQwNjExNH0.iUZ_lI-mHoGoz2NfPTifYe44zieUIBUREF6fxsry97I";
+  let supabaseClient = null;
+
+  // ===== 題庫（10 題）=====
+  const QUESTIONS = [
+    {
+      q: "早起第一反應最像哪個你？",
+      a: [
+        { text: "拉伸活動一下身體，讓筋骨醒來", element: "wood" },
+        { text: "來杯熱飲，讓身體暖起來", element: "earth" },
+        { text: "打開清單，照流程開始執行", element: "metal" },
+        { text: "來點音樂/咖啡，燃起精神", element: "fire" },
+        { text: "先緩緩觀察一下今天的節奏", element: "water" },
+      ],
+    },
+    {
+      q: "遇到突發狀況，你多半怎麼做？",
+      a: [
+        { text: "立刻溝通整合資源，邊做邊調", element: "wood" },
+        { text: "先穩住情緒，按部就班處理", element: "earth" },
+        { text: "制定規範與步驟，要求到位", element: "metal" },
+        { text: "臨場反應快，直接上去帶頭衝", element: "fire" },
+        { text: "退一步收集資訊，再決定方向", element: "water" },
+      ],
+    },
+    {
+      q: "休假最想選哪一種行程？",
+      a: [
+        { text: "登山健行、植物園、手作課", element: "wood" },
+        { text: "在家料理、烘焙、療癒身心", element: "earth" },
+        { text: "斷捨離、整理房間、逛書店", element: "metal" },
+        { text: "展演、音樂節、朋友聚會", element: "fire" },
+        { text: "海邊看海、泡湯、冥想放空", element: "water" },
+      ],
+    },
+    {
+      q: "被同事/朋友誤會時，你的直覺反應？",
+      a: [
+        { text: "主動溝通釐清，找雙贏解法", element: "wood" },
+        { text: "先消化情緒，之後再說明", element: "earth" },
+        { text: "用事實與邏輯條列澄清", element: "metal" },
+        { text: "當場據理力爭，重視公平", element: "fire" },
+        { text: "先觀望形勢，等待時機說明", element: "water" },
+      ],
+    },
+    {
+      q: "最能代表你做事的節奏？",
+      a: [
+        { text: "有彈性的推進，邊做邊長", element: "wood" },
+        { text: "穩、紮實、重耐力", element: "earth" },
+        { text: "精準、效率、重細節與標準", element: "metal" },
+        { text: "快、熱情、想看到成效", element: "fire" },
+        { text: "流動、柔軟、順勢而為", element: "water" },
+      ],
+    },
+    {
+      q: "你對『健康』最在意什麼？",
+      a: [
+        { text: "身體流動性與柔韌度", element: "wood" },
+        { text: "腸胃吸收與睡眠品質", element: "earth" },
+        { text: "檢查數值與日常紀律", element: "metal" },
+        { text: "代謝力與能量感", element: "fire" },
+        { text: "情緒安穩與修復力", element: "water" },
+      ],
+    },
+    {
+      q: "團隊分工時你常被期待扮演？",
+      a: [
+        { text: "策劃與資源整合者", element: "wood" },
+        { text: "後勤與穩定推進者", element: "earth" },
+        { text: "規格把關與品質管理者", element: "metal" },
+        { text: "點子與動能發動者", element: "fire" },
+        { text: "研究與情報搜集者", element: "water" },
+      ],
+    },
+    {
+      q: "當你壓力大時常見的狀態？",
+      a: [
+        { text: "肩頸緊、需要伸展舒展", element: "wood" },
+        { text: "吃東西尋求安定、容易水腫", element: "earth" },
+        { text: "牙一咬硬撐、容易僵硬", element: "metal" },
+        { text: "心悸冒汗、火氣上來", element: "fire" },
+        { text: "想躲起來安靜恢復", element: "water" },
+      ],
+    },
+    {
+      q: "你最看重的人際互動特質？",
+      a: [
+        { text: "坦誠交流、彼此成長", element: "wood" },
+        { text: "踏實可靠、溫暖照顧", element: "earth" },
+        { text: "守信守時、界線清楚", element: "metal" },
+        { text: "有趣有火花、會帶動氣氛", element: "fire" },
+        { text: "傾聽理解、情緒穩定", element: "water" },
+      ],
+    },
+    {
+      q: "面對新目標，你最在意先建立的『一件事』？",
+      a: [
+        { text: "方向與路線圖", element: "wood" },
+        { text: "生活作息與地基", element: "earth" },
+        { text: "制度規範與檢核點", element: "metal" },
+        { text: "熱情動能與動機", element: "fire" },
+        { text: "資訊蒐集與節奏安排", element: "water" },
+      ],
+    },
+  ];
+
+  const E_ORDER = ["wood","fire","earth","metal","water"];
+  const E_LABEL = { wood:"木", fire:"火", earth:"土", metal:"金", water:"水" };
+  const E_COLOR = {
+    wood: getCSS('--wood'), fire: getCSS('--fire'), earth: getCSS('--earth'), metal: getCSS('--metal'), water: getCSS('--water')
+  };
+  function getCSS(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+
+  // ===== 狀態與 DOM =====
+  let idx = 0;
+  const answers = new Array(QUESTIONS.length).fill(null);
+  const cardEl = document.getElementById('card');
+  const pgEl = document.getElementById('pg');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+  const btnSubmit = document.getElementById('btnSubmit');
+  const hintEl = document.getElementById('hint');
+  const resultEl = document.getElementById('result');
+  const barsEl = document.getElementById('bars');
+  const primaryText = document.getElementById('primaryText');
+  const secondaryText = document.getElementById('secondaryText');
+  const pillPrimary = document.getElementById('pillPrimary');
+  const pillSecondary = document.getElementById('pillSecondary');
+  
+  // ===== 渲染 =====
+  function render() {
+    const pct = Math.round((idx) / QUESTIONS.length * 100);
+    pgEl.style.width = pct + '%';
+
+    const q = QUESTIONS[idx];
+    cardEl.innerHTML = `
+      <div aria-live="polite">
+        <div class="pill" style="margin-bottom:10px"><span class="dot" style="background:${E_COLOR.wood};opacity:.7"></span>第 ${idx+1} 題／共 ${QUESTIONS.length} 題</div>
+        <div class="q-title">${q.q}</div>
+        <div class="options" role="group" aria-label="選項">
+          ${q.a.map((opt, i) => {
+            const active = answers[idx]?.element === opt.element ? 'active' : '';
+            return `
+              <label class="opt ${active}" data-i="${i}">
+                <input type="radio" name="q${idx}" ${active ? 'checked' : ''} />
+                <div class="tag">${E_LABEL[opt.element]}</div>
+                <div>${opt.text}</div>
+              </label>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+
+    cardEl.querySelectorAll('.opt').forEach((el) => {
+      el.addEventListener('click', () => {
+        cardEl.querySelectorAll('.opt').forEach(o => o.classList.remove('active'));
+        el.classList.add('active');
+        const i = Number(el.dataset.i);
+        answers[idx] = { element: q.a[i].element, at: idx };
+        updateNav();
+      });
+    });
+
+    updateNav();
+  }
+
+  function updateNav() {
+    btnPrev.disabled = idx === 0;
+    const hasAns = !!answers[idx];
+    btnNext.disabled = !hasAns || idx >= QUESTIONS.length - 1;
+    btnNext.style.display = (idx === QUESTIONS.length - 1) ? 'none' : '';
+    btnSubmit.style.display = (idx === QUESTIONS.length - 1 && hasAns) ? '' : 'none';
+    hintEl.textContent = idx < QUESTIONS.length - 1
+      ? `已完成 ${answers.filter(Boolean).length}/${QUESTIONS.length} 題`
+      : `最後一題，選好就看結果`;
+  }
+
+  btnPrev.addEventListener('click', () => { if (idx > 0) idx--; render(); });
+  btnNext.addEventListener('click', () => { if (!answers[idx]) return; if (idx < QUESTIONS.length - 1) idx++; render(); });
+  btnSubmit.addEventListener('click', () => { if (!answers[idx]) return; showResult(); });
+
+  // ===== 得分 =====
+  function tally() {
+    const score = { wood:0, fire:0, earth:0, metal:0, water:0 };
+    answers.forEach(a => { if (a?.element) score[a.element]++; });
+    return score;
+  }
+  function topTwo(score) {
+    // 題序微權重（後面題目權重略高 1%）避免全同分時的隨機性
+    const weights = answers.map((_,i)=>1 + i*0.01);
+    const adj = { wood:0, fire:0, earth:0, metal:0, water:0 };
+    answers.forEach((a,i)=>{ if(a){ adj[a.element] += weights[i]; }});
+    const entries = Object.entries(score).sort((a,b)=>{
+      if(b[1]===a[1]) return adj[b[0]] - adj[a[0]];
+      return b[1]-a[1];
+    });
+    const [p1,p2] = [entries[0], entries[1]];
+    return { primary:p1[0], primaryVal:p1[1], secondary:p2[0], secondaryVal:p2[1] };
+  }
+  function showBars(score) {
+    barsEl.innerHTML = "";
+    const total = QUESTIONS.length;
+    ["wood","fire","earth","metal","water"].forEach(key=>{
+      const val = score[key];
+      const pct = Math.round(val/total*100);
+      const row = document.createElement('div');
+      row.className = 'bar';
+      row.innerHTML = `
+        <div class="name">${E_LABEL[key]}</div>
+        <div class="track" aria-label="${E_LABEL[key]} 分數條">
+          <div class="fill" style="background:${E_COLOR[key]};width:${pct}%"></div>
+        </div>
+        <div class="val">${val}／${total}</div>
+      `;
+      barsEl.appendChild(row);
+    });
+  }
+  function paintPill(pillEl, key, label) {
+    pillEl.querySelector('.dot').style.background = E_COLOR[key];
+    pillEl.querySelector('span + span').textContent = label;
+  }
+  function showResult() {
+    const score = tally();
+    const { primary, secondary } = topTwo(score);
+    paintPill(pillPrimary, primary, `主元素：${E_LABEL[primary]}`);
+    paintPill(pillSecondary, secondary, `副元素：${E_LABEL[secondary]}`);
+    showBars(score);
+
+    window.__QUIZ_RESULT__ = {
+      score, primary, secondary,
+      version: 'v2025-08-27-10Q',
+      finished_at: new Date().toISOString(),
+    };
+
+    // 顯示結果，滾至可視
+    resultEl.style.display = '';
+    document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  // ===== 初始載入與 Supabase 認證邏輯 =====
+  window.addEventListener('DOMContentLoaded', async () => {
+    // 等待 Supabase SDK 載入
+    const ok = await waitSupabaseReady(4000);
+    if (!ok) {
+        // 如果 Supabase SDK 載入失敗，顯示錯誤並終止
+        const errorBox = $('auth-error');
+        if (errorBox) {
+            errorBox.style.display = 'block';
+            errorBox.textContent = '載入 Supabase SDK 失敗，請稍後再試。';
+        }
+        return;
+    }
+
+    // 初始化 Supabase 客戶端
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+    });
+
+    render();
+    document.getElementById('btnStart').addEventListener('click', (e) => {
+        setTimeout(() => document.getElementById('quiz').scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
+    });
+
+    // 認證邏輯
+    function normalizeEmail(raw){ return (raw ?? '').normalize('NFKC').replace(/[\u200B-\u200D\uFEFF]/g, '').trim(); }
+    function basicEmailOK(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
+
+    async function signup(){
+        hideErr();
+        const email = normalizeEmail($('signup-email').value);
+        const password = $('signup-password').value;
+        if(!basicEmailOK(email)) return showErr('請輸入有效的 Email');
+        if((password||'').length < 6) return showErr('密碼至少 6 碼');
+        const { data, error } = await supabaseClient.auth.signUp({ email, password });
+        if(error){ return showErr('註冊失敗：' + (error.message || '未知錯誤')); }
+        if(!data.session){ return showErr('若啟用信箱驗證，請至信箱收信後再回來按「登入」。'); }
+        await afterLogin();
+    }
+
+    async function login(){
+        hideErr();
+        const email = normalizeEmail($('signup-email').value);
+        const password = $('signup-password').value;
+        if(!basicEmailOK(email)) return showErr('請輸入有效的 Email');
+        if((password||'').length < 6) return showErr('密碼至少 6 碼');
+        const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if(error){ return showErr('登入失敗：' + (error.message || '未知錯誤')); }
+        await afterLogin();
+    }
+
+    async function logout(){
+        await supabaseClient.auth.signOut();
+        renderSession(null);
+    }
+
+    function renderSession(session){
+        if(session){
+            // 已登入
+            const navAuthBtn = document.querySelector('#nav-auth');
+            if (navAuthBtn) {
+                navAuthBtn.textContent = session.user?.email || '已登入';
+                navAuthBtn.href = 'javascript:void(0)';
+            }
+            const authSection = $('auth');
+            if(authSection) authSection.style.display = 'none';
+        }else{
+            // 未登入
+            const navAuthBtn = document.querySelector('#nav-auth');
+            if (navAuthBtn) {
+                navAuthBtn.textContent = '加入挑戰 / 登入';
+                navAuthBtn.href = './#auth';
+            }
+            const authSection = $('auth');
+            if(authSection) authSection.style.display = 'block';
+        }
+    }
+
+    async function afterLogin(){
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        renderSession(session);
+    }
+    
+    // 綁定事件
+    const btnSignup = $('btn-signup');
+    const btnLogin = $('btn-login');
+    const btnLogout = $('btn-logout');
+
+    if (btnSignup) btnSignup.addEventListener('click', signup);
+    if (btnLogin) btnLogin.addEventListener('click', login);
+    if (btnLogout) btnLogout.addEventListener('click', logout);
+
+    // 初始化 Session
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    renderSession(session);
+    supabaseClient.auth.onAuthStateChange(function(_evt, sess){ renderSession(sess); });
+  });
+</script>
+
+</body>
+</html>

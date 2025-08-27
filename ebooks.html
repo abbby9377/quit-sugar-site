@@ -7,7 +7,6 @@
   <meta name="description" content="戒糖主題電子書商店：一次入手 8 週戒糖入門、低糖早餐、外食少糖、零糖甜點等實用指南。支援購物車與套組優惠，結帳導向 Google 表單收單。" />
   <meta name="theme-color" content="#f472b6" />
 
-  <!-- 字體（與首頁一致） -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
@@ -36,6 +35,7 @@
     text-align:center;padding:10px 12px;color:#7a294a;font-weight:700
   }
   .promo .btn{margin-left:10px}
+  .promo .count{font-weight:800;margin-left:8px;color:#be185d}
 
   /* Header（與首頁一致） */
   header.site{position:sticky;top:0;background:#fff;z-index:20;border-bottom:1px solid var(--line)}
@@ -128,13 +128,11 @@
 </head>
 <body>
 
-  <!-- 促銷條 -->
   <div class="promo" role="region" aria-label="促銷訊息">
-    8 週戒糖 Reset 開放報名 — 限時名額。
-    <a class="btn" href="./#join" aria-label="立即加入">立即加入</a>
+    8 週戒糖 Reset｜首購 5 折倒數 <span class="count" id="promo-count" aria-live="polite">00:00:00</span>
+    <a class="btn" href="#bundle" aria-label="立即加入">立即加入</a>
   </div>
 
-  <!-- Header（Sticky，與首頁一致） -->
   <header class="site" role="banner">
     <div class="wrap nav">
       <div class="brand">
@@ -146,14 +144,14 @@
       </div>
       <nav class="nav-links" aria-label="主導覽">
         <a href="./">戒糖首頁</a>
+        <a href="./element-quiz.html">五行測驗</a>
         <a href="./analyzer.html">食物卡路里分析器</a>
         <a class="active" href="./ebooks.html">電子書商店</a>
-        <a class="btn primary" href="./#join">加入 8 週 Reset</a>
+        <a class="btn primary" href="./#auth">加入挑戰 / 登入</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero -->
   <section class="hero">
     <div class="wrap hero-inner">
       <div>
@@ -174,7 +172,6 @@
     </div>
   </section>
 
-  <!-- 套組橫幅 -->
   <section class="wrap">
     <div id="bundle" class="bundle">
       <div>
@@ -194,7 +191,6 @@
     </div>
   </section>
 
-  <!-- 工具列 -->
   <section class="wrap">
     <div class="toolbar">
       <div class="chips" id="filters">
@@ -216,7 +212,6 @@
     </div>
   </section>
 
-  <!-- 商品清單 -->
   <section class="wrap">
     <div id="list" class="grid"></div>
   </section>
@@ -225,12 +220,10 @@
     <p>© 2025 Quit Sugar. 所有價格為新台幣（NT$），為數位商品。下單後你會收到電子郵件與下載連結。</p>
   </footer>
 
-  <!-- 浮動購物車按鈕 -->
   <div class="cart-toggle">
     <button id="btn-cart" class="btn primary">🛒 購物車（<span id="cart-count">0</span>）</button>
   </div>
 
-  <!-- 購物車抽屜 -->
   <aside id="drawer" class="drawer" aria-hidden="true">
     <header>
       <strong>購物車</strong>
@@ -252,7 +245,6 @@
     </footer>
   </aside>
 
-  <!-- 快速預覽 Modal -->
   <div id="modal" class="modal" aria-hidden="true">
     <button class="close" id="modal-close">✕</button>
     <div class="box">
@@ -464,6 +456,20 @@ function closeModal(){ const box = $('#modal'); box.classList.remove('open'); bo
 window.addEventListener('DOMContentLoaded', ()=>{
   renderGrid();
   calcBundle();
+
+  // 倒數（促銷條）：預設 48 小時
+  (function promoCountdown(){
+    const el = document.getElementById('promo-count'); if(!el) return;
+    const end = Date.now() + 1000*60*60*48;
+    const tick = () => {
+      const left = Math.max(0, end - Date.now());
+      const h = String(Math.floor(left/3600000)).padStart(2,'0');
+      const m = String(Math.floor((left%3600000)/60000)).padStart(2,'0');
+      const s = String(Math.floor((left%60000)/1000)).padStart(2,'0');
+      el.textContent = `${h}:${m}:${s}`;
+    };
+    tick(); setInterval(tick, 1000);
+  })();
 
   // Filter / Sort
   Array.from(document.querySelectorAll('#filters .chip')).forEach(ch=>{

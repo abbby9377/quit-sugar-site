@@ -4,10 +4,29 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>食物卡路里分析器｜Quit Sugar</title>
-  <meta name="description" content="將外部的食物卡路里分析器嵌入到戒糖計畫網站中，並沿用與首頁一致的柔和美型風格。" />
+  <meta name="description" content="登入後即可使用食物卡路里分析器，維持與首頁一致的視覺風格與導覽。" />
   <meta name="theme-color" content="#f472b6" />
 
-  <!-- 字體（與首頁一致） -->
+  <script>
+    (function hardLock() {
+      document.documentElement.classList.add('auth-off'); // 預設關閉狀態
+      window.__qs_iframeGuard = { allowed: false };
+      const nuke = () => {
+        if (!window.__qs_iframeGuard.allowed) {
+          document.querySelectorAll('iframe').forEach(el => el.remove());
+        }
+      };
+      // 1) 極早期：DOM 還在建立時就攔截
+      document.addEventListener('DOMContentLoaded', nuke, true);
+      // 2) 任何後續插入也砍掉
+      new MutationObserver(nuke).observe(document.documentElement, { childList: true, subtree: true });
+      // 3) 首屏期間也先藏起來（避免閃現）
+      const style = document.createElement('style');
+      style.textContent = "html.auth-off #embed, html.auth-off iframe { display: none !important; }";
+      document.head.appendChild(style);
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
@@ -16,7 +35,7 @@
   :root{
     --bg:#ffffff; --panel:#ffffff; --ink:#0b1220; --muted:#475569; --line:#e5e7eb;
     --brand:#ec4899; --brand-2:#f472b6; --brand-3:#fb7185;
-    --promo:#fff1f5; --accent:#fdf2f8;
+    --accent:#fdf2f8; --promo:#fff1f5; --danger:#ef4444;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -30,11 +49,8 @@
   a:hover{text-decoration:underline}
   .wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
 
-  /* 促銷條（與首頁一致） */
-  .promo{
-    background:var(--promo);border-bottom:1px solid var(--line);
-    text-align:center;padding:10px 12px;color:#7a294a;font-weight:700
-  }
+  /* 促銷條 */
+  .promo{background:var(--promo);border-bottom:1px solid var(--line);text-align:center;padding:10px 12px;color:#7a294a;font-weight:700}
   .promo .btn{margin-left:10px}
 
   /* Header（與首頁一致） */
@@ -46,14 +62,13 @@
   .nav-links{display:flex;gap:16px;align-items:center}
   .nav-links a.active{font-weight:800;color:#1d4ed8}
 
-  /* Buttons（與首頁一致） */
-  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
-       padding:12px 16px;border-radius:999px;background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap}
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:12px 16px;border-radius:999px;background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap}
   .btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:800}
   .btn.ghost{background:transparent}
   .btn[disabled]{opacity:.6;cursor:not-allowed}
 
-  /* Hero（與首頁一致的版型/漸層） */
+  /* Hero（與首頁一致） */
   .hero{background:linear-gradient(180deg,#fff,#fff 34%,#fdf2f8 34%,#fdf2f8);border-bottom:1px solid var(--line)}
   .hero-inner{display:grid;gap:26px;grid-template-columns:1.1fr 1fr;align-items:center;padding:34px 0}
   .eyebrow{display:inline-block;color:#a21caf;background:#fce7f3;border:1px solid #fbcfe8;padding:4px 10px;border-radius:999px;font-weight:700;font-size:12px;margin-bottom:8px}
@@ -62,13 +77,17 @@
   .hero-media{justify-self:end}
   .hero-media img{width:min(480px,100%);height:auto;border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(236,72,153,.15)}
 
-  /* 內頁主內容容器（對齊首頁 panel/card 風格） */
-  .panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:0}
+  /* 卡片與表單 */
+  .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(236,72,153,.08)}
   .muted{color:var(--muted)}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  input{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;border-radius:12px;color:var(--ink);font:inherit}
+  .error{border-left:3px solid var(--danger);padding:10px 12px;background:#fff5f5;border-radius:12px}
 
-  /* 嵌入框樣式 */
+  /* Embed 區塊（只有登入後才會顯示） */
+  .embed-wrap{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
   .embed-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff)}
-  .embed-head .title{font-weight:800;color:#0b1220}
+  .embed-head .title{font-weight:800;color:#0f172a}
   .embed-body{position:relative}
   .embed-skel{position:absolute;inset:0;display:grid;place-items:center;background:#fff}
   .embed-skel .dot{width:10px;height:10px;border-radius:999px;background:#f0abfc;animation:b 1.2s infinite alternate}
@@ -77,29 +96,40 @@
   @keyframes b{to{transform:translateY(-6px);opacity:.6}}
   iframe{width:100%;border:0;display:block;height:900px}
 
-  /* CTA 條（與首頁一致） */
-  .cta{margin:22px 0;background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:12px}
-  .wrap.cta{max-width:880px;margin-left:auto;margin-right:auto;}
-  @media(min-width:860px){
-    .cta{grid-template-columns:auto auto;align-items:center;justify-content:center;column-gap:24px}
-  }
-  @media(max-width:859px){
-    .cta{text-align:center}
-    .cta > div:last-child{justify-self:center}
-  }
-
   footer{margin-top:32px;color:#94a3b8;text-align:center}
   </style>
+
+  <script>
+    window.onerror = function(msg, src, line, col) {
+      var box = document.getElementById('auth-error');
+      if (box) { box.style.display = 'block'; box.textContent = '前端錯誤： ' + msg + ' (' + src + ':' + line + ':' + col + ')'; }
+    };
+  </script>
+
+  <script>
+    (function loadSupabaseSDK() {
+      var primary = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
+      var fallback = "https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
+      function append(src) {
+        var s = document.createElement('script');
+        s.src = src; s.defer = true;
+        s.onload = function(){ window.__supabaseReady = true; };
+        s.onerror = function(){
+          if (src === primary) {
+            append(fallback);
+          } else {
+            var el = document.getElementById('auth-error');
+            if (el) { el.style.display = 'block'; el.textContent = '載入 Supabase SDK 失敗，暫時無法驗證登入狀態。'; }
+          }
+        };
+        document.head.appendChild(s);
+      }
+      append(primary);
+    })();
+  </script>
 </head>
 <body>
 
-  <!-- 促銷條 -->
-  <div class="promo" role="region" aria-label="促銷訊息">
-    8 週戒糖 Reset 開放報名 — 限時名額。
-    <a class="btn" href="./#join" aria-label="立即加入">立即加入</a>
-  </div>
-
-  <!-- Header -->
   <header class="site" role="banner">
     <div class="wrap nav">
       <div class="brand">
@@ -111,142 +141,205 @@
       </div>
       <nav class="nav-links" aria-label="主導覽">
         <a href="./">戒糖首頁</a>
+ <a href="./element-quiz.html">五行測驗</a>
         <a class="active" href="./analyzer.html">食物卡路里分析器</a>
         <a href="./ebooks.html">電子書商店</a>
-        <a class="btn primary" href="./#join">加入 8 週 Reset</a>
+        <a id="nav-auth" class="btn primary" href="./#auth">加入挑戰 / 登入</a>
       </nav>
-    </div>
+
+    
+
+</div>
   </header>
 
-  <!-- Hero -->
   <section class="hero">
     <div class="wrap hero-inner">
       <div>
         <span class="eyebrow">工具</span>
         <h1>食物卡路里分析器</h1>
-        <p>快速估算餐點熱量，搭配我們的「小步慢走」策略，幫你更聰明地做選擇，不必逼自己計算每一餐。</p>
+        <p>為了保護你的個人資料與偏好設定，本工具<strong>需登入</strong>才可使用。</p>
       </div>
       <div class="hero-media" aria-hidden="true">
-        <picture>
-          <source srcset="./assets/feature-tasty-low-sugar.webp" type="image/webp">
-          <img src="./assets/feature-tasty-low-sugar.jpg" alt="低糖早餐碗：燕麥、堅果與水果">
-        </picture>
+       <picture>
+  <source srcset="./assets/feature-tasty-low-sugar.webp" type="image/webp">
+  <img src="./assets/feature-tasty-low-sugar.jpg" alt="低糖早餐碗：燕麥、堅果與水果">
+</picture>
       </div>
     </div>
   </section>
 
-  <!-- 外部分析器（沿用首頁 panel/card 視覺） -->
-  <section class="wrap">
-    <div class="panel">
+  <main class="wrap" role="main" style="margin-top:18px">
+    <section id="login-wall" class="card" style="display:none">
+      <span class="muted">登入後即可開始使用分析器</span>
+      <h2 style="margin:6px 0 10px">登入 / 註冊</h2>
+      <div class="row2">
+        <input id="email" placeholder="Email（建議手動輸入）" autocomplete="username" />
+        <input id="password" placeholder="密碼（至少 6 碼）" type="password" autocomplete="current-password" />
+      </div>
+      <div class="row2" style="margin-top:8px">
+        <button class="btn primary" id="btn-login">登入</button>
+        <button class="btn" id="btn-signup">註冊</button>
+      </div>
+      <div id="auth-error" class="error" style="display:none;margin-top:10px"></div>
+      <small class="muted">也可回到<a href="./#auth">首頁登入</a>後再回來。</small>
+    </section>
+
+    <section id="embed" class="card embed-wrap" style="display:none">
       <div class="embed-head">
         <div class="title">外部分析器（嵌入）</div>
-        <div class="muted">由第三方提供 · 供參考使用</div>
+        <div class="muted" id="user-badge">—</div>
       </div>
       <div class="embed-body">
-        <div id="skel" class="embed-skel" aria-hidden="true">
+        <div id="skel" class="embed-skel">
           <div style="display:flex;gap:8px;align-items:center">
             <div class="dot"></div><div class="dot"></div><div class="dot"></div>
           </div>
         </div>
-        <iframe id="fc-embed"
-          src="https://abbby9377.github.io/food-calorie-analyzer/"
-          title="Food Calorie Analyzer（外部站）"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div id="iframe-slot"></div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CTA（與首頁一致） -->
-  <section class="wrap cta" aria-label="加入計畫">
-    <div>
-      <h3 style="margin:6px 0">8 週戒糖 Reset・現在就啟動</h3>
-      <p class="muted" style="margin:0">把分析器當作輔助，真正帶來改變的是每日 1% 的小行動。</p>
-    </div>
-    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-      <a class="btn primary" href="./#auth" aria-label="加入或登入">立即加入 / 登入</a>
-      <a class="btn" href="./ebooks.html" aria-label="領取電子書">領取電子書</a>
-    </div>
-  </section>
+    <noscript>
+      <div class="card" style="margin-top:12px">
+        本頁需要啟用 JavaScript 以驗證登入，並在登入後載入分析器。
+      </div>
+    </noscript>
+  </main>
 
   <footer class="wrap" role="contentinfo">
     <p>© 2025 Quit Sugar. GitHub Pages</p>
   </footer>
 
 <script>
-/* ============ 自動高度調整（跨網域以訊息為輔） ============ */
-(function () {
-  var frame = document.getElementById('fc-embed');
-  var skel = document.getElementById('skel');
-  var lastH = 0;
-
-  function setH(h){
-    if(!h) return;
-    h = Math.max(700, h); // 最小高度
-    if(Math.abs(h-lastH) > 4){
-      frame.style.height = h + 'px';
-      lastH = h;
+  // ===== 等待 SDK =====
+  async function waitSupabaseReady(ms = 4000) {
+    const start = Date.now();
+    while (!window.supabase && Date.now() - start < ms) {
+      await new Promise(r => setTimeout(r, 50));
     }
+    return !!window.supabase;
   }
 
-  function pollHeight(){
-    try {
-      var doc = frame.contentDocument || frame.contentWindow.document;
-      if(doc){
-        var h = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
-        setH(h);
+  // ===== 工具 =====
+  function normalizeEmail(raw){ return (raw ?? '').normalize('NFKC').replace(/[\u200B-\u200D\uFEFF]/g, '').trim(); }
+  function basicEmailOK(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
+  const $ = id => document.getElementById(id);
+  function showErr(msg){ const el=$('auth-error'); if(!el) return; el.style.display='block'; el.textContent=msg; }
+  function hideErr(){ const el=$('auth-error'); if(!el) return; el.style.display='none'; el.textContent=''; }
+
+  // ===== 主流程 =====
+  window.addEventListener('DOMContentLoaded', async () => {
+    const ok = await waitSupabaseReady(4000);
+    if (!ok) {
+      // SDK 失敗 → 保持鎖定，只顯示登入牆
+      $('login-wall').style.display = 'block';
+      showErr('Supabase SDK 未載入完成，暫時無法驗證登入狀態。');
+      return;
+    }
+
+    // Supabase 初始化（與首頁相同專案）
+    const SUPABASE_URL = "https://scquprvywjtuvcxxfsco.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjcXVwcnZ5d2p0dXZjeHhmc2NvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MzAxMTQsImV4cCI6MjA3MTQwNjExNH0.iUZ_lI-mHoGoz2NfPTifYe44zieUIBUREF6fxsry97I";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+    });
+
+    async function renderBySession(){
+      const { data:{ session } } = await supabaseClient.auth.getSession();
+      const navAuth = document.getElementById('nav-auth');
+
+      if(session){
+        // 解鎖：允許建立/存在 iframe
+        window.__qs_iframeGuard.allowed = true;
+        document.documentElement.classList.remove('auth-off');
+        document.documentElement.classList.add('auth-on');
+
+        if(navAuth){ navAuth.textContent = session.user?.email || '已登入'; navAuth.href = 'javascript:void(0)'; }
+        $('login-wall').style.display = 'none';
+        $('embed').style.display = 'block';
+        $('user-badge').textContent = '👤 ' + (session.user?.email || '已登入');
+        ensureIframe();
+      }else{
+        // 上鎖：清掉任何 iframe，顯示登入牆
+        window.__qs_iframeGuard.allowed = false;
+        document.documentElement.classList.add('auth-off');
+        if(navAuth){ navAuth.textContent = '加入挑戰 / 登入'; navAuth.href = './#auth'; }
+        $('embed').style.display = 'none';
+        $('login-wall').style.display = 'block';
+        destroyIframe();
+        document.querySelectorAll('iframe').forEach(el => el.remove());
       }
-    } catch (e) {
-      // 若不同源則使用預設高度
     }
-  }
 
-  frame.addEventListener('load', function(){
-    if(skel) skel.style.display = 'none';
-    pollHeight();
-    setTimeout(pollHeight, 200);
-    setTimeout(pollHeight, 800);
-    setTimeout(pollHeight, 1500);
-  });
-
-  setInterval(pollHeight, 700);
-
-  window.addEventListener('message', function(e){
-    if(!e.data) return;
-    if(e.data.type === 'QS_EMBED_HEIGHT'){
-      setH(e.data.height);
+    // 只在登入後建立 iframe；未登入時完全不建立
+    let iframeInited = false;
+    function ensureIframe(){
+      if(iframeInited || !window.__qs_iframeGuard.allowed) return;
+      const slot = $('iframe-slot');
+      const frame = document.createElement('iframe');
+      frame.id = 'fc-embed';
+      frame.title = 'Food Calorie Analyzer（外部站）';
+      frame.loading = 'lazy';
+      frame.referrerPolicy = 'no-referrer-when-downgrade';
+      frame.sandbox = "allow-same-origin allow-scripts allow-forms"; // 可依需要調整權限
+      frame.src = 'https://abbby9377.github.io/food-calorie-analyzer/';
+      frame.addEventListener('load', ()=>{ const skel=$('skel'); if(skel) skel.style.display='none'; });
+      slot.appendChild(frame);
+      // 自動高度（同源可讀；跨網域以預設高度為主）
+      setTimeout(()=>pollHeight(frame), 200);
+      setTimeout(()=>pollHeight(frame), 800);
+      setTimeout(()=>pollHeight(frame), 1500);
+      setInterval(()=>pollHeight(frame), 700);
+      iframeInited = true;
     }
-  });
-})();
-</script>
+    function destroyIframe(){
+      if(!iframeInited) return;
+      const slot = $('iframe-slot');
+      slot.innerHTML = '';
+      const skel=$('skel'); if(skel) skel.style.display='grid';
+      iframeInited = false;
+    }
 
-<!-- 圖片 fallback（與首頁一致的 DataURI 佔位） -->
-<script>
-(function(){
-  const META={
-    "feature-tasty-low-sugar":{label:"Tasty Low Sugar",bg:"#fff4de"},
-  };
-  const cache={};
-  function gen(key,w=720,h=450){
-    if(cache[key]) return cache[key];
-    const m=META[key]||{label:key,bg:'#f1f5f9'};
-    const c=document.createElement('canvas'); c.width=w; c.height=h; const g=c.getContext('2d');
-    g.fillStyle=m.bg; g.fillRect(0,0,w,h);
-    g.strokeStyle='#c8ccd8'; g.lineWidth=3; g.strokeRect(10,10,w-20,h-20);
-    g.fillStyle='#334155'; g.font='bold 28px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif';
-    const tw=g.measureText(m.label).width; g.fillText(m.label,(w-tw)/2,Math.round(h*0.55));
-    g.fillStyle='#94a3b8'; g.font='16px system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif';
-    const tag='Quit Sugar'; const tw2=g.measureText(tag).width; g.fillText(tag,w-12-tw2,h-12);
-    return (cache[key]=c.toDataURL('image/webp',0.9));
-  }
-  function attach(img){
-    const src=img.getAttribute('src')||''; const m=src.match(/(?:^|\.|\/)assets\/([a-z0-9\-_]+)\.(?:webp|jpe?g|png)$/i);
-    if(!m) return; const key=m[1];
-    function onErr(){ img.removeEventListener('error',onErr); const w=img.clientWidth||720; const h=img.clientHeight||450; img.src=gen(key,w,h); }
-    img.addEventListener('error',onErr,{once:true});
-  }
-  document.addEventListener('DOMContentLoaded',()=>{ document.querySelectorAll('img').forEach(attach); });
-})();
+    function pollHeight(frame){
+      try {
+        var doc = frame.contentDocument || frame.contentWindow.document;
+        if(doc){
+          var h = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
+          if(h && Math.abs(h - parseInt(frame.style.height||'0')) > 4){
+            frame.style.height = Math.max(700, h) + 'px';
+          }
+        }
+      } catch (e) { /* 跨網域：忽略 */ }
+    }
+
+    // 登入 / 註冊
+    document.getElementById('btn-login').addEventListener('click', async ()=>{
+      hideErr();
+      const email = normalizeEmail(document.getElementById('email').value);
+      const password = document.getElementById('password').value;
+      if(!basicEmailOK(email)) return showErr('請輸入有效的 Email');
+      if((password||'').length < 6) return showErr('密碼至少 6 碼');
+      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if(error) return showErr('登入失敗：' + (error.message || '未知錯誤'));
+      await renderBySession();
+    });
+
+    document.getElementById('btn-signup').addEventListener('click', async ()=>{
+      hideErr();
+      const email = normalizeEmail(document.getElementById('email').value);
+      const password = document.getElementById('password').value;
+      if(!basicEmailOK(email)) return showErr('請輸入有效的 Email（避免全形與多餘空白）');
+      if((password||'').length < 6) return showErr('密碼至少 6 碼');
+      const { data, error } = await supabaseClient.auth.signUp({ email, password });
+      if(error) return showErr('註冊失敗：' + (error.message || '未知錯誤'));
+      if(!data.session){ return showErr('若啟用信箱驗證，請至信箱收信後再回來按「登入」。'); }
+      await renderBySession();
+    });
+
+    // 初始化與狀態監聽
+    await renderBySession();
+    supabaseClient.auth.onAuthStateChange((_evt, _session)=>{ renderBySession(); });
+  });
 </script>
 </body>
 </html>
