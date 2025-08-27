@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>戒糖計畫｜8 週溫柔戒糖 Reset</title>
-  <meta name="description" content="專為女性設計的 8 週溫柔戒糖計畫：不走極端、循序漸進。重建穩定能量、好睡眠與好心情。" />
+  <title>戒糖計畫｜Quit Sugar</title>
+  <meta name="description" content="輕鬆開始、持續記錄、看見改變：登入追蹤連勝、健康行動清單、每週挑戰與激勵語句，還有食物卡路里分析器、五行香水與電子書商店。"/>
   <meta name="theme-color" content="#f472b6" />
 
   <!-- 字體 -->
@@ -16,7 +16,7 @@
   :root{
     --bg:#ffffff; --panel:#ffffff; --ink:#0b1220; --muted:#475569; --line:#e5e7eb;
     --brand:#ec4899; --brand-2:#f472b6; --brand-3:#fb7185;
-    --promo:#fff1f5; --accent:#fdf2f8;
+    --accent:#fdf2f8; --promo:#fff1f5; --ok:#16a34a; --danger:#ef4444;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -31,11 +31,9 @@
   .wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
 
   /* 促銷條 */
-  .promo{
-    background:var(--promo);border-bottom:1px solid var(--line);
-    text-align:center;padding:10px 12px;color:#7a294a;font-weight:700
-  }
+  .promo{background:var(--promo);border-bottom:1px solid var(--line);text-align:center;padding:10px 12px;color:#7a294a;font-weight:700}
   .promo .btn{margin-left:10px}
+  .promo .count{font-weight:800;margin-left:8px;color:#be185d}
 
   /* Header */
   header.site{position:sticky;top:0;background:#fff;z-index:20;border-bottom:1px solid var(--line)}
@@ -44,12 +42,13 @@
   .logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--brand-2),var(--brand));display:grid;place-items:center;color:#fff;font-weight:900}
   .title{margin:0;font-size:22px;letter-spacing:.3px}
   .nav-links{display:flex;gap:16px;align-items:center}
+  .nav-links a.active{font-weight:800;color:#1d4ed8}
 
   /* Buttons */
-  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
-       padding:12px 16px;border-radius:999px;background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:12px 16px;border-radius:999px;background:#fff;color:#var(--ink);cursor:pointer;white-space:nowrap}
   .btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:800}
   .btn.ghost{background:transparent}
+  .btn.danger{background:linear-gradient(135deg,#ef4444,#b91c1c);border:none;color:#fff}
   .btn[disabled]{opacity:.6;cursor:not-allowed}
 
   /* Hero */
@@ -58,113 +57,151 @@
   .eyebrow{display:inline-block;color:#a21caf;background:#fce7f3;border:1px solid #fbcfe8;padding:4px 10px;border-radius:999px;font-weight:700;font-size:12px;margin-bottom:8px}
   .hero h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:34px;line-height:1.25;margin:0 0 10px;letter-spacing:.2px}
   .hero p{color:#475569;margin:0 0 16px;max-width:60ch}
-  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-  .chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;color:#334155}
   .hero-media{justify-self:end}
-  .hero-media img{width:min(480px,100%);height:auto;border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(236,72,153,.15)}
+  .hero-media img{width:min(520px,100%);height:auto;border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(236,72,153,.15)}
+  .subnav{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff}
+  .chip a{color:#334155;text-decoration:none}
 
-  /* 信任區 */
-  .trust{padding:20px 0 8px}
-  .trust small{display:block;color:#64748b;margin-bottom:10px;text-align:center}
-  .logos{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
-  .logo-skel{height:46px;border-radius:10px;border:1px dashed #cbd5e1;background:#fff;display:grid;place-items:center;color:#94a3b8;font-weight:700}
-
-  /* 亮點 */
-  .features{padding:22px 0}
-  .grid4{display:grid;gap:12px}
-  @media(min-width:860px){.grid4{grid-template-columns:repeat(4,1fr)}}
+  /* Features */
+  .section-title{font-size:18px;margin:22px 0 10px}
+  .features{display:grid;gap:14px}
+  @media(min-width:860px){.features{grid-template-columns:repeat(4,1fr)}}
   .feature{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
-  .feature .feat-photo{width:100%;height:128px;border-radius:12px;object-fit:cover;border:1px solid var(--line);margin-bottom:10px}
-  .feature h4{margin:8px 0 6px}
-  .icon{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#fde68a,#fca5a5);display:grid;place-items:center}
+  .feature .feat-photo{width:100%;height:140px;border-radius:12px;object-fit:cover;border:1px solid var(--line)}
+  .feature h4{margin:8px 0 6px;font-size:15px}
+  .icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;margin-top:6px;background:linear-gradient(135deg,#fde68a,#fca5a5)}
 
-  /* 三步驟 */
-  .steps{padding:8px 0}
-  .steps-grid{display:grid;gap:12px}
-  @media(min-width:860px){.steps-grid{grid-template-columns:repeat(3,1fr)}}
-  .step{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
-  .step .thumb{width:100%;height:auto;border-radius:12px;object-fit:cover;border:1px solid var(--line);margin-top:10px}
+  /* Steps */
+  .steps{display:grid;gap:12px;margin:2px 0 20px}
+  @media(min-width:900px){.steps{grid-template-columns:repeat(3,1fr)}}
+  .step{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:12px}
+  .step .thumb{width:100%;height:180px;border-radius:12px;object-fit:cover;border:1px solid var(--line)}
   .step .num{font-weight:800;color:var(--brand)}
 
-  /* 成功故事輪播 */
-  .carousel{position:relative;margin:12px 0}
-  .track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}
-  .card{scroll-snap-align:center;min-width:82%;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;display:grid;gap:8px}
-  @media(min-width:900px){.card{min-width:40%}}
-  .car-btn{position:absolute;top:42%;transform:translateY(-50%);border:none;width:42px;height:42px;border-radius:999px;background:#fff;box-shadow:0 6px 16px rgba(15,23,42,.08);cursor:pointer}
-  .car-btn.prev{left:-8px} .car-btn.next{right:-8px}
-  .quote{color:#334155}
-  .who{color:#64748b}
+  /* Carousel */
+  .carousel{position:relative;margin:2px 0 18px}
+  .car-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
+  .car-track::-webkit-scrollbar{height:8px}
+  .car-track::-webkit-scrollbar-thumb{background:#e5e7eb;border-radius:999px}
+  .recipe.cardish{scroll-snap-align:center;min-width:88%;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+  @media(min-width:860px){.recipe.cardish{min-width:42%}}
+  .photo{width:100%;height:160px;border-radius:12px;object-fit:cover;margin-bottom:10px;border:1px solid var(--line)}
+  .car-btn{position:absolute;top:38%;transform:translateY(-50%);border:none;width:42px;height:42px;border-radius:999px;background:#fff;box-shadow:0 6px 16px rgba(15,23,42,.08);cursor:pointer;z-index:2}
+  .car-btn.prev{left:-10px}.car-btn.next{right:-10px}
 
-  /* 推薦電子書 */
-  .ebooks{padding:6px 0 2px}
-  .ebooks .section-head{text-align:center;margin:8px 0 12px}
-  .ebook-grid{display:grid;gap:16px;justify-content:center;grid-template-columns:repeat(1,minmax(240px,280px))}
-  @media(min-width:700px){ .ebook-grid{grid-template-columns:repeat(2,minmax(240px,280px));} }
-  @media(min-width:1000px){ .ebook-grid{grid-template-columns:repeat(4,minmax(240px,280px));} }
-  .ebook-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:0 8px 22px rgba(15,23,42,.06);display:flex;flex-direction:column;align-items:center}
-  .ebook-cover{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);object-fit:cover}
-  .ebook-title{font-weight:800;margin:10px 0 4px;text-align:center}
-  .ebook-meta{font-size:12px;color:#64748b;text-align:center;margin-bottom:8px}
-  .ebook-card .btn{width:100%;justify-content:center}
+  /* Bundle CTA */
+  .bundle{position:relative;display:grid;gap:10px;grid-template-columns:1fr;align-items:center;
+          border:1px solid var(--line);border-radius:20px;padding:18px;margin:14px 0 18px;
+          background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff)}
+  @media(min-width:860px){ .bundle{grid-template-columns:1fr auto} }
+  .bundle .title{font-size:20px;font-weight:800;color:#0f172a;margin:0}
+  .bundle .desc{color:#64748b;margin:0}
+  .bundle .actions{display:flex;gap:10px;flex-wrap:wrap}
+  .bundle .badge{position:absolute;right:12px;top:-10px;background:#fff;border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:12px;color:#0f172a;box-shadow:0 6px 16px rgba(15,23,42,.08)}
+  .bundle .mini{display:flex;gap:8px;align-items:center}
+  .bundle .mini img{width:44px;height:60px;border-radius:8px;border:1px solid var(--line);object-fit:cover;box-shadow:0 4px 10px rgba(15,23,42,.06)}
 
-  /* CTA 條 */
-  .cta{margin:22px 0;background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:12px}
-  .wrap.cta{max-width:880px;margin-left:auto;margin-right:auto;}
-  @media(min-width:860px){
-    .cta{grid-template-columns:auto auto;align-items:center;justify-content:center;column-gap:24px}
-  }
-  @media(max-width:859px){
-    .cta{text-align:center}
-    .cta > div:last-child{justify-self:center}
-  }
+  /* 推薦電子書（四卡） */
+  .recs{margin:10px auto 24px}
+  .recs .grid{display:grid;gap:14px;grid-template-columns:repeat(2,1fr)}
+  @media(min-width:900px){.recs .grid{grid-template-columns:repeat(4,1fr)}}
+  .poster{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:0 6px 20px rgba(236,72,153,.08);text-align:center}
+  .poster img{width:100%;border-radius:12px;border:1px solid var(--line)}
+  .poster .meta{font-size:12px;color:#64748b;margin-top:6px}
+  .poster .cta{margin-top:8px}
+  .poster .cta .btn{width:100%;justify-content:center}
 
-  /* 登入/追蹤 */
-  .panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:12px}
+  /* Testimonials */
+  .testimonials{display:grid;gap:12px;margin:4px 0 20px}
+  @media(min-width:860px){.testimonials{grid-template-columns:repeat(2,1fr)}}
+  .quote{border-left:3px solid var(--brand);background:#fff;border:1px solid var(--line);padding:12px;border-radius:10px;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+  .quote img.avatar{width:44px;height:44px;border-radius:999px;object-fit:cover;border:1px solid var(--line)}
+  .quote footer{margin-top:4px;color:#64748b}
+
+  /* FAQ */
+  details.faq{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+  details.faq + details.faq{margin-top:10px}
+  details.faq summary{cursor:pointer;font-weight:600}
+
+  /* Auth + Streaks + Todo */
+  .grid-2{display:grid;gap:16px}
+  @media(min-width:960px){.grid-2{grid-template-columns:1.1fr 1fr}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(236,72,153,.08)}
+  .kicker{display:inline-block;padding:4px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color: var(--brand);font-size:12px;font-weight:700}
   .row{display:grid;gap:10px}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .stat{display:flex;gap:14px}
-  .num{font-size:28px;font-weight:800}
-  .progress-bar{height:10px;background:#f1f5f9;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
-  .progress-bar span{display:block;height:100%;width:0;background:linear-gradient(135deg,var(--brand-2),var(--brand-3))}
+  input{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;border-radius:12px;color:var(--ink);font:inherit}
+  .stat{display:flex;gap:14px;align-items:center}
+  .stat .num{font-size:28px;font-weight:800}
   .muted{color:var(--muted)}
-  footer{margin-top:32px;color:#94a3b8;text-align:center}
+  .error{border-left:3px solid var(--danger);padding:10px 12px;background:#fff5f5;border-radius:12px}
+
+  /* 每週挑戰進度條 */
+  .progress-wrap{margin-top:10px}
+  .progress-bar{height:10px;background:#f1f5f9;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+  .progress-bar span{display:block;height:100%;width:0%;background:linear-gradient(135deg,var(--brand-2),var(--brand-3))}
+
+  /* 五行香水（產品卡） */
+  .perfume{margin:20px 0}
+  .perf-grid{display:grid;gap:12px}
+  @media(min-width:900px){.perf-grid{grid-template-columns:repeat(5,1fr)}}
+  .perf-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}
+  .perf-card .el{font-weight:800;margin-bottom:6px}
+  .pill{display:inline-block;padding:4px 8px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;color:#0f172a;margin:2px}
+
+  /* 徽章（連勝） */
+  .badges{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+  .badge{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 10px;background:#f8fafc;color:#64748b}
+  .badge.unlocked{background:#ecfeff;border-color:#67e8f9;color:#0e7490;font-weight:700}
+
+  /* 每日驚喜卡 */
+  .surprise{margin-top:14px;padding:14px;border:1px dashed #f9a8d4;border-radius:14px;background:#fff0f6}
+  .surprise .title{font-weight:800;margin-bottom:6px}
+
+  /* 動畫減量偏好 */
+  @media (prefers-reduced-motion: reduce){
+    .car-track{ scroll-behavior:auto; }
+  }
   </style>
 
-  <!-- 錯誤顯示 -->
+  <!-- 全域錯誤顯示 -->
   <script>
     window.onerror = function(msg, src, line, col) {
       var box = document.getElementById('auth-error');
-      if (box) { box.style.display = 'block'; box.textContent = '前端錯誤：' + msg + ' (' + src + ':' + line + ':' + col + ')'; }
+      if (box) { box.style.display = 'block'; box.textContent = '前端錯誤： ' + msg + ' (' + src + ':' + line + ':' + col + ')'; }
     };
   </script>
 
-  <!-- Supabase（雙 CDN） -->
+  <!-- Supabase SDK：主 CDN + 後備 -->
   <script>
     (function loadSupabaseSDK() {
       var primary = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
       var fallback = "https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
-      function append(src){
-        var s=document.createElement('script');s.src=src;s.defer=true;
-        s.onload=function(){window.__supabaseReady=true};
-        s.onerror=function(){
-          if(src===primary){append(fallback)}
-          else{
-            var el=document.getElementById('auth-error');
-            if(el){el.style.display='block';el.textContent='載入 Supabase 失敗，請稍後再試。'}
+      function append(src) {
+        var s = document.createElement('script');
+        s.src = src; s.defer = true;
+        s.onload = function(){ window.__supabaseReady = true; };
+        s.onerror = function(){
+          if (src === primary) {
+            append(fallback);
+          } else {
+            var el = document.getElementById('auth-error');
+            if (el) { el.style.display = 'block'; el.textContent = '載入 Supabase SDK 失敗，請稍後再試。'; }
           }
         };
-        document.head.appendChild(s)
+        document.head.appendChild(s);
       }
       append(primary);
     })();
   </script>
 </head>
 <body>
-  <!-- 促銷條 -->
+
+  <!-- 促銷條（含倒數） -->
   <div class="promo" role="region" aria-label="促銷訊息">
-    8 週戒糖 Reset 開放報名 — 限時名額。
-    <a class="btn" href="#join" aria-label="立即加入">立即加入</a>
+    8 週戒糖 Reset｜首購 5 折倒數 <span class="count" id="promo-count" aria-live="polite">00:00:00</span>
+    <a class="btn" href="#bundle" aria-label="立即加入">立即加入</a>
   </div>
 
   <!-- Header -->
@@ -178,10 +215,11 @@
         </div>
       </div>
       <nav class="nav-links" aria-label="主導覽">
-        <a href="./">戒糖首頁</a>
+        <a class="active" href="./">戒糖首頁</a>
+        <a href="./element-quiz.html">五行測驗</a>
         <a href="./analyzer.html">食物卡路里分析器</a>
         <a href="./ebooks.html">電子書商店</a>
-        <a href="#join" class="btn primary">加入 8 週 Reset</a>
+        <a class="btn primary" href="#auth">加入挑戰 / 登入</a>
       </nav>
     </div>
   </header>
@@ -190,447 +228,570 @@
   <section class="hero">
     <div class="wrap hero-inner">
       <div>
-        <span class="eyebrow">為女性設計</span>
-        <h1>你的溫柔健康重啟，從今天開始</h1>
-        <p>
-          不必極端、也不需要完美。這是一套友善身體與心情的減糖方法，
-          給自己 8 週，建立更穩定的能量與更平靜的飲食關係。
-        </p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
-          <a class="btn primary" href="#join" aria-label="加入 8 週戒糖計畫">加入 8 週戒糖計畫</a>
-          <a class="btn" href="#auth" aria-label="登入或註冊">登入 / 註冊</a>
+        <span class="eyebrow">從今天開始</span>
+        <h1>你的輕甜生活，<br/>從 1% 改變開始</h1>
+        <p>不必極端，循序漸進。給自己 8 週，換來更穩定的能量與好心情：每日 1 個小行動、追蹤連勝、每週微調。</p>
+        <div class="actions" style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn primary" href="#auth">加入挑戰 / 登入</a>
+          <a class="btn" href="./element-quiz.html">做 60 秒五行測驗</a>
+          <a class="btn" href="./ebooks.html">逛逛電子書商店</a>
         </div>
-        <div class="chips" aria-label="為什麼有效">
-          <span class="chip">不走全或無</span>
-          <span class="chip">營養師背書</span>
-          <span class="chip">輕運動＋正念</span>
-          <span class="chip">贈送 5 本電子書</span>
+        <div class="subnav">
+          <span class="chip"><a href="#why">為什麼有效</a></span>
+          <span class="chip"><a href="#steps">三步驟開始</a></span>
+          <span class="chip"><a href="#perfume">五行香水</a></span>
+          <span class="chip"><a href="#recipes">食譜靈感</a></span>
+          <span class="chip"><a href="#bundle">Ebook Bundle</a></span>
+          <span class="chip"><a href="#stories">成功故事</a></span>
+          <span class="chip"><a href="#faq">FAQ</a></span>
         </div>
       </div>
       <div class="hero-media" aria-hidden="true">
         <picture>
           <source srcset="./assets/feature-mind-body.webp" type="image/webp">
-          <img src="./assets/feature-mind-body.jpg" alt="瑜伽與呼吸的平靜片刻，身心平衡">
+          <img src="./assets/feature-mind-body.jpg" alt="在瑜伽墊上冥想的女性，展現專注與身心平衡" fetchpriority="high">
         </picture>
       </div>
     </div>
   </section>
 
-  <!-- 信任區 -->
-  <section class="wrap trust" aria-label="社群口碑">
-    <small>受到許多女性社群喜愛</small>
-    <div class="logos">
-      <div class="logo-skel">LOGO</div>
-      <div class="logo-skel">LOGO</div>
-      <div class="logo-skel">LOGO</div>
-      <div class="logo-skel">LOGO</div>
-      <div class="logo-skel">LOGO</div>
-      <div class="logo-skel">LOGO</div>
-    </div>
-  </section>
-
-  <!-- 四大亮點 -->
-  <section class="wrap features" aria-label="計畫亮點">
-    <div class="grid4">
+  <main class="wrap" role="main">
+    <!-- 四大重點 -->
+    <h3 id="why" class="section-title">為什麼這個方法更溫柔、也更有效？</h3>
+    <div class="features">
       <div class="feature">
-        <picture><source srcset="./assets/feature-warm-approach.webp" type="image/webp"><img class="feat-photo" src="./assets/feature-warm-approach.jpg" alt="溫柔開始、友善陪伴"></picture>
-        <div class="icon" aria-hidden="true">💗</div>
-        <h4>溫柔，不是嚴苛</h4>
-        <p class="muted">小步慢走、貼近生活。壓力更小、成功率更高。</p>
+        <picture><source srcset="./assets/feature-warm-approach.webp" type="image/webp"><img class="feat-photo" src="./assets/feature-warm-approach.jpg" alt="親和力十足的女性微笑肖像" loading="lazy" decoding="async"></picture>
+        <div class="icon">💗</div>
+        <h4>不必全或無</h4>
+        <p class="muted">循序漸進的低糖節奏，搭配替代選擇，壓力更小、成功率更高。</p>
       </div>
       <div class="feature">
-        <picture><source srcset="./assets/feature-tasty-low-sugar.webp" type="image/webp"><img class="feat-photo" src="./assets/feature-tasty-low-sugar.jpg" alt="好吃也能少糖"></picture>
-        <div class="icon" aria-hidden="true">🥗</div>
-        <h4>好吃，不委屈</h4>
-        <p class="muted">簡單替代與易做食譜，不必計算卡路里。</p>
+        <picture><source srcset="./assets/feature-tasty-low-sugar.webp" type="image/webp"><img class="feat-photo" src="./assets/feature-tasty-low-sugar.jpg" alt="低糖早餐碗與莓果巧克力" loading="lazy" decoding="async"></picture>
+        <div class="icon">🥗</div>
+        <h4>好吃也能少糖</h4>
+        <p class="muted">簡單料理靈感與超市選物建議，日常就能做到。</p>
       </div>
       <div class="feature">
-        <picture><source srcset="./assets/feature-mind-body.webp" type="image/webp"><img class="feat-photo" src="./assets/feature-mind-body.jpg" alt="身心一起照顧"></picture>
-        <div class="icon" aria-hidden="true">🧘‍♀️</div>
-        <h4>身心，一起照顧</h4>
-        <p class="muted">睡眠、壓力與輕運動的支持，讓渴望更好管理。</p>
+        <picture><source srcset="./assets/feature-mind-body.webp" type="image/webp"><img class="feat-photo" src="./assets/feature-mind-body.jpg" alt="運動與冥想的生活片段" loading="lazy" decoding="async"></picture>
+        <div class="icon">🧘‍♀️</div>
+        <h4>身心一起照顧</h4>
+        <p class="muted">結合睡眠、壓力與簡易運動，讓渴望更好管理。</p>
       </div>
       <div class="feature">
-        <picture><source srcset="./assets/feature-progress.webp" type="image/webp"><img class="feat-photo" src="./assets/feature-progress.jpg" alt="看得見的成就感"></picture>
-        <div class="icon" aria-hidden="true">📈</div>
-        <h4>成就感，看得見</h4>
-        <p class="muted">用 streaks 追蹤與慶祝進步，不只看體重。</p>
+        <picture><source srcset="./assets/feature-progress.webp" type="image/webp"><img class="feat-photo" src="./assets/feature-progress.jpg" alt="巧克力配莓果的份量控管" loading="lazy" decoding="async"></picture>
+        <div class="icon">📈</div>
+        <h4>看得見的成就</h4>
+        <p class="muted">用「連勝天數」與「最長紀錄」追蹤進步，超有成就感。</p>
       </div>
     </div>
-  </section>
 
-  <!-- 三步驟（已替換為你提供的三張照片） -->
-  <section class="wrap steps" aria-label="如何開始">
-    <h3 style="margin:8px 0">三步驟開始（今天就能做）</h3>
-    <div class="steps-grid">
+    <!-- 三步驟 -->
+    <h3 id="steps" class="section-title">三步驟開始（今天就能做）</h3>
+    <div class="steps">
       <div class="step">
-        <div class="num">Step 1</div>
-        <strong>建立小目標</strong>
-        <p class="muted">選擇起始日與 1% 改變，邁出第一步。</p>
-        <picture>
-          <source srcset="./assets/step1-goal.webp" type="image/webp">
-          <img class="thumb" src="./assets/step1-goal.jpg" alt="規劃起點與目標：手寫 Small goal / 1% 的筆記本與月曆">
-        </picture>
-        <small class="muted">規劃起點與目標</small>
+        <div><div class="num">Step 1</div><strong>建立小目標</strong><p class="muted">選擇起始日與 1% 改變，邁出第一步。</p></div>
+        <picture><source srcset="./assets/step1-goal.webp" type="image/webp"><img class="thumb" src="./assets/step1-goal.jpg" alt="規劃起點與目標的筆記與手寫畫面" loading="lazy" decoding="async"></picture>
       </div>
-
       <div class="step">
-        <div class="num">Step 2</div>
-        <strong>每天 1 個小行動</strong>
-        <p class="muted">例如：晚餐不喝含糖飲料，或散步 20 分鐘。</p>
-        <picture>
-          <source srcset="./assets/step2-action.webp" type="image/webp">
-          <img class="thumb" src="./assets/step2-action.jpg" alt="日常可行的小行動：鮭魚、藜麥與菠菜搭配檸檬水">
-        </picture>
-        <small class="muted">日常可行的小行動</small>
+        <div><div class="num">Step 2</div><strong>每天 1 個小行動</strong><p class="muted">例如：晚餐不喝含糖飲料，或散步 20 分鐘。</p></div>
+        <picture><source srcset="./assets/step2-action.webp" type="image/webp"><img class="thumb" src="./assets/step2-action.jpg" alt="日常可行的小行動與健康飲食" loading="lazy" decoding="async"></picture>
       </div>
-
       <div class="step">
-        <div class="num">Step 3</div>
-        <strong>記錄成就、每週微調</strong>
-        <p class="muted">用連勝天數保持動力，依體感持續微調。</p>
-        <picture>
-          <source srcset="./assets/step3-track.webp" type="image/webp">
-          <img class="thumb" src="./assets/step3-track.jpg" alt="習慣追蹤與連勝：子彈筆記 Habit tracker 與手機顯示 Streak 6 天">
-        </picture>
-        <small class="muted">記錄成就、每週微調</small>
+        <div><div class="num">Step 3</div><strong>記錄成就、每週微調</strong><p class="muted">用連勝天數保持動力，依體感持續微調。</p></div>
+        <picture><source srcset="./assets/step3-track.webp" type="image/webp"><img class="thumb" src="./assets/step3-track.jpg" alt="Habit tracker 與連勝介面" loading="lazy" decoding="async"></picture>
       </div>
     </div>
-  </section>
 
-  <!-- 成功故事（輪播） -->
-  <section class="wrap" aria-label="成功故事">
-    <h3 style="margin:8px 0">成功故事</h3>
+    <!-- 五行香水（僅展示，已移除候補名單表單） -->
+    <section id="perfume" class="perfume">
+      <h3 class="section-title">五行香水（Beta）</h3>
+      <p class="muted">用五行找到你的專屬香：先做 <a href="./element-quiz.html">60 秒測驗</a>，再選主/副元素。</p>
+      <div class="perf-grid">
+        <div class="perf-card">
+          <div class="el">木｜清新草木</div>
+          <div><span class="pill">綠意</span><span class="pill">草本</span><span class="pill">晨光</span></div>
+        </div>
+        <div class="perf-card">
+          <div class="el">火｜柑橘辛香</div>
+          <div><span class="pill">柑橘</span><span class="pill">辛香</span><span class="pill">活力</span></div>
+        </div>
+        <div class="perf-card">
+          <div class="el">土｜香草暖調</div>
+          <div><span class="pill">香草</span><span class="pill">安定</span><span class="pill">奶香</span></div>
+        </div>
+        <div class="perf-card">
+          <div class="el">金｜清透花香</div>
+          <div><span class="pill">花香</span><span class="pill">俐落</span><span class="pill">通透</span></div>
+        </div>
+        <div class="perf-card">
+          <div class="el">水｜海鹽麝香</div>
+          <div><span class="pill">海鹽</span><span class="pill">放鬆</span><span class="pill">白麝香</span></div>
+        </div>
+      </div>
+      <!-- 已刪除：候補名單表單 -->
+    </section>
+
+    <!-- 食譜靈感 -->
+    <h3 id="recipes" class="section-title">本週食譜靈感（左右滑動）</h3>
     <div class="carousel">
-      <button class="car-btn prev" id="t-prev" aria-label="上一則">‹</button>
-      <div class="track" id="t-track">
-        <div class="card">
-          <strong>Michelle｜-13 公斤</strong>
-          <p class="quote">下午崩壞消失了，皮膚也穩定許多，晚上更好睡。</p>
-          <div class="who">8 週完成者</div>
+      <button class="car-btn prev" id="car-prev" aria-label="上一個">‹</button>
+      <div class="car-track" id="car-track">
+        <div class="recipe cardish">
+          <picture>
+            <source srcset="./assets/feature-tasty-low-sugar.webp" type="image/webp">
+            <img class="photo" src="./assets/feature-tasty-low-sugar.jpg" alt="低糖早餐碗：燕麥、堅果與水果" loading="lazy" decoding="async">
+          </picture>
+          <strong>暖胃燕麥碗</strong>
+          <p class="muted">甜味來自香蕉與肉桂，早餐也能輕甜。</p>
+          <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
         </div>
-        <div class="card">
-          <strong>Rosie｜-20 公斤</strong>
-          <p class="quote">不再害怕好油脂。代謝穩下來後，能量回來了。</p>
-          <div class="who">8 週完成者</div>
+        <div class="recipe cardish">
+          <picture>
+            <source srcset="./assets/feature-progress.webp" type="image/webp">
+            <img class="photo" src="./assets/feature-progress.jpg" alt="70% 黑巧克力搭配莓果" loading="lazy" decoding="async">
+          </picture>
+          <strong>70% 可可小點</strong>
+          <p class="muted">想吃甜時的替代選擇，控制份量就不內疚。</p>
+          <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
         </div>
-        <div class="card">
-          <strong>Jade｜-4 公斤</strong>
-          <p class="quote">第五週開始感到身體變輕盈，重回喜歡的牛仔褲。</p>
-          <div class="who">8 週完成者</div>
-        </div>
-      </div>
-      <button class="car-btn next" id="t-next" aria-label="下一則">›</button>
-    </div>
-  </section>
-
-  <!-- 推薦電子書 -->
-  <section id="ebooks" class="wrap ebooks" aria-label="推薦電子書">
-    <div class="section-head">
-      <h3 style="margin:6px 0">推薦電子書</h3>
-      <p class="muted" style="margin:0">把減糖落地到日常：入門指南、早餐、外食與零糖甜點精選。</p>
-    </div>
-
-    <div class="ebook-grid">
-      <article class="ebook-card">
-        <picture>
-          <source srcset="./assets/feature-warm-approach.webp" type="image/webp">
-          <img class="ebook-cover" src="./assets/feature-warm-approach.jpg" alt="8 週戒糖入門 電子書封面">
-        </picture>
-        <div class="ebook-title">8 週戒糖入門</div>
-        <div class="ebook-meta">循序減糖、穩定能量與心情</div>
-        <a class="btn primary" href="./ebooks.html#reset-8w">立即購買</a>
-      </article>
-
-      <article class="ebook-card">
-        <picture>
-          <source srcset="./assets/feature-tasty-low-sugar.webp" type="image/webp">
-          <img class="ebook-cover" src="./assets/feature-tasty-low-sugar.jpg" alt="低糖早餐 20 道 電子書封面">
-        </picture>
-        <div class="ebook-title">低糖早餐 20 道</div>
-        <div class="ebook-meta">一天的輕甜開始</div>
-        <a class="btn" href="./ebooks.html#breakfast-20">立即購買</a>
-      </article>
-
-      <article class="ebook-card">
-        <picture>
-          <source srcset="./assets/feature-mind-body.webp" type="image/webp">
-          <img class="ebook-cover" src="./assets/feature-mind-body.jpg" alt="外食少糖小抄 電子書封面">
-        </picture>
-        <div class="ebook-title">外食少糖小抄</div>
-        <div class="ebook-meta">外食族友善攻略</div>
-        <a class="btn" href="./ebooks.html#eating-out">立即購買</a>
-      </article>
-
-      <article class="ebook-card">
-        <picture>
-          <source srcset="./assets/feature-progress.webp" type="image/webp">
-          <img class="ebook-cover" src="./assets/feature-progress.jpg" alt="零糖甜點 15 道 電子書封面">
-        </picture>
-        <div class="ebook-title">零糖甜點 15 道</div>
-        <div class="ebook-meta">甜而不膩的儀式感</div>
-        <a class="btn" href="./ebooks.html#desserts-15">立即購買</a>
-      </article>
-    </div>
-
-    <div style="text-align:center;margin-top:10px">
-      <a class="btn" href="./ebooks.html">前往電子書商店</a>
-    </div>
-  </section>
-
-  <!-- CTA 條 -->
-  <section id="join" class="wrap cta" aria-label="加入計畫">
-    <div>
-      <h3 style="margin:6px 0">8 週戒糖 Reset・現在就啟動</h3>
-      <p class="muted" style="margin:0">加入超過 200,000 位完成者的行列，找回穩定能量與更平靜的飲食關係。</p>
-    </div>
-    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-      <a class="btn primary" href="#auth" aria-label="加入或登入">立即加入 / 登入</a>
-      <a class="btn" href="./ebooks.html" aria-label="領取電子書">領取電子書</a>
-    </div>
-  </section>
-
-  <!-- 登入 / 追蹤 -->
-  <section class="wrap" id="auth" aria-label="個人化追蹤">
-    <div class="panel">
-      <span class="muted" style="font-weight:700">個人化追蹤</span>
-      <h2 style="margin:0">註冊 / 登入</h2>
-
-      <div class="row2" role="group" aria-label="Email 與密碼">
-        <input id="signup-email" placeholder="Email（建議手動輸入）" inputmode="email" autocomplete="username" aria-label="Email" />
-        <input id="signup-password" placeholder="密碼（至少 6 碼）" type="password" autocomplete="new-password" aria-label="密碼" />
-      </div>
-      <div class="row2" style="margin-top:8px">
-        <button class="btn primary" id="btn-signup" aria-label="註冊">註冊</button>
-        <button class="btn" id="btn-login" aria-label="登入">登入</button>
-      </div>
-      <div class="row" style="margin-top:8px">
-        <button class="btn ghost" id="btn-logout" style="display:none" aria-label="登出">登出</button>
-      </div>
-      <div id="auth-error" class="panel" style="display:none;border-color:#fecaca;background:#fff5f5"></div>
-
-      <hr style="border:0;border-top:1px solid var(--line)"/>
-
-      <div class="stat" role="group" aria-label="連勝統計">
-        <div>
-          <div class="muted">當前連勝（天）</div>
-          <div class="num" id="current-streak">—</div>
-        </div>
-        <div>
-          <div class="muted">歷史最長（天）</div>
-          <div class="num" id="max-streak">—</div>
+        <div class="recipe cardish">
+          <picture>
+            <source srcset="./assets/feature-mind-body.webp" type="image/webp">
+            <img class="photo" src="./assets/feature-mind-body.jpg" alt="地中海鮪魚沙拉：高蛋白、高纖維" loading="lazy" decoding="async">
+          </picture>
+          <strong>地中海鮪魚沙拉</strong>
+          <p class="muted">高蛋白、高纖維，飽足感更久。</p>
+          <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
         </div>
       </div>
-
-      <div class="row">
-        <div class="muted" style="margin:8px 0 6px"><strong>每週挑戰：</strong>晚餐不喝含糖飲料</div>
-        <div class="progress-bar" aria-label="本週進度"><span id="week-fill"></span></div>
-        <small class="muted"><span id="week-label">本週完成 0 / 7 天</span></small>
-      </div>
-
-      <div class="row2" style="margin-top:12px">
-        <button class="btn" id="btn-i-did-good" aria-label="我今天戒糖">我今天戒糖 ✅</button>
-        <button class="btn" id="btn-reset" style="border-color:#fecaca" aria-label="我失手了，重新開始">我失手了，重新開始</button>
-      </div>
-      <small class="muted">提示：登入後才會讀寫 <code>streaks</code> 資料表。</small>
-      <div id="auth-quick" class="muted" aria-live="polite"></div>
+      <button class="car-btn next" id="car-next" aria-label="下一個">›</button>
     </div>
-  </section>
+
+    <!-- Bundle -->
+    <section id="bundle" class="bundle">
+      <div>
+        <div class="mini" style="margin-bottom:8px">
+          <img src="./assets/poster-reset-8w.jpg" alt="8 週戒糖入門封面縮圖" loading="lazy" decoding="async">
+          <img src="./assets/poster-breakfast-20.jpg" alt="低糖早餐 20 道封面縮圖" loading="lazy" decoding="async">
+          <img src="./assets/poster-eating-out.jpg" alt="外食少糖小抄封面縮圖" loading="lazy" decoding="async">
+          <img src="./assets/poster-desserts-15.jpg" alt="零糖甜點 15 道封面縮圖" loading="lazy" decoding="async">
+        </div>
+        <h3 class="title">Ebook Bundle｜一次入手最實用的 4 本指南</h3>
+        <p class="desc">從 8 週戒糖入門到外食、早餐與零糖甜點，幫你把減糖落地到日常。</p>
+        <div class="actions">
+          <a class="btn primary" href="./ebooks.html">前往電子書商店</a>
+          <a class="btn" href="./ebooks.html#bundle">了解套組優惠</a>
+        </div>
+      </div>
+      <div class="right">
+        <span class="badge">🎁 多本合購更划算</span>
+      </div>
+    </section>
+
+    <!-- 成功故事 -->
+    <h3 id="stories" class="section-title">成功故事</h3>
+    <div class="testimonials">
+      <blockquote class="quote">
+        <img class="avatar" src="./assets/extras-testimonials.jpg" alt="Yumi 頭像" loading="lazy" decoding="async">
+        <div><p>三週後下午崩壞消失了，皮膚也穩定許多！</p><footer>— Yumi．設計師</footer></div>
+      </blockquote>
+      <blockquote class="quote">
+        <img class="avatar" src="./assets/extras-testimonials.jpg" alt="Irene 頭像" loading="lazy" decoding="async">
+        <div><p>用「連勝」看進步，比體重計更激勵；現在甜飲一週只喝一次。</p><footer>— Irene．行銷人</footer></div>
+      </blockquote>
+    </div>
+
+    <!-- FAQ -->
+    <h3 id="faq" class="section-title">常見問題</h3>
+    <details class="faq"><summary>一定要 8 週嗎？</summary><p class="muted">建議 8 週作為完整循環；也可依生活節奏調整。</p></details>
+    <details class="faq"><summary>需要完全不吃糖嗎？</summary><p class="muted">不用極端；我們推「更少糖、少加工」，持續最重要。</p></details>
+
+    <!-- 主要功能：激勵 / 待辦 / 登入與連勝 -->
+    <div class="grid-2">
+      <!-- 左側：激勵與代辦 -->
+      <section class="card">
+        <span class="kicker">基本原則 & 每日激勵</span>
+        <h2>今天就開始，先做到 1 件小事</h2>
+        <p id="motivation" class="muted">……</p>
+
+        <!-- 每日驚喜卡 -->
+        <div class="surprise" id="surprise">
+          <div class="title">🎁 今日驚喜卡</div>
+          <div class="muted" id="surprise-text">點一下抽卡，拿到今天的小任務或溫柔提醒。</div>
+          <button class="btn" id="surprise-btn" type="button" style="margin-top:8px">抽一張</button>
+        </div>
+
+        <h3 style="margin-top:14px">健康行動清單</h3>
+        <div class="list" id="todo-list"></div>
+        <div class="row2" style="margin-top:10px">
+          <input id="todo-input" placeholder="+ 新增一個今日小行動，例如：晚餐不喝含糖飲料"/>
+          <button class="btn" id="todo-add">加入</button>
+        </div>
+      </section>
+
+      <!-- 右側：登入與連勝 -->
+      <section id="auth" class="card">
+        <span class="kicker">個人化追蹤</span>
+        <h2>註冊 / 登入</h2>
+
+<p class="muted" style="margin-top: -6px; margin-bottom: 12px">註冊即可免費獲取每週戒糖電子報。</p>
+
+
+        <div class="row2">
+          <input id="signup-email" placeholder="Email（建議手動輸入）" autocomplete="username" />
+          <input id="signup-password" placeholder="密碼（至少 6 碼）" type="password" autocomplete="new-password" />
+        </div>
+        <div class="row2" style="margin-top:8px">
+          <button class="btn primary" id="btn-signup">註冊</button>
+          <button class="btn" id="btn-login">登入</button>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <button class="btn ghost" id="btn-logout" style="display:none">登出</button>
+        </div>
+        <div id="auth-error" class="error" style="display:none;margin-top:10px"></div>
+
+        <hr style="margin:16px -18px;border-color:#e5e7eb;border-style:solid;border-width:1px 0 0"/>
+
+        <h3>我的戒糖里程碑</h3>
+        <div class="stat">
+          <div><div class="muted">當前連勝（天）</div><div class="num" id="current-streak">—</div></div>
+          <div><div class="muted">歷史最長（天）</div><div class="num" id="max-streak">—</div></div>
+        </div>
+
+        <!-- 徽章 -->
+        <div class="badges" id="badge-list" aria-label="連勝徽章">
+          <div class="badge" data-threshold="7">🏅 7 天</div>
+          <div class="badge" data-threshold="14">🏆 14 天</div>
+          <div class="badge" data-threshold="28">💎 28 天</div>
+        </div>
+
+        <!-- 每週挑戰 -->
+        <div class="progress-wrap">
+          <div class="muted" style="margin:8px 0 6px"><strong>每週挑戰：</strong>晚餐不喝含糖飲料</div>
+          <div class="progress-bar"><span id="week-fill"></span></div>
+          <small class="muted"><span id="week-label">本週完成 0 / 7 天</span></small>
+        </div>
+
+        <div class="row2" style="margin-top:12px">
+          <button class="btn" id="btn-i-did-good" type="button">我今天戒糖 ✅</button>
+          <button class="btn danger" id="btn-reset" type="button">我失手了，重新開始</button>
+        </div>
+        <small class="muted">提示：登入後才會寫入/讀取資料表 <code>streaks</code>。</small>
+      </section>
+    </div>
+  </main>
 
   <footer class="wrap" role="contentinfo">
     <p>© 2025 Quit Sugar. GitHub Pages × Supabase</p>
   </footer>
 
 <script>
-  /* ===== 工具 ===== */
+  // ===== 延遲等待 SDK =====
+  async function waitSupabaseReady(ms = 4000) {
+    const start = Date.now();
+    while (!window.supabase && Date.now() - start < ms) {
+      await new Promise(r => setTimeout(r, 50));
+    }
+    return !!window.supabase;
+  }
+
+  // ===== 小工具 =====
   const $ = (id) => document.getElementById(id);
   const showErr = (msg) => { const box = $('auth-error'); if(!box) return; box.style.display = 'block'; box.textContent = msg; };
   const hideErr = () => { const box = $('auth-error'); if(!box) return; box.style.display = 'none'; box.textContent = ''; };
-  function normalizeEmail(raw){ return (raw ?? '').normalize('NFKC').replace(/[\u200B-\u200D\uFEFF]/g,'').trim(); }
-  function basicEmailOK(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
 
-  /* ===== 每週進度（本地） ===== */
+  // 倒數（促銷條）：預設 48 小時
+  (function promoCountdown(){
+    const el = $('promo-count'); if(!el) return;
+    const end = Date.now() + 1000*60*60*48;
+    const tick = () => {
+      const left = Math.max(0, end - Date.now());
+      const h = String(Math.floor(left/3600000)).padStart(2,'0');
+      const m = String(Math.floor((left%3600000)/60000)).padStart(2,'0');
+      const s = String(Math.floor((left%60000)/1000)).padStart(2,'0');
+      el.textContent = `${h}:${m}:${s}`;
+    };
+    tick(); setInterval(tick, 1000);
+  })();
+
+  // 激勵語句
+  const QUOTES = [
+    '少糖一點，清醒多一點。','今天的你，只要比昨天更好 1%。',
+    '戒掉不是快狠準，而是持續做小事。','想吃甜的？先喝一杯水，等五分鐘再決定。','把渴望寫下來，讓它離開腦袋。',
+  ];
+  function pickQuote(){ $('motivation').textContent = QUOTES[Math.floor(Math.random()*QUOTES.length)]; }
+
+  // 日驚喜卡（每日一次）
+  const SURPRISES = [
+    '今晚改喝無糖氣泡水＋檸檬片 🍋',
+    '睡前 5 分鐘伸展，幫助隔天不爆餓 🧘‍♀️',
+    '把甜點分成兩次吃：現在一半，剩下留明天 ✂️',
+    '外食先喝一杯水再點餐，飽足感 up 💧',
+    '今天的甜味來源：莓果一小碗 🍓'
+  ];
+  function initSurprise(){
+    const key = 'qs.surprise.' + new Date().toISOString().slice(0,10);
+    const btn = $('surprise-btn'), box = $('surprise-text');
+    const saved = localStorage.getItem(key);
+    if(saved){ box.textContent = saved; btn.disabled = true; btn.textContent = '已抽卡'; return; }
+    btn.addEventListener('click', ()=>{
+      const pick = SURPRISES[Math.floor(Math.random()*SURPRISES.length)];
+      box.textContent = pick;
+      localStorage.setItem(key, pick);
+      btn.disabled = true; btn.textContent = '已抽卡';
+    });
+  }
+
+  // ===== TODO（本地儲存） =====
+  const TODO_KEY = 'qs.todos.v1';
+  function readTodos(){ try { return JSON.parse(localStorage.getItem(TODO_KEY)) || []; } catch { return []; } }
+  function writeTodos(list){ localStorage.setItem(TODO_KEY, JSON.stringify(list)); renderTodos(); }
+  function renderTodos(){
+    const list = readTodos();
+    const wrap = $('todo-list');
+    wrap.innerHTML='';
+    list.forEach((t,i)=>{
+      const row = document.createElement('div');
+      row.className = 'todo';
+      const cb = document.createElement('input'); cb.type='checkbox'; cb.checked = !!t.done; cb.addEventListener('change',()=>{ list[i].done = cb.checked; writeTodos(list); });
+      const span = document.createElement('span'); span.textContent = t.text; span.className='muted';
+      const del = document.createElement('button'); del.className='btn ghost'; del.textContent='刪除'; del.addEventListener('click',()=>{ list.splice(i,1); writeTodos(list); });
+      row.append(cb, span, del);
+      wrap.append(row);
+    });
+  }
+
+  // ===== 週進度（本地儲存） =====
   function isoWeek(d=new Date()){
     const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    const dayNum = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate()+4-dayNum);
+    const dayNum = t.getUTCDay() || 7;
+    t.setUTCDate(t.getUTCDate() + 4 - dayNum);
     const yearStart = new Date(Date.UTC(t.getUTCFullYear(),0,1));
-    const weekNum = Math.ceil((((t-yearStart)/86400000)+1)/7); return {year:t.getUTCFullYear(),week:weekNum};
+    const weekNum = Math.ceil((((t - yearStart)/86400000) + 1)/7);
+    return {year: t.getUTCFullYear(), week: weekNum};
   }
   function todayStr(){ return new Date().toISOString().slice(0,10); }
   const WEEK_KEY_PREFIX = 'qs.weekMarks.';
-  function weekKey(d=new Date()){ const w=isoWeek(d); return `${WEEK_KEY_PREFIX}${w.year}-${w.week.toString().padStart(2,'0')}`; }
-  function getWeekSet(){ const raw = localStorage.getItem(weekKey()) || '[]'; try{return new Set(JSON.parse(raw))}catch{return new Set()} }
+  function weekKey(d=new Date()){ const w = isoWeek(d); return `${WEEK_KEY_PREFIX}${w.year}-${w.week.toString().padStart(2,'0')}`; }
+  function getWeekSet(){ const raw = localStorage.getItem(weekKey()) || '[]'; try { return new Set(JSON.parse(raw)); } catch { return new Set(); } }
   function saveWeekSet(set){ localStorage.setItem(weekKey(), JSON.stringify(Array.from(set))); }
-  function updateWeekUI(){ const set=getWeekSet(); const n=Math.min(7,set.size); const percent=(n/7)*100; $('week-fill').style.width = percent+'%'; $('week-label').textContent = `本週完成 ${n} / 7 天`; }
-  function recordTodayIfNew(){ const set=getWeekSet(); const t=todayStr(); if(!set.has(t)){ set.add(t); saveWeekSet(set); } updateWeekUI(); }
-
-  /* ===== 見證輪播 ===== */
-  function initCarousel(){
-    const track = $('t-track'); const prev=$('t-prev'); const next=$('t-next');
-    if(!track||!prev||!next) return; const gap=12;
-    const stepPx = () => { const first = track.querySelector('.card'); return first ? first.clientWidth + gap : Math.max(300, track.clientWidth*0.9); };
-    function update(){ const can = track.scrollWidth > track.clientWidth + 1; prev.style.display=next.style.display = can ? 'inline-flex':'none'; }
-    prev.addEventListener('click',()=>track.scrollBy({left:-stepPx(),behavior:'smooth'}));
-    next.addEventListener('click',()=>track.scrollBy({left: stepPx(),behavior:'smooth'}));
-    window.addEventListener('resize',update); update();
+  function updateWeekUI(){
+    const set = getWeekSet();
+    const n = Math.min(7, set.size);
+    const percent = (n/7)*100;
+    $('week-fill').style.width = percent + '%';
+    $('week-label').textContent = `本週完成 ${n} / 7 天`;
+  }
+  function recordTodayIfNew(){
+    const set = getWeekSet();
+    const t = todayStr();
+    if(!set.has(t)){ set.add(t); saveWeekSet(set); }
+    updateWeekUI();
   }
 
-  /* ===== Supabase 與 streaks ===== */
-  async function waitSupabaseReady(ms=4000){ const start=Date.now(); while(!window.supabase && Date.now()-start<ms){ await new Promise(r=>setTimeout(r,50)); } return !!window.supabase; }
+  // ===== 輪播初始化 =====
+  function initCarousel(){
+    const track = $('car-track');
+    const prev = $('car-prev');
+    const next = $('car-next');
+    if(!track || !prev || !next) return;
+    const firstCard = track.querySelector('.recipe');
+    const gap = 12;
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const stepPx = () => (firstCard ? firstCard.clientWidth + gap : Math.max(300, track.clientWidth * 0.9));
+    function updateArrows(){ const canScroll = track.scrollWidth > track.clientWidth + 1; prev.style.display = next.style.display = canScroll ? 'inline-flex' : 'none'; }
+    prev.addEventListener('click', () => track.scrollBy({ left: -stepPx(), behavior: prefersReduced ? 'auto':'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left:  stepPx(), behavior: prefersReduced ? 'auto':'smooth' }));
+    window.addEventListener('resize', updateArrows);
+    updateArrows();
+  }
 
+  // ===== Supabase（你的專案） =====
+  const SUPABASE_URL = "https://scquprvywjtuvcxxfsco.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjcXVwcnZ5d2p0dXZjeHhmc2NvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MzAxMTQsImV4cCI6MjA3MTQwNjExNH0.iUZ_lI-mHoGoz2NfPTifYe44zieUIBUREF6fxsry97I";
+  let supabaseClient = null;
+
+  // ===== 主流程 =====
   window.addEventListener('DOMContentLoaded', async () => {
+    pickQuote();
+    initSurprise();
+    renderTodos();
     updateWeekUI();
     initCarousel();
-    const btnGood=$('btn-i-did-good'); const btnReset=$('btn-reset'); if(btnGood) btnGood.disabled=true; if(btnReset) btnReset.disabled=true;
 
+    // 待辦事件
+    $('todo-add').addEventListener('click', ()=>{
+      const v = $('todo-input').value.trim();
+      if(!v) return;
+      const list = readTodos();
+      list.unshift({ text:v, done:false });
+      writeTodos(list);
+      $('todo-input').value = '';
+    });
+
+    // 預先禁用需登入的按鈕
+    $('btn-i-did-good').disabled = true;
+    $('btn-reset').disabled = true;
+
+    // 等待 Supabase
     const ok = await waitSupabaseReady(4000);
-    if(!ok){ showErr('Supabase 尚未就緒；登入/連勝功能暫不可用。'); return; }
+    if (!ok) { showErr('Supabase SDK 未載入完成，登入/連勝功能暫不可用；其他功能正常。'); return; }
 
-    const SUPABASE_URL = "https://scquprvywjtuvcxxfsco.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjcXVwcnZ5d2p0dXZjeHhmc2NvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU4MzAxMTQsImV4cCI6MjA3MTQwNjExNH0.iUZ_lI-mHoGoz2NfPTifYe44zieUIBUREF6fxsry97I";
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false} });
+    // 初始化 client
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+    });
+
+    // Auth
+    function normalizeEmail(raw){ return (raw ?? '').normalize('NFKC').replace(/[\u200B-\u200D\uFEFF]/g, '').trim(); }
+    function basicEmailOK(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
 
     async function signup(){
       hideErr();
-      const email=normalizeEmail($('signup-email').value);
-      const password=$('signup-password').value;
-      if(!basicEmailOK(email)) return showErr('請輸入有效的 Email。');
-      if((password||'').length<6) return showErr('密碼至少 6 碼。');
-      const {data,error}=await supabaseClient.auth.signUp({email,password});
-      if(error) return showErr('註冊失敗：' + (error.message || '未知錯誤'));
-      if(!data.session) return showErr('若啟用信箱驗證，請至信箱收信後再回來登入。');
+      const email = normalizeEmail($('signup-email').value);
+      const password = $('signup-password').value;
+      if(!basicEmailOK(email)) return showErr('請輸入有效的 Email');
+      if((password||'').length < 6) return showErr('密碼至少 6 碼');
+      const { data, error } = await supabaseClient.auth.signUp({ email, password });
+      if(error){ return showErr('註冊失敗：' + (error.message || '未知錯誤')); }
+      if(!data.session){ return showErr('若啟用信箱驗證，請至信箱收信後再回來按「登入」。'); }
       await afterLogin();
     }
 
     async function login(){
       hideErr();
-      const email=normalizeEmail($('signup-email').value);
-      const password=$('signup-password').value;
-      if(!basicEmailOK(email)) return showErr('請輸入有效的 Email。');
-      if((password||'').length<6) return showErr('密碼至少 6 碼。');
-      const {error}=await supabaseClient.auth.signInWithPassword({email,password});
-      if(error) return showErr('登入失敗：' + (error.message || '未知錯誤'));
+      const email = normalizeEmail($('signup-email').value);
+      const password = $('signup-password').value;
+      if(!basicEmailOK(email)) return showErr('請輸入有效的 Email');
+      if((password||'').length < 6) return showErr('密碼至少 6 碼');
+      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if(error){ return showErr('登入失敗：' + (error.message || '未知錯誤')); }
       await afterLogin();
     }
 
     async function logout(){ await supabaseClient.auth.signOut(); renderSession(null); }
 
-    function daysBetween(start){
-      const s=new Date(start+'T00:00:00'); const today=new Date();
-      const diff=Math.floor((Date.UTC(today.getFullYear(),today.getMonth(),today.getDate())-Date.UTC(s.getFullYear(),s.getMonth(),s.getDate()))/(1000*60*60*24));
-      return Math.max(0,diff+1);
+    function renderSession(session){
+      const quickBtns = ['btn-i-did-good','btn-reset'];
+      if(session){
+        document.querySelector('.nav-links .btn.primary').textContent = session.user?.email || '已登入';
+        $('btn-logout').style.display = 'inline-flex';
+        quickBtns.forEach(id=>$(id).disabled=false);
+      }else{
+        document.querySelector('.nav-links .btn.primary').textContent = '加入挑戰 / 登入';
+        $('btn-logout').style.display = 'none';
+        $('current-streak').textContent = '—';
+        $('max-streak').textContent = '—';
+        quickBtns.forEach(id=>$(id).disabled=true);
+      }
     }
 
-    async function ensureStreakRow(uid){
-      const {data,error}=await supabaseClient.from('streaks').select('*').eq('user_id',uid).maybeSingle();
-      if(error){ showErr('讀取 streaks 失敗：'+error.message); return null; }
-      if(data) return data;
-      const today=new Date().toISOString().slice(0,10);
-      const {data:inserted,error:e2}=await supabaseClient.from('streaks').insert({user_id:uid,current_streak_start_date:today,max_streak_days:0}).select().single();
-      if(e2){ showErr('建立 streaks 失敗：'+e2.message); return null; }
+    // Streaks
+    function daysBetween(start){
+      const s = new Date(start + 'T00:00:00');
+      const today = new Date();
+      const diff = Math.floor((Date.UTC(today.getFullYear(),today.getMonth(),today.getDate()) - Date.UTC(s.getFullYear(),s.getMonth(),s.getDate())) / (1000*60*60*24));
+      return Math.max(0, diff+1);
+    }
+
+    async function ensureStreakRow(userId){
+      const { data, error } = await supabaseClient.from('streaks').select('*').eq('user_id', userId).maybeSingle();
+      if(error){ showErr('讀取 streaks 失敗：' + error.message); return null; }
+      if(data){ return data; }
+      const today = new Date().toISOString().slice(0,10);
+      const { data: inserted, error: e2 } = await supabaseClient.from('streaks').insert({
+        user_id: userId, current_streak_start_date: today, max_streak_days: 0
+      }).select().single();
+      if(e2){ showErr('建立 streaks 失敗：' + e2.message); return null; }
       return inserted;
     }
 
+    function updateBadgesUI(currentDays){
+      const list = document.querySelectorAll('#badge-list .badge');
+      list.forEach(b=>{
+        const need = Number(b.getAttribute('data-threshold')||0);
+        b.classList.toggle('unlocked', currentDays >= need);
+      });
+    }
+
     async function refreshStreaks(){
-      const {data:{session}}=await supabaseClient.auth.getSession();
-      if(!session) return;
-      const row=await ensureStreakRow(session.user.id); if(!row) return;
-      const current=daysBetween(row.current_streak_start_date);
-      $('current-streak').textContent=current;
-      $('max-streak').textContent=row.max_streak_days ?? 0;
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if(!session){ return; }
+      const row = await ensureStreakRow(session.user.id);
+      if(!row) return;
+      const current = daysBetween(row.current_streak_start_date);
+      $('current-streak').textContent = current;
+      $('max-streak').textContent = row.max_streak_days ?? 0;
+      updateBadgesUI(current);
     }
 
     async function markGoodToday(){
-      const {data:{session}}=await supabaseClient.auth.getSession();
-      if(!session) return showErr('請先登入。');
-      const row=await ensureStreakRow(session.user.id); if(!row) return;
-      const current=daysBetween(row.current_streak_start_date);
-      const newMax=Math.max(row.max_streak_days ?? 0, current);
-      const {error}=await supabaseClient.from('streaks').update({max_streak_days:newMax}).eq('user_id',session.user.id);
-      if(error) return showErr('更新失敗：'+error.message);
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if(!session) return showErr('請先登入');
+      const row = await ensureStreakRow(session.user.id);
+      if(!row) return;
+      const current = daysBetween(row.current_streak_start_date);
+      const newMax = Math.max(row.max_streak_days ?? 0, current);
+      const { error } = await supabaseClient.from('streaks').update({ max_streak_days: newMax }).eq('user_id', session.user.id);
+      if(error) return showErr('更新失敗：' + error.message);
       recordTodayIfNew();
       await refreshStreaks();
     }
 
     async function resetStreak(){
-      const {data:{session}}=await supabaseClient.auth.getSession();
-      if(!session) return showErr('請先登入。');
-      const row=await ensureStreakRow(session.user.id); if(!row) return;
-      const today=new Date().toISOString().slice(0,10);
-      const {error}=await supabaseClient.from('streaks').update({current_streak_start_date:today}).eq('user_id',session.user.id);
-      if(error) return showErr('重置失敗：'+error.message);
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if(!session) return showErr('請先登入');
+      const today = new Date().toISOString().slice(0,10);
+      const { error } = await supabaseClient.from('streaks').update({ current_streak_start_date: today }).eq('user_id', session.user.id);
+      if(error) return showErr('重置失敗：' + error.message);
       await refreshStreaks();
     }
 
     async function afterLogin(){
-      const {data:{session}}=await supabaseClient.auth.getSession();
+      const { data: { session } } = await supabaseClient.auth.getSession();
       renderSession(session);
       await refreshStreaks();
     }
 
-    function renderSession(session){
-      const quick=$('auth-quick'), btnLogout=$('btn-logout'), btnGood=$('btn-i-did-good'), btnReset=$('btn-reset');
-      if(session){
-        const email=session.user?.email || '已登入';
-        quick.textContent='👤 '+email;
-        btnLogout.style.display='inline-flex';
-        if(btnGood) btnGood.disabled=false;
-        if(btnReset) btnReset.disabled=false;
-      }else{
-        quick.textContent='未登入';
-        btnLogout.style.display='none';
-        $('current-streak').textContent='—';
-        $('max-streak').textContent='—';
-        if(btnGood) btnGood.disabled=true;
-        if(btnReset) btnReset.disabled=true;
-      }
-    }
+    // （已移除）候補名單表單相關 JS
 
+    // 綁定
     $('btn-signup').addEventListener('click', signup);
     $('btn-login').addEventListener('click', login);
     $('btn-logout').addEventListener('click', logout);
     $('btn-i-did-good').addEventListener('click', markGoodToday);
     $('btn-reset').addEventListener('click', resetStreak);
 
-    const {data:{session}}=await supabaseClient.auth.getSession();
-    renderSession(session); if(session){ await refreshStreaks(); }
-    supabaseClient.auth.onAuthStateChange(function(_evt,sess){ renderSession(sess); if(sess){ refreshStreaks(); } });
+    // 初始化 Session
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    renderSession(session);
+    if(session){ await refreshStreaks(); }
+
+    // 監聽登入狀態
+    supabaseClient.auth.onAuthStateChange(function(_evt, sess){ renderSession(sess); if(sess){ refreshStreaks(); } });
   });
+
+  // 圖片 fallback（避免破圖）
+  (function () {
+    function fallback(node, emoji) {
+      var ph = document.createElement('div');
+      ph.className = 'photo';
+      ph.style.display='grid'; ph.style.placeItems='center'; ph.style.background='#f8fafc'; ph.style.border='1px solid var(--line)'; ph.style.borderRadius='12px';
+      ph.textContent = emoji || '🖼️';
+      node.replaceWith(ph);
+    }
+    document.addEventListener('error', function(e){
+      const img = e.target;
+      if(img.tagName === 'IMG'){
+        if (img.closest('.feature')) return fallback(img, '📷');
+        if (img.closest('.step')) return fallback(img, '🧩');
+        if (img.closest('.recipe')) return fallback(img, '🥗');
+        if (img.closest('.bundle')) return fallback(img, '🎁');
+        fallback(img, '🖼️');
+      }
+    }, true);
+  })();
 </script>
 
-<!-- 圖片 fallback（若資源失敗以佔位圖代替） -->
-<script>
-(function(){
-  const META={
-    "feature-warm-approach":{label:"Warm Approach",bg:"#fce7f3"},
-    "feature-tasty-low-sugar":{label:"Tasty Low Sugar",bg:"#fff4de"},
-    "feature-mind-body":{label:"Mind & Body",bg:"#e6f5fa"},
-    "feature-progress":{label:"Visible Progress",bg:"#e8f0ff"},
-    "step1-goal":{label:"Step 1: Set Goal",bg:"#f0fcf4"},
-    "step2-action":{label:"Step 2: Daily Action",bg:"#fff0f0"},
-    "step3-track":{label:"Step 3: Track & Tune",bg:"#f5f5ff"}
-  };
-  const cache={};
-  function gen(key,w=720,h=450){
-    if(cache[key]) return cache[key];
-    const m=META[key]||{label:key,bg:'#f1f5f9'};
-    const c=document.createElement('canvas'); c.width=w; c.height=h; const g=c.getContext('2d');
-    g.fillStyle=m.bg; g.fillRect(0,0,w,h);
-    g.strokeStyle='#c8ccd8'; g.lineWidth=3; g.strokeRect(10,10,w-20,h-20);
-    g.fillStyle='#334155'; g.font='bold 28px system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif';
-    const tw=g.measureText(m.label).width; g.fillText(m.label,(w-tw)/2,Math.round(h*0.55));
-    g.fillStyle='#94a3b8'; g.font='16px system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif';
-    const tag='Quit Sugar'; const tw2=g.measureText(tag).width; g.fillText(tag,w-12-tw2,h-12);
-    return (cache[key]=c.toDataURL('image/webp',0.9));
-  }
-  function attach(img){
-    const src=img.getAttribute('src')||''; const m=src.match(/(?:^|\.|\/)assets\/([a-z0-9\-_]+)\.(?:webp|jpe?g|png)$/i);
-    if(!m) return; const key=m[1];
-    function onErr(){ img.removeEventListener('error',onErr); const w=img.clientWidth||720; const h=img.clientHeight||450; img.src=gen(key,w,h); }
-    img.addEventListener('error',onErr,{once:true});
-  }
-  document.addEventListener('DOMContentLoaded',()=>{ document.querySelectorAll('img').forEach(attach); });
-})();
-</script>
 </body>
 </html>
