@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
 
   <style>
-/* === 你原本的「Responsive 主導覽」設定（保留） === */
+/* === Responsive 主導覽（保留） === */
 .nav { flex-wrap: wrap; }
 .nav-links {
   display: flex;
@@ -49,13 +49,25 @@
   }
 }
 
-/* === 額外新增：漢堡鈕＋抽屜導覽樣式 === */
+/* === 更醒目的漢堡鈕 + 行動抽屜樣式 === */
 .burger{
-  display:none; width:40px; height:40px; border:1px solid #e5e7eb;
-  border-radius:10px; background:#fff; cursor:pointer;
+  display:none;
+  width:44px; height:44px;
+  border:1px solid #e5e7eb;
+  border-radius:12px; background:#fff;
+  cursor:pointer;
   align-items:center; justify-content:center;
+  flex-direction: column; gap:5px;                 /* 關鍵：垂直排列，避免擠成一條 */
+  box-shadow:0 6px 16px rgba(15,23,42,.10);
 }
-.burger span{display:block;width:20px;height:2px;background:#0b1220;margin:3px 0;border-radius:2px}
+.burger .bar{
+  display:block; width:22px; height:3px;
+  background:#0b1220; border-radius:2px;
+}
+.burger .label{
+  font-size:11px; font-weight:800; color:#0b1220;
+  letter-spacing:.02em; line-height:1;
+}
 .mobile-drawer{
   position:fixed; inset:0 auto 0 0; width:86vw; max-width:320px; background:#fff;
   border-right:1px solid #e5e7eb; box-shadow:8px 0 30px rgba(15,23,42,.18);
@@ -63,12 +75,16 @@
   display:flex; flex-direction:column;
 }
 .mobile-drawer.open{ transform:none; }
-.m-head{display:flex; justify-content:space-between; align-items:center; padding:14px; border-bottom:1px solid #e5e7eb}
+.m-head{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px; border-bottom:1px solid #e5e7eb;
+  background:linear-gradient(135deg,#f472b6,#ec4899); color:#fff;   /* 品牌漸層更顯眼 */
+}
 .m-brand{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;
-  background:linear-gradient(135deg,#f472b6,#ec4899); color:#fff; font-weight:900}
+  background:rgba(255,255,255,.2); color:#fff; font-weight:900}
 .m-close{border:none;background:#fff;width:36px;height:36px;border-radius:10px;cursor:pointer}
 .m-links{display:flex; flex-direction:column; gap:8px; padding:14px}
-.m-links a{display:block; padding:12px 12px; border:1px solid #e5e7eb; border-radius:12px; background:#fff; color:#0b1220; text-decoration:none}
+.m-links a{display:block; padding:14px 12px; border:1px solid #e5e7eb; border-radius:12px; background:#fff; color:#0b1220; text-decoration:none; font-weight:700}
 .m-links a.active{border-color:#d946ef;background:#fdf4ff}
 .m-links .btn{justify-content:center}
 .backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.38); z-index:55; }
@@ -78,7 +94,7 @@
   .nav .nav-links{ display:none; } /* 手機以抽屜為主，隱藏桌機導覽 */
 }
 
-/* === 你原本的主題色與元件樣式（保留） === */
+/* === 主題色與元件樣式 === */
 :root{
   --bg:#ffffff; --panel:#ffffff; --ink:#0b1220; --muted:#475569; --line:#e5e7eb;
   --brand:#ec4899; --brand-2:#f472b6; --brand-3:#fb7185;
@@ -125,9 +141,15 @@ header.site{position:sticky;top:0;background:#fff;z-index:20;border-bottom:1px s
 .hero p{color:#475569;margin:0 0 16px;max-width:60ch}
 .hero-media{justify-self:end}
 .hero-media img{width:min(260px,100%);height:auto;border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(236,72,153,.15)}
-.subnav{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
-.chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff}
-.chip a{color:#334155;text-decoration:none}
+
+/* 精簡頁內導覽（取代舊 .subnav） */
+.hero-links{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px;color:#334155}
+.hero-links a{color:#334155;text-decoration:none;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#fff}
+.hero-links .dot{color:#cbd5e1;display:none}
+@media(max-width:520px){
+  .hero-links a{padding:0;border:none;background:transparent}
+  .hero-links .dot{display:inline}
+}
 
 /* Features */
 .section-title{font-size:18px;margin:22px 0 10px}
@@ -220,7 +242,7 @@ input{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;bord
 /* 動畫減量偏好 */
 @media (prefers-reduced-motion: reduce){ .car-track{ scroll-behavior:auto; } }
 
-/* --- 你的 RWD 段落（保留，略微補強 Hero 圖） --- */
+/* --- RWD --- */
 .hero-inner{ grid-template-columns: 1fr; }
 .features{ grid-template-columns: 1fr; }
 .steps{ grid-template-columns: 1fr; }
@@ -304,9 +326,12 @@ input{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;bord
   <!-- Header -->
   <header class="site" role="banner">
     <div class="wrap nav">
-      <!-- 新增：行動版漢堡鈕 -->
+      <!-- 顯眼：行動版漢堡鈕 -->
       <button id="m-burger" class="burger" aria-label="開啟導覽" aria-controls="m-menu" aria-expanded="false">
-        <span></span><span></span><span></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="label">選單</span>
       </button>
 
       <div class="brand">
@@ -316,6 +341,7 @@ input{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;bord
           <small class="muted">溫柔開始・持續記錄・看見改變</small>
         </div>
       </div>
+
       <nav class="nav-links" aria-label="主導覽">
         <a class="active" href="./">戒糖首頁</a>
         <a href="./element-quiz.html">五行測驗</a>
@@ -326,7 +352,7 @@ input{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;bord
     </div>
   </header>
 
-  <!-- 新增：Mobile 抽屜導覽與遮罩（放在 header 後） -->
+  <!-- Mobile 抽屜導覽與遮罩 -->
   <aside id="m-menu" class="mobile-drawer" aria-hidden="true">
     <header class="m-head">
       <div class="m-brand">QS</div>
@@ -343,20 +369,19 @@ input{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;bord
         <span class="eyebrow">從今天開始</span>
         <h1>你的輕甜生活，從 1% 改變開始</h1>
         <p>給自己 8 週，換來更穩定的能量與好心情：每日 1 個小行動、每週微調。</p>
+
         <div class="actions" style="display:flex;gap:10px;flex-wrap:wrap">
           <a class="btn primary" href="#auth">加入挑戰 / 登入</a>
           <a class="btn" href="./element-quiz.html">做 60 秒五行測驗</a>
           <a class="btn" href="./ebooks.html">逛逛電子書商店</a>
         </div>
-        <div class="subnav">
-          <span class="chip"><a href="#why">為什麼有效</a></span>
-          <span class="chip"><a href="#steps">三步驟開始</a></span>
-          <span class="chip"><a href="#perfume">五行香水</a></span>
-          <span class="chip"><a href="#recipes">食譜靈感</a></span>
-          <span class="chip"><a href="#bundle">Ebook Bundle</a></span>
-          <span class="chip"><a href="#stories">成功故事</a></span>
-          <span class="chip"><a href="#faq">FAQ</a></span>
-        </div>
+
+       <nav class="hero-links" aria-label="頁內導覽（精簡）">
+  <a href="#why">為什麼有效</a><span class="dot">·</span>
+  <a href="#steps">三步驟</a><span class="dot">·</span>
+  <a href="#recipes">食譜靈感</a><span class="dot">·</span>
+  <a href="#faq">FAQ</a>
+</nav>
       </div>
 
       <div class="hero-media" aria-hidden="true">
@@ -880,7 +905,7 @@ input{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;bord
     }, true);
   })();
 
-  /* === 新增：漢堡抽屜導覽 JS === */
+  /* === 漢堡抽屜導覽 JS === */
   (function(){
     var desktopNav = document.querySelector('.nav-links');
     var mobileNav  = document.getElementById('m-nav');
