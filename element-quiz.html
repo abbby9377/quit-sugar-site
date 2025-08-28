@@ -46,6 +46,42 @@
   .btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:800}
   .btn[disabled]{opacity:.6;cursor:not-allowed}
 
+  /* === 漢堡鈕 + 行動抽屜（顯眼版） === */
+  .burger{
+    display:none;
+    width:44px;height:44px;
+    border:1px solid #e5e7eb;border-radius:12px;background:#fff;
+    cursor:pointer;
+    align-items:center;justify-content:center;flex-direction:column;gap:5px;
+    box-shadow:0 6px 16px rgba(15,23,42,.10);
+  }
+  .burger .bar{display:block;width:22px;height:3px;background:#0b1220;border-radius:2px}
+  .burger .label{font-size:11px;font-weight:800;color:#0b1220;letter-spacing:.02em;line-height:1}
+  .mobile-drawer{
+    position:fixed;inset:0 auto 0 0;width:86vw;max-width:320px;background:#fff;
+    border-right:1px solid #e5e7eb;box-shadow:8px 0 30px rgba(15,23,42,.18);
+    transform:translateX(-100%);transition:transform .25s ease;z-index:60;
+    display:flex;flex-direction:column;
+  }
+  .mobile-drawer.open{transform:none}
+  .m-head{
+    display:flex;justify-content:space-between;align-items:center;padding:14px;
+    border-bottom:1px solid #e5e7eb;
+    background:linear-gradient(135deg,#f472b6,#ec4899);color:#fff;
+  }
+  .m-brand{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.2);color:#fff;font-weight:900}
+  .m-close{border:none;background:#fff;width:36px;height:36px;border-radius:10px;cursor:pointer}
+  .m-links{display:flex;flex-direction:column;gap:8px;padding:14px}
+  .m-links a{display:block;padding:14px 12px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;color:#0b1220;text-decoration:none;font-weight:700}
+  .m-links a.active{border-color:#d946ef;background:#fdf4ff}
+  .m-links .btn{justify-content:center}
+  .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:55}
+  .backdrop[hidden]{display:none}
+  @media (max-width:860px){
+    .burger{display:inline-flex}
+    .nav .nav-links{display:none}
+  }
+
   /* Hero */
   .hero{background:linear-gradient(180deg,#fff,#fff 34%,var(--accent) 34%,var(--accent));border-bottom:1px solid var(--line)}
   .hero-inner{display:grid;gap:26px;grid-template-columns:1.1fr 1fr;align-items:center;padding:34px 0}
@@ -134,9 +170,16 @@
 </head>
 <body>
  
-
   <header class="site" role="banner">
     <div class="wrap nav">
+      <!-- 顯眼：行動版漢堡鈕 -->
+      <button id="m-burger" class="burger" aria-label="開啟導覽" aria-controls="m-menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="label">選單</span>
+      </button>
+
       <div class="brand">
         <div class="logo" aria-hidden="true">QS</div>
         <div>
@@ -144,17 +187,26 @@
           <small class="muted">溫柔開始・持續記錄・看見改變</small>
         </div>
       </div>
+
       <nav class="nav-links" aria-label="主導覽">
         <a href="./">戒糖首頁</a>
         <a class="active" href="./element-quiz.html">五行測驗</a>
         <a href="./analyzer.html">食物卡路里分析器</a>
         <a href="./ebooks.html">電子書商店</a>
         <a id="nav-auth" class="btn primary" href="./#auth">加入挑戰 / 登入</a>
-      </nav>    
-
-</div>
+      </nav>
+    </div>
   </header>
 
+  <!-- Mobile 抽屜導覽與遮罩 -->
+  <aside id="m-menu" class="mobile-drawer" aria-hidden="true">
+    <header class="m-head">
+      <div class="m-brand">QS</div>
+      <button id="m-close" class="m-close" aria-label="關閉導覽">✕</button>
+    </header>
+    <nav id="m-nav" class="m-links" aria-label="行動版導覽"></nav>
+  </aside>
+  <div id="m-backdrop" class="backdrop" hidden></div>
 
   <section class="hero">
     <div class="wrap hero-inner">
@@ -202,7 +254,7 @@
         </div>
 
         <div class="bars" id="bars" aria-label="五行分數條">
-          </div>
+        </div>
       </div>
     </section>
 
@@ -260,106 +312,76 @@
 
   // ===== 題庫（10 題）=====
   const QUESTIONS = [
-    {
-      q: "早起第一反應最像哪個你？",
-      a: [
-        { text: "拉伸活動一下身體，讓筋骨醒來", element: "wood" },
-        { text: "來杯熱飲，讓身體暖起來", element: "earth" },
-        { text: "打開清單，照流程開始執行", element: "metal" },
-        { text: "來點音樂/咖啡，燃起精神", element: "fire" },
-        { text: "先緩緩觀察一下今天的節奏", element: "water" },
-      ],
-    },
-    {
-      q: "遇到突發狀況，你多半怎麼做？",
-      a: [
-        { text: "立刻溝通整合資源，邊做邊調", element: "wood" },
-        { text: "先穩住情緒，按部就班處理", element: "earth" },
-        { text: "制定規範與步驟，要求到位", element: "metal" },
-        { text: "臨場反應快，直接上去帶頭衝", element: "fire" },
-        { text: "退一步收集資訊，再決定方向", element: "water" },
-      ],
-    },
-    {
-      q: "休假最想選哪一種行程？",
-      a: [
-        { text: "登山健行、植物園、手作課", element: "wood" },
-        { text: "在家料理、烘焙、療癒身心", element: "earth" },
-        { text: "斷捨離、整理房間、逛書店", element: "metal" },
-        { text: "展演、音樂節、朋友聚會", element: "fire" },
-        { text: "海邊看海、泡湯、冥想放空", element: "water" },
-      ],
-    },
-    {
-      q: "被同事/朋友誤會時，你的直覺反應？",
-      a: [
-        { text: "主動溝通釐清，找雙贏解法", element: "wood" },
-        { text: "先消化情緒，之後再說明", element: "earth" },
-        { text: "用事實與邏輯條列澄清", element: "metal" },
-        { text: "當場據理力爭，重視公平", element: "fire" },
-        { text: "先觀望形勢，等待時機說明", element: "water" },
-      ],
-    },
-    {
-      q: "最能代表你做事的節奏？",
-      a: [
-        { text: "有彈性的推進，邊做邊長", element: "wood" },
-        { text: "穩、紮實、重耐力", element: "earth" },
-        { text: "精準、效率、重細節與標準", element: "metal" },
-        { text: "快、熱情、想看到成效", element: "fire" },
-        { text: "流動、柔軟、順勢而為", element: "water" },
-      ],
-    },
-    {
-      q: "你對『健康』最在意什麼？",
-      a: [
-        { text: "身體流動性與柔韌度", element: "wood" },
-        { text: "腸胃吸收與睡眠品質", element: "earth" },
-        { text: "檢查數值與日常紀律", element: "metal" },
-        { text: "代謝力與能量感", element: "fire" },
-        { text: "情緒安穩與修復力", element: "water" },
-      ],
-    },
-    {
-      q: "團隊分工時你常被期待扮演？",
-      a: [
-        { text: "策劃與資源整合者", element: "wood" },
-        { text: "後勤與穩定推進者", element: "earth" },
-        { text: "規格把關與品質管理者", element: "metal" },
-        { text: "點子與動能發動者", element: "fire" },
-        { text: "研究與情報搜集者", element: "water" },
-      ],
-    },
-    {
-      q: "當你壓力大時常見的狀態？",
-      a: [
-        { text: "肩頸緊、需要伸展舒展", element: "wood" },
-        { text: "吃東西尋求安定、容易水腫", element: "earth" },
-        { text: "牙一咬硬撐、容易僵硬", element: "metal" },
-        { text: "心悸冒汗、火氣上來", element: "fire" },
-        { text: "想躲起來安靜恢復", element: "water" },
-      ],
-    },
-    {
-      q: "你最看重的人際互動特質？",
-      a: [
-        { text: "坦誠交流、彼此成長", element: "wood" },
-        { text: "踏實可靠、溫暖照顧", element: "earth" },
-        { text: "守信守時、界線清楚", element: "metal" },
-        { text: "有趣有火花、會帶動氣氛", element: "fire" },
-        { text: "傾聽理解、情緒穩定", element: "water" },
-      ],
-    },
-    {
-      q: "面對新目標，你最在意先建立的『一件事』？",
-      a: [
-        { text: "方向與路線圖", element: "wood" },
-        { text: "生活作息與地基", element: "earth" },
-        { text: "制度規範與檢核點", element: "metal" },
-        { text: "熱情動能與動機", element: "fire" },
-        { text: "資訊蒐集與節奏安排", element: "water" },
-      ],
-    },
+    { q:"早起第一反應最像哪個你？", a:[
+      { text:"拉伸活動一下身體，讓筋骨醒來", element:"wood" },
+      { text:"來杯熱飲，讓身體暖起來", element:"earth" },
+      { text:"打開清單，照流程開始執行", element:"metal" },
+      { text:"來點音樂/咖啡，燃起精神", element:"fire" },
+      { text:"先緩緩觀察一下今天的節奏", element:"water" },
+    ]},
+    { q:"遇到突發狀況，你多半怎麼做？", a:[
+      { text:"立刻溝通整合資源，邊做邊調", element:"wood" },
+      { text:"先穩住情緒，按部就班處理", element:"earth" },
+      { text:"制定規範與步驟，要求到位", element:"metal" },
+      { text:"臨場反應快，直接上去帶頭衝", element:"fire" },
+      { text:"退一步收集資訊，再決定方向", element:"water" },
+    ]},
+    { q:"休假最想選哪一種行程？", a:[
+      { text:"登山健行、植物園、手作課", element:"wood" },
+      { text:"在家料理、烘焙、療癒身心", element:"earth" },
+      { text:"斷捨離、整理房間、逛書店", element:"metal" },
+      { text:"展演、音樂節、朋友聚會", element:"fire" },
+      { text:"海邊看海、泡湯、冥想放空", element:"water" },
+    ]},
+    { q:"被同事/朋友誤會時，你的直覺反應？", a:[
+      { text:"主動溝通釐清，找雙贏解法", element:"wood" },
+      { text:"先消化情緒，之後再說明", element:"earth" },
+      { text:"用事實與邏輯條列澄清", element:"metal" },
+      { text:"當場據理力爭，重視公平", element:"fire" },
+      { text:"先觀望形勢，等待時機說明", element:"water" },
+    ]},
+    { q:"最能代表你做事的節奏？", a:[
+      { text:"有彈性的推進，邊做邊長", element:"wood" },
+      { text:"穩、紮實、重耐力", element:"earth" },
+      { text:"精準、效率、重細節與標準", element:"metal" },
+      { text:"快、熱情、想看到成效", element:"fire" },
+      { text:"流動、柔軟、順勢而為", element:"water" },
+    ]},
+    { q:"你對『健康』最在意什麼？", a:[
+      { text:"身體流動性與柔韌度", element:"wood" },
+      { text:"腸胃吸收與睡眠品質", element:"earth" },
+      { text:"檢查數值與日常紀律", element:"metal" },
+      { text:"代謝力與能量感", element:"fire" },
+      { text:"情緒安穩與修復力", element:"water" },
+    ]},
+    { q:"團隊分工時你常被期待扮演？", a:[
+      { text:"策劃與資源整合者", element:"wood" },
+      { text:"後勤與穩定推進者", element:"earth" },
+      { text:"規格把關與品質管理者", element:"metal" },
+      { text:"點子與動能發動者", element:"fire" },
+      { text:"研究與情報搜集者", element:"water" },
+    ]},
+    { q:"當你壓力大時常見的狀態？", a:[
+      { text:"肩頸緊、需要伸展舒展", element:"wood" },
+      { text:"吃東西尋求安定、容易水腫", element:"earth" },
+      { text:"牙一咬硬撐、容易僵硬", element:"metal" },
+      { text:"心悸冒汗、火氣上來", element:"fire" },
+      { text:"想躲起來安靜恢復", element:"water" },
+    ]},
+    { q:"你最看重的人際互動特質？", a:[
+      { text:"坦誠交流、彼此成長", element:"wood" },
+      { text:"踏實可靠、溫暖照顧", element:"earth" },
+      { text:"守信守時、界線清楚", element:"metal" },
+      { text:"有趣有火花、會帶動氣氛", element:"fire" },
+      { text:"傾聽理解、情緒穩定", element:"water" },
+    ]},
+    { q:"面對新目標，你最在意先建立的『一件事』？", a:[
+      { text:"方向與路線圖", element:"wood" },
+      { text:"生活作息與地基", element:"earth" },
+      { text:"制度規範與檢核點", element:"metal" },
+      { text:"熱情動能與動機", element:"fire" },
+      { text:"資訊蒐集與節奏安排", element:"water" },
+    ]},
   ];
 
   const E_ORDER = ["wood","fire","earth","metal","water"];
@@ -501,7 +523,6 @@
     // 等待 Supabase SDK 載入
     const ok = await waitSupabaseReady(4000);
     if (!ok) {
-        // 如果 Supabase SDK 載入失敗，顯示錯誤並終止
         const errorBox = $('auth-error');
         if (errorBox) {
             errorBox.style.display = 'block';
@@ -520,10 +541,6 @@
         setTimeout(() => document.getElementById('quiz').scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
     });
 
-    // 認證邏輯
-    function normalizeEmail(raw){ return (raw ?? '').normalize('NFKC').replace(/[\u200B-\u200D\uFEFF]/g, '').trim(); }
-    function basicEmailOK(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
-
     async function signup(){
         hideErr();
         const email = normalizeEmail($('signup-email').value);
@@ -539,7 +556,8 @@
     async function login(){
         hideErr();
         const email = normalizeEmail($('signup-email').value);
-        const password = $('signup-password').value;
+        thePassword = $('signup-password').value;
+        const password = thePassword;
         if(!basicEmailOK(email)) return showErr('請輸入有效的 Email');
         if((password||'').length < 6) return showErr('密碼至少 6 碼');
         const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
@@ -554,7 +572,6 @@
 
     function renderSession(session){
         if(session){
-            // 已登入
             const navAuthBtn = document.querySelector('#nav-auth');
             if (navAuthBtn) {
                 navAuthBtn.textContent = session.user?.email || '已登入';
@@ -563,7 +580,6 @@
             const authSection = $('auth');
             if(authSection) authSection.style.display = 'none';
         }else{
-            // 未登入
             const navAuthBtn = document.querySelector('#nav-auth');
             if (navAuthBtn) {
                 navAuthBtn.textContent = '加入挑戰 / 登入';
@@ -593,6 +609,38 @@
     renderSession(session);
     supabaseClient.auth.onAuthStateChange(function(_evt, sess){ renderSession(sess); });
   });
+
+  /* === 漢堡抽屜導覽 JS === */
+  (function(){
+    var desktopNav = document.querySelector('.nav-links');
+    var mobileNav  = document.getElementById('m-nav');
+    var burger     = document.getElementById('m-burger');
+    var drawer     = document.getElementById('m-menu');
+    var backdrop   = document.getElementById('m-backdrop');
+    var closeBtn   = document.getElementById('m-close');
+    if (!desktopNav || !mobileNav || !burger || !drawer || !backdrop || !closeBtn) return;
+
+    // 複製桌面導覽內容到行動抽屜
+    mobileNav.innerHTML = desktopNav.innerHTML;
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      backdrop.hidden = false;
+      burger.setAttribute('aria-expanded','true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      backdrop.hidden = true;
+      burger.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
+    }
+    burger.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeDrawer(); });
+    mobileNav.addEventListener('click', function(e){ if (e.target.tagName === 'A') closeDrawer(); });
+  })();
 </script>
 
 </body>
