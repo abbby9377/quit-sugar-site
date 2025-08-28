@@ -13,12 +13,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
 
   <style>
-
-
-
-
-/* === Responsive 主導覽（無須改 HTML） === */
-.nav { flex-wrap: wrap; }                    /* 讓導覽在窄螢幕可自動換行 */
+/* === 你原本的「Responsive 主導覽」設定（保留） === */
+.nav { flex-wrap: wrap; }
 .nav-links {
   display: flex;
   align-items: center;
@@ -27,240 +23,243 @@
   max-width: 100%;
 }
 .nav-links a,
-.nav-links .btn {                            /* 字級隨寬度自動縮放 */
+.nav-links .btn {
   font-size: clamp(13px, 3.4vw, 16px);
 }
-
-/* 手機寬度優化 */
 @media (max-width: 720px){
   .brand .logo{ width:36px; height:36px; border-radius:12px; }
   .brand .title{ font-size:18px; }
-
-  /* 導覽放到下一行，允許橫向滑動避免擠壓 */
   .nav-links{
     gap:10px;
     flex: 1 1 100%;
-    order: 2;                  /* 導覽列排在品牌區塊下方 */
+    order: 2;
     overflow-x: auto;
     white-space: nowrap;
     padding-bottom: 6px;
     margin-top: 6px;
   }
-
-  /* 普通連結增加圓角膠囊外觀，點擊目標更大 */
   .nav-links a{
     padding: 6px 10px;
     border: 1px solid var(--line);
     border-radius: 999px;
     background:#fff;
   }
-
-  /* 主要 CTA 縮小內距，仍保有辨識度 */
   .nav-links .btn{
     padding: 8px 12px;
   }
 }
 
+/* === 額外新增：漢堡鈕＋抽屜導覽樣式 === */
+.burger{
+  display:none; width:40px; height:40px; border:1px solid #e5e7eb;
+  border-radius:10px; background:#fff; cursor:pointer;
+  align-items:center; justify-content:center;
+}
+.burger span{display:block;width:20px;height:2px;background:#0b1220;margin:3px 0;border-radius:2px}
+.mobile-drawer{
+  position:fixed; inset:0 auto 0 0; width:86vw; max-width:320px; background:#fff;
+  border-right:1px solid #e5e7eb; box-shadow:8px 0 30px rgba(15,23,42,.18);
+  transform:translateX(-100%); transition:transform .25s ease; z-index:60;
+  display:flex; flex-direction:column;
+}
+.mobile-drawer.open{ transform:none; }
+.m-head{display:flex; justify-content:space-between; align-items:center; padding:14px; border-bottom:1px solid #e5e7eb}
+.m-brand{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#f472b6,#ec4899); color:#fff; font-weight:900}
+.m-close{border:none;background:#fff;width:36px;height:36px;border-radius:10px;cursor:pointer}
+.m-links{display:flex; flex-direction:column; gap:8px; padding:14px}
+.m-links a{display:block; padding:12px 12px; border:1px solid #e5e7eb; border-radius:12px; background:#fff; color:#0b1220; text-decoration:none}
+.m-links a.active{border-color:#d946ef;background:#fdf4ff}
+.m-links .btn{justify-content:center}
+.backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.38); z-index:55; }
+.backdrop[hidden]{ display:none }
+@media (max-width: 860px){
+  .burger{ display:inline-flex; }
+  .nav .nav-links{ display:none; } /* 手機以抽屜為主，隱藏桌機導覽 */
+}
 
+/* === 你原本的主題色與元件樣式（保留） === */
+:root{
+  --bg:#ffffff; --panel:#ffffff; --ink:#0b1220; --muted:#475569; --line:#e5e7eb;
+  --brand:#ec4899; --brand-2:#f472b6; --brand-3:#fb7185;
+  --accent:#fdf2f8; --promo:#fff1f5; --ok:#16a34a; --danger:#ef4444;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+img{max-width:100%;display:block}
+a{color:#2563eb;text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
 
+/* 促銷條 */
+.promo{background:var(--promo);border-bottom:1px solid var(--line);text-align:center;padding:10px 12px;color:#7a294a;font-weight:700}
+.promo .btn{margin-left:10px}
+.promo .count{font-weight:800;margin-left:8px;color:#be185d}
 
+/* Header */
+header.site{position:sticky;top:0;background:#fff;z-index:20;border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--brand-2),var(--brand));display:grid;place-items:center;color:#fff;font-weight:900}
+.title{margin:0;font-size:22px;letter-spacing:.3px}
+.nav-links{display:flex;gap:16px;align-items:center}
+.nav-links a.active{font-weight:800;color:#1d4ed8}
 
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:12px 16px;border-radius:999px;background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap}
+.btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:800}
+.btn.ghost{background:transparent}
+.btn.danger{background:linear-gradient(135deg,#ef4444,#b91c1c);border:none;color:#fff}
+.btn[disabled]{opacity:.6;cursor:not-allowed}
 
-  :root{
-    --bg:#ffffff; --panel:#ffffff; --ink:#0b1220; --muted:#475569; --line:#e5e7eb;
-    --brand:#ec4899; --brand-2:#f472b6; --brand-3:#fb7185;
-    --accent:#fdf2f8; --promo:#fff1f5; --ok:#16a34a; --danger:#ef4444;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;background:var(--bg);color:var(--ink);
-    font-family:'Noto Sans TC',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-  }
-  img{max-width:100%;display:block}
-  a{color:#2563eb;text-decoration:none}
-  a:hover{text-decoration:underline}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
+/* Hero */
+.hero{background:linear-gradient(180deg,#fff,#fff 34%,#fdf2f8 34%,#fdf2f8);border-bottom:1px solid var(--line)}
+.hero-inner{display:grid;gap:26px;align-items:center;padding:34px 0}
+.eyebrow{display:inline-block;color:#a21caf;background:#fce7f3;border:1px solid #fbcfe8;padding:4px 10px;border-radius:999px;font-weight:700;font-size:12px;margin-bottom:8px}
+.hero h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:34px;line-height:1.25;margin:0 0 10px;letter-spacing:.2px}
+.hero p{color:#475569;margin:0 0 16px;max-width:60ch}
+.hero-media{justify-self:end}
+.hero-media img{width:min(260px,100%);height:auto;border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(236,72,153,.15)}
+.subnav{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff}
+.chip a{color:#334155;text-decoration:none}
 
-  /* 促銷條 */
-  .promo{background:var(--promo);border-bottom:1px solid var(--line);text-align:center;padding:10px 12px;color:#7a294a;font-weight:700}
-  .promo .btn{margin-left:10px}
-  .promo .count{font-weight:800;margin-left:8px;color:#be185d}
+/* Features */
+.section-title{font-size:18px;margin:22px 0 10px}
+.features{display:grid;gap:14px;}
+.feature{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+.feature .feat-photo{width:100%;height:140px;border-radius:12px;object-fit:cover;border:1px solid var(--line)}
+.feature h4{margin:8px 0 6px;font-size:15px}
+.icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;margin-top:6px;background:linear-gradient(135deg,#fde68a,#fca5a5)}
 
-  /* Header */
-  header.site{position:sticky;top:0;background:#fff;z-index:20;border-bottom:1px solid var(--line)}
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
-  .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--brand-2),var(--brand));display:grid;place-items:center;color:#fff;font-weight:900}
-  .title{margin:0;font-size:22px;letter-spacing:.3px}
-  .nav-links{display:flex;gap:16px;align-items:center}
-  .nav-links a.active{font-weight:800;color:#1d4ed8}
+/* Steps */
+.steps{display:grid;gap:12px;margin:2px 0 20px;}
+.step{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:12px}
+.step .thumb{width:100%;height:180px;border-radius:12px;object-fit:cover;border:1px solid var(--line)}
+.step .num{font-weight:800;color:var(--brand)}
 
-  /* Buttons */
-  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:12px 16px;border-radius:999px;background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap}
-  .btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:800}
-  .btn.ghost{background:transparent}
-  .btn.danger{background:linear-gradient(135deg,#ef4444,#b91c1c);border:none;color:#fff}
-  .btn[disabled]{opacity:.6;cursor:not-allowed}
+/* Carousel */
+.carousel{position:relative;margin:2px 0 18px}
+.car-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
+.car-track::-webkit-scrollbar{height:8px}
+.car-track::-webkit-scrollbar-thumb{background:#e5e7eb;border-radius:999px}
+.recipe.cardish{scroll-snap-align:center;min-width:88%;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+.photo{width:100%;height:160px;border-radius:12px;object-fit:cover;margin-bottom:10px;border:1px solid var(--line)}
+.car-btn{position:absolute;top:38%;transform:translateY(-50%);border:none;width:42px;height:42px;border-radius:999px;background:#fff;box-shadow:0 6px 16px rgba(15,23,42,.08);cursor:pointer;z-index:2}
+.car-btn.prev{left:-10px}.car-btn.next{right:-10px}
 
-  /* Hero */
-  .hero{background:linear-gradient(180deg,#fff,#fff 34%,#fdf2f8 34%,#fdf2f8);border-bottom:1px solid var(--line)}
-  .hero-inner{display:grid;gap:26px;align-items:center;padding:34px 0}
-  .eyebrow{display:inline-block;color:#a21caf;background:#fce7f3;border:1px solid #fbcfe8;padding:4px 10px;border-radius:999px;font-weight:700;font-size:12px;margin-bottom:8px}
-  .hero h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:34px;line-height:1.25;margin:0 0 10px;letter-spacing:.2px}
-  .hero p{color:#475569;margin:0 0 16px;max-width:60ch}
-  .hero-media{justify-self:end}
-  .hero-media img{width:min(260px,100%);height:auto;border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(236,72,153,.15)}
-  .subnav{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
-  .chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff}
-  .chip a{color:#334155;text-decoration:none}
+/* Bundle CTA */
+.bundle{position:relative;display:grid;gap:10px;align-items:center;
+        border:1px solid var(--line);border-radius:20px;padding:18px;margin:14px 0 18px;
+        background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff)}
+.bundle .title{font-size:20px;font-weight:800;color:#0f172a;margin:0}
+.bundle .desc{color:#64748b;margin:0}
+.bundle .actions{display:flex;gap:10px;flex-wrap:wrap}
+.bundle .badge{position:absolute;right:12px;top:-10px;background:#fff;border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:12px;color:#0f172a;box-shadow:0 6px 16px rgba(15,23,42,.08)}
+.bundle .mini{display:flex;gap:8px;align-items:center}
+.bundle .mini img{width:44px;height:60px;border-radius:8px;border:1px solid var(--line);object-fit:cover;box-shadow:0 4px 10px rgba(15,23,42,.06)}
 
-  /* Features */
-  .section-title{font-size:18px;margin:22px 0 10px}
-  .features{display:grid;gap:14px;}
-  .feature{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
-  .feature .feat-photo{width:100%;height:140px;border-radius:12px;object-fit:cover;border:1px solid var(--line)}
-  .feature h4{margin:8px 0 6px;font-size:15px}
-  .icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;margin-top:6px;background:linear-gradient(135deg,#fde68a,#fca5a5)}
+/* 推薦電子書 */
+.recs{margin:10px auto 24px}
+.recs .grid{display:grid;gap:14px;}
+.poster{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:0 6px 20px rgba(236,72,153,.08);text-align:center}
+.poster img{width:100%;border-radius:12px;border:1px solid var(--line)}
+.poster .meta{font-size:12px;color:#64748b;margin-top:6px}
+.poster .cta{margin-top:8px}
+.poster .cta .btn{width:100%;justify-content:center}
 
-  /* Steps */
-  .steps{display:grid;gap:12px;margin:2px 0 20px;}
-  .step{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:12px}
-  .step .thumb{width:100%;height:180px;border-radius:12px;object-fit:cover;border:1px solid var(--line)}
-  .step .num{font-weight:800;color:var(--brand)}
+/* Testimonials */
+.testimonials{display:grid;gap:12px;margin:4px 0 20px;}
+.quote{border-left:3px solid var(--brand);background:#fff;border:1px solid var(--line);padding:12px;border-radius:10px;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.quote img.avatar{width:44px;height:44px;border-radius:999px;object-fit:cover;border:1px solid var(--line)}
+.quote footer{margin-top:4px;color:#64748b}
 
-  /* Carousel */
-  .carousel{position:relative;margin:2px 0 18px}
-  .car-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
-  .car-track::-webkit-scrollbar{height:8px}
-  .car-track::-webkit-scrollbar-thumb{background:#e5e7eb;border-radius:999px}
-  .recipe.cardish{scroll-snap-align:center;min-width:88%;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
-  .photo{width:100%;height:160px;border-radius:12px;object-fit:cover;margin-bottom:10px;border:1px solid var(--line)}
-  .car-btn{position:absolute;top:38%;transform:translateY(-50%);border:none;width:42px;height:42px;border-radius:999px;background:#fff;box-shadow:0 6px 16px rgba(15,23,42,.08);cursor:pointer;z-index:2}
-  .car-btn.prev{left:-10px}.car-btn.next{right:-10px}
+/* FAQ */
+details.faq{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+details.faq + details.faq{margin-top:10px}
+details.faq summary{cursor:pointer;font-weight:600}
 
-  /* Bundle CTA */
-  .bundle{position:relative;display:grid;gap:10px;align-items:center;
-          border:1px solid var(--line);border-radius:20px;padding:18px;margin:14px 0 18px;
-          background:linear-gradient(135deg,#fff1f2,#fdf2f8 40%,#eef2ff)}
-  .bundle .title{font-size:20px;font-weight:800;color:#0f172a;margin:0}
-  .bundle .desc{color:#64748b;margin:0}
-  .bundle .actions{display:flex;gap:10px;flex-wrap:wrap}
-  .bundle .badge{position:absolute;right:12px;top:-10px;background:#fff;border:1px solid var(--line);padding:6px 10px;border-radius:999px;font-size:12px;color:#0f172a;box-shadow:0 6px 16px rgba(15,23,42,.08)}
-  .bundle .mini{display:flex;gap:8px;align-items:center}
-  .bundle .mini img{width:44px;height:60px;border-radius:8px;border:1px solid var(--line);object-fit:cover;box-shadow:0 4px 10px rgba(15,23,42,.06)}
+/* Auth + Streaks + Todo */
+.grid-2{display:grid;gap:16px;}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(236,72,153,.08)}
+.kicker{display:inline-block;padding:4px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color: var(--brand);font-size:12px;font-weight:700}
+.row{display:grid;gap:10px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;border-radius:12px;color:var(--ink);font:inherit}
+.stat{display:flex;gap:14px;align-items:center}
+.stat .num{font-size:28px;font-weight:800}
+.muted{color:var(--muted)}
+.error{border-left:3px solid var(--danger);padding:10px 12px;background:#fff5f5;border-radius:12px}
 
-  /* 推薦電子書（四卡） */
-  .recs{margin:10px auto 24px}
-  .recs .grid{display:grid;gap:14px;}
-  .poster{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:0 6px 20px rgba(236,72,153,.08);text-align:center}
-  .poster img{width:100%;border-radius:12px;border:1px solid var(--line)}
-  .poster .meta{font-size:12px;color:#64748b;margin-top:6px}
-  .poster .cta{margin-top:8px}
-  .poster .cta .btn{width:100%;justify-content:center}
+/* 每週挑戰進度條 */
+.progress-wrap{margin-top:10px}
+.progress-bar{height:10px;background:#f1f5f9;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+.progress-bar span{display:block;height:100%;width:0%;background:linear-gradient(135deg,var(--brand-2),var(--brand-3))}
 
-  /* Testimonials */
-  .testimonials{display:grid;gap:12px;margin:4px 0 20px;}
-  .quote{border-left:3px solid var(--brand);background:#fff;border:1px solid var(--line);padding:12px;border-radius:10px;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
-  .quote img.avatar{width:44px;height:44px;border-radius:999px;object-fit:cover;border:1px solid var(--line)}
-  .quote footer{margin-top:4px;color:#64748b}
+/* 五行香水 */
+.perfume{margin:20px 0}
+.perf-grid{display:grid;gap:12px;}
+.perf-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}
+.perf-card .el{font-weight:800;margin-bottom:6px}
+.pill{display:inline-block;padding:4px 8px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;color:#0f172a;margin:2px}
 
-  /* FAQ */
-  details.faq{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
-  details.faq + details.faq{margin-top:10px}
-  details.faq summary{cursor:pointer;font-weight:600}
+/* 徽章 */
+.badges{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.badge{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 10px;background:#f8fafc;color:#64748b}
+.badge.unlocked{background:#ecfeff;border-color:#67e8f9;color:#0e7490;font-weight:700}
 
-  /* Auth + Streaks + Todo */
-  .grid-2{display:grid;gap:16px;}
-  .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(236,72,153,.08)}
-  .kicker{display:inline-block;padding:4px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);color: var(--brand);font-size:12px;font-weight:700}
-  .row{display:grid;gap:10px}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  input{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;border-radius:12px;color:var(--ink);font:inherit}
-  .stat{display:flex;gap:14px;align-items:center}
-  .stat .num{font-size:28px;font-weight:800}
-  .muted{color:var(--muted)}
-  .error{border-left:3px solid var(--danger);padding:10px 12px;background:#fff5f5;border-radius:12px}
+/* 每日驚喜卡 */
+.surprise{margin-top:14px;padding:14px;border:1px dashed #f9a8d4;border-radius:14px;background:#fff0f6}
+.surprise .title{font-weight:800;margin-bottom:6px}
 
-  /* 每週挑戰進度條 */
-  .progress-wrap{margin-top:10px}
-  .progress-bar{height:10px;background:#f1f5f9;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
-  .progress-bar span{display:block;height:100%;width:0%;background:linear-gradient(135deg,var(--brand-2),var(--brand-3))}
+/* 動畫減量偏好 */
+@media (prefers-reduced-motion: reduce){ .car-track{ scroll-behavior:auto; } }
 
-  /* 五行香水（產品卡） */
-  .perfume{margin:20px 0}
-  .perf-grid{display:grid;gap:12px;}
-  .perf-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}
-  .perf-card .el{font-weight:800;margin-bottom:6px}
-  .pill{display:inline-block;padding:4px 8px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;color:#0f172a;margin:2px}
+/* --- 你的 RWD 段落（保留，略微補強 Hero 圖） --- */
+.hero-inner{ grid-template-columns: 1fr; }
+.features{ grid-template-columns: 1fr; }
+.steps{ grid-template-columns: 1fr; }
+.perf-grid{ grid-template-columns: 1fr; }
+.bundle{ grid-template-columns: 1fr; }
+.testimonials{ grid-template-columns: 1fr; }
+.grid-2{ grid-template-columns: 1fr; }
+.recs .grid{ grid-template-columns: 1fr; }
+.carousel .recipe.cardish{ min-width: 88%; }
+.hero-media img { width: min(260px, 100%); }
 
-  /* 徽章（連勝） */
-  .badges{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
-  .badge{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 10px;background:#f8fafc;color:#64748b}
-  .badge.unlocked{background:#ecfeff;border-color:#67e8f9;color:#0e7490;font-weight:700}
-
-  /* 每日驚喜卡 */
-  .surprise{margin-top:14px;padding:14px;border:1px dashed #f9a8d4;border-radius:14px;background:#fff0f6}
-  .surprise .title{font-weight:800;margin-bottom:6px}
-
-  /* 動畫減量偏好 */
-  @media (prefers-reduced-motion: reduce){
-    .car-track{ scroll-behavior:auto; }
-  }
-
-  /* --- Responsive Adjustments --- */
-
-  /* Mobile First Defaults (already mostly set) */
-  .hero-inner{ grid-template-columns: 1fr; } /* Stack on mobile */
-  .features{ grid-template-columns: 1fr; } /* Single column on mobile */
-  .steps{ grid-template-columns: 1fr; } /* Single column on mobile */
-  .perf-grid{ grid-template-columns: 1fr; } /* Single column on mobile */
-  .bundle{ grid-template-columns: 1fr; } /* Stack on mobile */
-  .testimonials{ grid-template-columns: 1fr; } /* Single column on mobile */
-  .grid-2{ grid-template-columns: 1fr; } /* Single column on mobile */
-  .recs .grid{ grid-template-columns: 1fr; } /* Single column on mobile */
-  .carousel .recipe.cardish{ min-width: 88%; } /* Wider cards on smaller screens */
-  .hero-media img { width: min(260px, 100%); } /* Half size for Hero image on mobile */
-
-
-  /* Small devices (phones, 640px and up) */
-  @media (min-width: 640px) {
-    .features{ grid-template-columns: repeat(2, 1fr); } /* Two columns for features */
-    .perf-grid{ grid-template-columns: repeat(2, 1fr); } /* Two columns for perfume cards */
-    .recs .grid{ grid-template-columns: repeat(2, 1fr); } /* Two columns for ebook posters */
-    .carousel .recipe.cardish{ min-width: 48%; } /* Adjust carousel card width */
-    .hero-media img { width: min(320px, 100%); } /* Slightly larger for small tablets */
-  }
-
-  /* Medium devices (tablets, 768px and up) */
-  @media (min-width: 768px) {
-    .hero-inner{ grid-template-columns: 1.1fr 1fr; } /* Side-by-side for hero */
-    .steps{ grid-template-columns: repeat(2, 1fr); } /* Two columns for steps */
-    .carousel .recipe.cardish{ min-width: 42%; } /* Adjust carousel card width */
-    .hero-media img { width: min(400px, 100%); } /* Larger for tablets */
-  }
-
-  /* Large devices (desktops, 860px and up - original breakpoints) */
-  @media(min-width:860px){
-    .features{grid-template-columns:repeat(4,1fr)} /* Four columns for features */
-    .testimonials{grid-template-columns:repeat(2,1fr)} /* Two columns for testimonials */
-    .bundle{grid-template-columns:1fr auto} /* Side-by-side for bundle */
-    .carousel .recipe.cardish{min-width:42%} /* Original carousel width */
-    .hero-media img { width: min(520px, 100%); } /* Original size for desktops */
-  }
-
-  /* Larger devices (desktops, 900px and up - original breakpoints) */
-  @media(min-width:900px){
-    .steps{grid-template-columns:repeat(3,1fr)} /* Three columns for steps */
-    .perf-grid{grid-template-columns:repeat(5,1fr)} /* Five columns for perfume cards */
-    .recs .grid{grid-template-columns:repeat(4,1fr)} /* Four columns for ebook posters */
-  }
-
-  /* Extra large devices (desktops, 960px and up - original breakpoints) */
-  @media(min-width:960px){
-    .grid-2{grid-template-columns:1.1fr 1fr} /* Two columns for auth/todo */
-  }
+@media (min-width: 640px) {
+  .features{ grid-template-columns: repeat(2, 1fr); }
+  .perf-grid{ grid-template-columns: repeat(2, 1fr); }
+  .recs .grid{ grid-template-columns: repeat(2, 1fr); }
+  .carousel .recipe.cardish{ min-width: 48%; }
+  .hero-media img { width: min(320px, 100%); }
+}
+@media (min-width: 768px) {
+  .hero-inner{ grid-template-columns: 1.1fr 1fr; }
+  .steps{ grid-template-columns: repeat(2, 1fr); }
+  .carousel .recipe.cardish{ min-width: 42%; }
+  .hero-media img { width: min(400px, 100%); }
+}
+@media(min-width:860px){
+  .features{grid-template-columns:repeat(4,1fr)}
+  .testimonials{grid-template-columns:repeat(2,1fr)}
+  .bundle{grid-template-columns:1fr auto}
+  .carousel .recipe.cardish{min-width:42%}
+  .hero-media img { width: min(520px, 100%); }
+}
+@media(min-width:900px){
+  .steps{grid-template-columns:repeat(3,1fr)}
+  .perf-grid{grid-template-columns:repeat(5,1fr)}
+  .recs .grid{grid-template-columns:repeat(4,1fr)}
+}
+@media(min-width:960px){
+  .grid-2{grid-template-columns:1.1fr 1fr}
+}
   </style>
 
   <!-- 全域錯誤顯示 -->
@@ -305,6 +304,11 @@
   <!-- Header -->
   <header class="site" role="banner">
     <div class="wrap nav">
+      <!-- 新增：行動版漢堡鈕 -->
+      <button id="m-burger" class="burger" aria-label="開啟導覽" aria-controls="m-menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
       <div class="brand">
         <div class="logo" aria-hidden="true">QS</div>
         <div>
@@ -321,6 +325,16 @@
       </nav>
     </div>
   </header>
+
+  <!-- 新增：Mobile 抽屜導覽與遮罩（放在 header 後） -->
+  <aside id="m-menu" class="mobile-drawer" aria-hidden="true">
+    <header class="m-head">
+      <div class="m-brand">QS</div>
+      <button id="m-close" class="m-close" aria-label="關閉導覽">✕</button>
+    </header>
+    <nav id="m-nav" class="m-links" aria-label="行動版導覽"></nav>
+  </aside>
+  <div id="m-backdrop" class="backdrop" hidden></div>
 
   <!-- Hero -->
   <section class="hero">
@@ -345,20 +359,17 @@
         </div>
       </div>
 
-
-     <div class="hero-media" aria-hidden="true">
-  <picture>
-    <source srcset="./assets/feature-mind-body.webp" type="image/webp">
-    <img
-      src="./assets/feature-mind-body.jpg"
-      alt="在瑜伽墊上冥想的女性，展現專注與身心平衡"
-      fetchpriority="high"
-      style="max-width:300px;width:70%;height:auto;"
-    >
-  </picture>
-</div>
-
-
+      <div class="hero-media" aria-hidden="true">
+        <picture>
+          <source srcset="./assets/feature-mind-body.webp" type="image/webp">
+          <img
+            src="./assets/feature-mind-body.jpg"
+            alt="在瑜伽墊上冥想的女性，展現專注與身心平衡"
+            fetchpriority="high"
+            style="max-width:300px;width:70%;height:auto;"
+          >
+        </picture>
+      </div>
     </div>
   </section>
 
@@ -409,33 +420,17 @@
       </div>
     </div>
 
-    <!-- 五行香水（僅展示，已移除候補名單表單） -->
+    <!-- 五行香水（僅展示） -->
     <section id="perfume" class="perfume">
       <h3 class="section-title">五行香水（Beta）</h3>
       <p class="muted">用五行找到你的專屬香：先做 <a href="./element-quiz.html">60 秒測驗</a>，再選主/副元素。</p>
       <div class="perf-grid">
-        <div class="perf-card">
-          <div class="el">木｜清新草木</div>
-          <div><span class="pill">綠意</span><span class="pill">草本</span><span class="pill">晨光</span></div>
-        </div>
-        <div class="perf-card">
-          <div class="el">火｜柑橘辛香</div>
-          <div><span class="pill">柑橘</span><span class="pill">辛香</span><span class="pill">活力</span></div>
-        </div>
-        <div class="perf-card">
-          <div class="el">土｜香草暖調</div>
-          <div><span class="pill">香草</span><span class="pill">安定</span><span class="pill">奶香</span></div>
-        </div>
-        <div class="perf-card">
-          <div class="el">金｜清透花香</div>
-          <div><span class="pill">花香</span><span class="pill">俐落</span><span class="pill">通透</span></div>
-        </div>
-        <div class="perf-card">
-          <div class="el">水｜海鹽麝香</div>
-          <div><span class="pill">海鹽</span><span class="pill">放鬆</span><span class="pill">白麝香</span></div>
-        </div>
+        <div class="perf-card"><div class="el">木｜清新草木</div><div><span class="pill">綠意</span><span class="pill">草本</span><span class="pill">晨光</span></div></div>
+        <div class="perf-card"><div class="el">火｜柑橘辛香</div><div><span class="pill">柑橘</span><span class="pill">辛香</span><span class="pill">活力</span></div></div>
+        <div class="perf-card"><div class="el">土｜香草暖調</div><div><span class="pill">香草</span><span class="pill">安定</span><span class="pill">奶香</span></div></div>
+        <div class="perf-card"><div class="el">金｜清透花香</div><div><span class="pill">花香</span><span class="pill">俐落</span><span class="pill">通透</span></div></div>
+        <div class="perf-card"><div class="el">水｜海鹽麝香</div><div><span class="pill">海鹽</span><span class="pill">放鬆</span><span class="pill">白麝香</span></div></div>
       </div>
-      <!-- 已刪除：候補名單表單 -->
     </section>
 
     <!-- 食譜靈感 -->
@@ -444,27 +439,19 @@
       <button class="car-btn prev" id="car-prev" aria-label="上一個">‹</button>
       <div class="car-track" id="car-track">
         <div class="recipe cardish">
-          <picture>
-            <source srcset="./assets/feature-tasty-low-sugar.webp" type="image/webp">
-            <img class="photo" src="./assets/feature-tasty-low-sugar.jpg" alt="低糖早餐碗：燕麥、堅果與水果" loading="lazy" decoding="async">
-          </picture>
+          <picture><source srcset="./assets/feature-tasty-low-sugar.webp" type="image/webp"><img class="photo" src="./assets/feature-tasty-low-sugar.jpg" alt="低糖早餐碗：燕麥、堅果與水果" loading="lazy" decoding="async"></picture>
           <strong>暖胃燕麥碗</strong>
           <p class="muted">甜味來自香蕉與肉桂，早餐也能輕甜。</p>
           <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
         </div>
         <div class="recipe cardish">
-          <picture>
-            <source srcset="./assets/feature-progress.webp" type="image/webp">
-            <img class="photo" src="./assets/feature-progress.jpg" alt="70% 黑巧克力搭配莓果" loading="lazy" decoding="async">
-          </picture>
+          <picture><source srcset="./assets/feature-progress.webp" type="image/webp"><img class="photo" src="./assets/feature-progress.jpg" alt="70% 黑巧克力搭配莓果" loading="lazy" decoding="async"></picture>
           <strong>70% 可可小點</strong>
           <p class="muted">想吃甜時的替代選擇，控制份量就不內疚。</p>
           <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
         </div>
         <div class="recipe cardish">
-          <picture>
-            <source srcset="./assets/feature-mind-body.webp" type="image/webp">
-            <img class="photo" src="./assets/feature-mind-body.jpg" alt="地中海鮪魚沙拉：高蛋白、高纖維" loading="lazy" decoding="async"></picture>
+          <picture><source srcset="./assets/feature-mind-body.webp" type="image/webp"><img class="photo" src="./assets/feature-mind-body.jpg" alt="地中海鮪魚沙拉：高蛋白、高纖維" loading="lazy" decoding="async"></picture>
           <strong>地中海鮪魚沙拉</strong>
           <p class="muted">高蛋白、高纖維，飽足感更久。</p>
           <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
@@ -539,10 +526,7 @@
       <section id="auth" class="card">
         <span class="kicker">個人化追蹤</span>
         <h2>註冊 / 登入</h2>
-
-<p class="muted" style="margin-top: -6px; margin-bottom: 12px">註冊即可免費獲取每週戒糖電子報。</p>
-
-
+        <p class="muted" style="margin-top:-6px;margin-bottom:12px">註冊即可免費獲取每週戒糖電子報。</p>
         <div class="row2">
           <input id="signup-email" placeholder="Email（建議手動輸入）" autocomplete="username" />
           <input id="signup-password" placeholder="密碼（至少 6 碼）" type="password" autocomplete="new-password" />
@@ -781,11 +765,11 @@
       const quickBtns = ['btn-i-did-good','btn-reset'];
       if(session){
         document.querySelector('.nav-links .btn.primary').textContent = session.user?.email || '已登入';
-        $('btn-logout').style.display = 'inline-flex';
+        document.getElementById('btn-logout').style.display = 'inline-flex';
         quickBtns.forEach(id=>$(id).disabled=false);
       }else{
         document.querySelector('.nav-links .btn.primary').textContent = '加入挑戰 / 登入';
-        $('btn-logout').style.display = 'none';
+        document.getElementById('btn-logout').style.display = 'none';
         $('current-streak').textContent = '—';
         $('max-streak').textContent = '—';
         quickBtns.forEach(id=>$(id).disabled=true);
@@ -859,8 +843,6 @@
       await refreshStreaks();
     }
 
-    // （已移除）候補名單表單相關 JS
-
     // 綁定
     $('btn-signup').addEventListener('click', signup);
     $('btn-login').addEventListener('click', login);
@@ -896,6 +878,38 @@
         fallback(img, '🖼️');
       }
     }, true);
+  })();
+
+  /* === 新增：漢堡抽屜導覽 JS === */
+  (function(){
+    var desktopNav = document.querySelector('.nav-links');
+    var mobileNav  = document.getElementById('m-nav');
+    var burger     = document.getElementById('m-burger');
+    var drawer     = document.getElementById('m-menu');
+    var backdrop   = document.getElementById('m-backdrop');
+    var closeBtn   = document.getElementById('m-close');
+    if (!desktopNav || !mobileNav || !burger || !drawer || !backdrop || !closeBtn) return;
+
+    // 複製桌面導覽內容到行動抽屜
+    mobileNav.innerHTML = desktopNav.innerHTML;
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      backdrop.hidden = false;
+      burger.setAttribute('aria-expanded','true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      backdrop.hidden = true;
+      burger.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
+    }
+    burger.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeDrawer(); });
+    mobileNav.addEventListener('click', function(e){ if (e.target.tagName === 'A') closeDrawer(); });
   })();
 </script>
 
