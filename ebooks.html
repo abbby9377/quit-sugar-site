@@ -61,7 +61,7 @@
   .hero h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:34px;line-height:1.25;margin:0 0 10px;letter-spacing:.2px}
   .hero p{color:#475569;margin:0 0 16px;max-width:60ch}
   .hero-media{justify-self:end}
-  .hero-media img{width:min(480px,100%);height:auto;border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(236,72,153,.15)}
+  .hero-media img{width:min(420px,100%);height:auto;border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(236,72,153,.15)}
 
   /* 工具列（過濾/排序） */
   .toolbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;margin:18px 0 14px}
@@ -168,15 +168,25 @@
         </div>
       </div>
 
-      <!-- 替換為你提供的封面 JPG（無 WebP 時不產生 <source>，避免 404） -->
-      <div class="hero-media" aria-hidden="true">
-        <img
-          src="./assets/ebook-sugar-reset-cover.jpg"
-          alt="8 週戒糖入門電子書的封面展示"
-          fetchpriority="high"
-          style="max-width:300px;width:70%;height:auto"
-        />
-      </div>
+   
+
+
+    <div class="hero-media" aria-hidden="true">
+  <picture>
+    <source srcset="./assets/ebook-sugar-reset-cover.jpg"  type="image/webp">
+    <img
+      src="./assets/ebook-sugar-reset-cover.jpg" 
+      alt="8 週戒糖入門電子書的封面展示" 
+      fetchpriority="high"
+      style="max-width:300px;width:70%;height:auto;"
+    >
+  </picture>
+</div>
+
+
+
+
+
     </div>
   </section>
 
@@ -281,21 +291,23 @@
   </div>
 
 <script>
-/* ========= 產品定義 ========= */
+/* ========= 產品定義（已將 8 週戒糖設為「限時優惠 NT$150 / 原價 NT$300」並加上 new+sale） ========= */
 const PRODUCTS = [
-  { id:'reset8w', name:'8 週戒糖入門（Complete Reset）', price:350, compareAt:440, tags:['beginner','new'],
-    // 只有 JPG 也沒問題，程式會自動判斷是否產生 <source>
+  { id:'reset8w', name:'8 週戒糖入門（Complete Reset）', price:150, compareAt:300, tags:['beginner','new','sale'],
     cover:{webp:null, jpg:'./assets/ebook-sugar-reset-cover.jpg', alt:'8 週戒糖入門電子書封面'},
     desc:'循序漸進完成 8 週減糖挑戰，穩定能量與心情的入門指南。',
     bullets:['每週行動清單與檢核表','無壓力的替代建議','餐盤與備餐模板'], sample:'#' },
+
   { id:'breakfast20', name:'低糖早餐 20 道', price:220, compareAt:null, tags:['breakfast'],
     cover:{webp:'./assets/poster-breakfast-20.webp', jpg:'./assets/poster-breakfast-20.jpg', alt:'低糖早餐 20 道電子書封面'},
     desc:'好吃、好做、好帶走的清爽早餐，讓一天從輕甜開始。',
     bullets:['5 分鐘完成的快手選項','高蛋白、高纖維搭配','含一週早餐範例菜單'], sample:'#' },
+
   { id:'eatingout', name:'外食少糖小抄', price:180, compareAt:null, tags:['eatingout'],
     cover:{webp:'./assets/poster-eating-out.webp', jpg:'./assets/poster-eating-out.jpg', alt:'外食少糖小抄電子書封面'},
     desc:'外食也可以少糖：點餐關鍵字、飲料替換與醬汁小技巧。',
     bullets:['各料理系點餐指南','飲料甜度換算與替代','便利商店友善清單'], sample:'#' },
+
   { id:'desserts15', name:'零糖甜點 15 道', price:250, compareAt:290, tags:['desserts','sale'],
     cover:{webp:'./assets/poster-desserts-15.webp', jpg:'./assets/poster-desserts-15.jpg', alt:'零糖甜點 15 道電子書封面'},
     desc:'滿足儀式感又無負擔的甜點，掌握控糖也保留快樂。',
@@ -319,22 +331,18 @@ const state = { filter:'all', sort:'rec', cart: loadCart(), coupon:null };
 function loadCart(){ try{ return JSON.parse(localStorage.getItem('qs.cart.v1')) || []; }catch{ return []; } }
 function saveCart(){ try{ localStorage.setItem('qs.cart.v1', JSON.stringify(state.cart)); }catch{} }
 
-/* ========= 渲染產品 ========= */
+/* ========= 渲染產品（容錯：只有 JPG 時不建立 <source>） ========= */
 function badgeSpan(cls, text){ const s = document.createElement('span'); s.className='badge '+(cls||''); s.textContent=text; return s; }
 function productCard(p){
   const card = document.createElement('div'); card.className='card product'; card.dataset.tags = p.tags.join(',');
   const pic = document.createElement('picture');
-  if (p.cover.webp) {                     // 只有有 webp 才加 <source>
-    const src = document.createElement('source');
-    src.srcset = p.cover.webp; src.type='image/webp';
-    pic.append(src);
-  }
+  if(p.cover.webp){ const src = document.createElement('source'); src.srcset = p.cover.webp; src.type='image/webp'; pic.append(src); }
   const img = document.createElement('img'); img.className='cover'; img.src = p.cover.jpg; img.alt = p.cover.alt;
   pic.append(img);
   const title = document.createElement('h4'); title.textContent = p.name;
   const desc = document.createElement('p'); desc.className='muted'; desc.textContent = p.desc;
   const badges = document.createElement('div'); badges.className='badges';
-  if(p.tags.includes('sale')) badges.append(badgeSpan('sale','特價'));
+  if(p.tags.includes('sale')) badges.append(badgeSpan('sale','限時優惠'));
   if(p.tags.includes('new')) badges.append(badgeSpan('new','新上架'));
   const price = document.createElement('div'); price.className='price';
   const now = document.createElement('div'); now.className='now'; now.textContent = money(p.price);
@@ -454,16 +462,13 @@ function openModal(id){
   const box = $('#modal'); box.classList.add('open'); box.setAttribute('aria-hidden','false');
   const coverWrap = $('#modal-cover'); coverWrap.innerHTML='';
   const pic = document.createElement('picture');
-  if (p.cover.webp) {
-    const s = document.createElement('source'); s.srcset = p.cover.webp; s.type='image/webp';
-    pic.append(s);
-  }
+  if(p.cover.webp){ const s = document.createElement('source'); s.srcset = p.cover.webp; s.type='image/webp'; pic.append(s); }
   const img = document.createElement('img'); img.src = p.cover.jpg; img.alt = p.cover.alt;
   pic.append(img); coverWrap.append(pic);
   $('#modal-title').textContent = p.name;
   $('#modal-desc').textContent = p.desc;
   const badges = $('#modal-badges'); badges.innerHTML='';
-  if(p.tags.includes('sale')) badges.append(badgeSpan('sale','特價'));
+  if(p.tags.includes('sale')) badges.append(badgeSpan('sale','限時優惠'));
   if(p.tags.includes('new')) badges.append(badgeSpan('new','新上架'));
   $('#modal-price').textContent = money(p.price);
   if(p.compareAt){ $('#modal-was').style.display='inline'; $('#modal-was').textContent = money(p.compareAt); } else { $('#modal-was').style.display='none'; }
