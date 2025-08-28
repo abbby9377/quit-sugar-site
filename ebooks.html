@@ -7,6 +7,7 @@
   <meta name="description" content="戒糖主題電子書商店：一次入手 8 週戒糖入門、低糖早餐、外食少糖、零糖甜點等實用指南。支援購物車與套組優惠，結帳導向 Google 表單收單。" />
   <meta name="theme-color" content="#f472b6" />
 
+  <!-- 字體（與首頁一致） -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
@@ -128,11 +129,13 @@
 </head>
 <body>
 
+  <!-- 促銷條 -->
   <div class="promo" role="region" aria-label="促銷訊息">
     8 週戒糖 Reset｜首購 5 折倒數 <span class="count" id="promo-count" aria-live="polite">00:00:00</span>
     <a class="btn" href="#bundle" aria-label="立即加入">立即加入</a>
   </div>
 
+  <!-- Header（Sticky，與首頁一致） -->
   <header class="site" role="banner">
     <div class="wrap nav">
       <div class="brand">
@@ -152,6 +155,7 @@
     </div>
   </header>
 
+  <!-- Hero -->
   <section class="hero">
     <div class="wrap hero-inner">
       <div>
@@ -163,20 +167,25 @@
           <a class="btn" href="#list">瀏覽所有電子書</a>
         </div>
       </div>
+
+      <!-- 替換為你提供的封面 JPG（無 WebP 時不產生 <source>，避免 404） -->
       <div class="hero-media" aria-hidden="true">
-        <picture>
-          <source srcset="./assets/poster-reset-8w.webp" type="image/webp">
-          <img src="./assets/poster-reset-8w.jpg" alt="8 週戒糖入門電子書的封面展示">
-        </picture>
+        <img
+          src="./assets/ebook-sugar-reset-cover.jpg"
+          alt="8 週戒糖入門電子書的封面展示"
+          fetchpriority="high"
+          style="max-width:300px;width:70%;height:auto"
+        />
       </div>
     </div>
   </section>
 
+  <!-- 套組橫幅 -->
   <section class="wrap">
     <div id="bundle" class="bundle">
       <div>
         <div class="mini">
-          <img src="./assets/poster-reset-8w.jpg" alt="8 週戒糖入門封面縮圖">
+          <img src="./assets/ebook-sugar-reset-cover.jpg" alt="8 週戒糖入門封面縮圖">
           <img src="./assets/poster-breakfast-20.jpg" alt="低糖早餐 20 道封面縮圖">
           <img src="./assets/poster-eating-out.jpg" alt="外食少糖小抄封面縮圖">
           <img src="./assets/poster-desserts-15.jpg" alt="零糖甜點 15 道封面縮圖">
@@ -191,6 +200,7 @@
     </div>
   </section>
 
+  <!-- 工具列 -->
   <section class="wrap">
     <div class="toolbar">
       <div class="chips" id="filters">
@@ -212,6 +222,7 @@
     </div>
   </section>
 
+  <!-- 商品清單 -->
   <section class="wrap">
     <div id="list" class="grid"></div>
   </section>
@@ -220,10 +231,12 @@
     <p>© 2025 Quit Sugar. 所有價格為新台幣（NT$），為數位商品。下單後你會收到電子郵件與下載連結。</p>
   </footer>
 
+  <!-- 浮動購物車按鈕 -->
   <div class="cart-toggle">
     <button id="btn-cart" class="btn primary">🛒 購物車（<span id="cart-count">0</span>）</button>
   </div>
 
+  <!-- 購物車抽屜 -->
   <aside id="drawer" class="drawer" aria-hidden="true">
     <header>
       <strong>購物車</strong>
@@ -245,6 +258,7 @@
     </footer>
   </aside>
 
+  <!-- 快速預覽 Modal -->
   <div id="modal" class="modal" aria-hidden="true">
     <button class="close" id="modal-close">✕</button>
     <div class="box">
@@ -270,7 +284,8 @@
 /* ========= 產品定義 ========= */
 const PRODUCTS = [
   { id:'reset8w', name:'8 週戒糖入門（Complete Reset）', price:350, compareAt:440, tags:['beginner','new'],
-    cover:{webp:'./assets/poster-reset-8w.webp', jpg:'./assets/poster-reset-8w.jpg', alt:'8 週戒糖入門電子書封面'},
+    // 只有 JPG 也沒問題，程式會自動判斷是否產生 <source>
+    cover:{webp:null, jpg:'./assets/ebook-sugar-reset-cover.jpg', alt:'8 週戒糖入門電子書封面'},
     desc:'循序漸進完成 8 週減糖挑戰，穩定能量與心情的入門指南。',
     bullets:['每週行動清單與檢核表','無壓力的替代建議','餐盤與備餐模板'], sample:'#' },
   { id:'breakfast20', name:'低糖早餐 20 道', price:220, compareAt:null, tags:['breakfast'],
@@ -309,9 +324,13 @@ function badgeSpan(cls, text){ const s = document.createElement('span'); s.class
 function productCard(p){
   const card = document.createElement('div'); card.className='card product'; card.dataset.tags = p.tags.join(',');
   const pic = document.createElement('picture');
-  const src = document.createElement('source'); src.srcset = p.cover.webp; src.type='image/webp';
+  if (p.cover.webp) {                     // 只有有 webp 才加 <source>
+    const src = document.createElement('source');
+    src.srcset = p.cover.webp; src.type='image/webp';
+    pic.append(src);
+  }
   const img = document.createElement('img'); img.className='cover'; img.src = p.cover.jpg; img.alt = p.cover.alt;
-  pic.append(src); pic.append(img);
+  pic.append(img);
   const title = document.createElement('h4'); title.textContent = p.name;
   const desc = document.createElement('p'); desc.className='muted'; desc.textContent = p.desc;
   const badges = document.createElement('div'); badges.className='badges';
@@ -435,9 +454,12 @@ function openModal(id){
   const box = $('#modal'); box.classList.add('open'); box.setAttribute('aria-hidden','false');
   const coverWrap = $('#modal-cover'); coverWrap.innerHTML='';
   const pic = document.createElement('picture');
-  const s = document.createElement('source'); s.srcset = p.cover.webp; s.type='image/webp';
+  if (p.cover.webp) {
+    const s = document.createElement('source'); s.srcset = p.cover.webp; s.type='image/webp';
+    pic.append(s);
+  }
   const img = document.createElement('img'); img.src = p.cover.jpg; img.alt = p.cover.alt;
-  pic.append(s,img); coverWrap.append(pic);
+  pic.append(img); coverWrap.append(pic);
   $('#modal-title').textContent = p.name;
   $('#modal-desc').textContent = p.desc;
   const badges = $('#modal-badges'); badges.innerHTML='';

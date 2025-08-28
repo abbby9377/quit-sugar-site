@@ -58,7 +58,7 @@
   .hero h1{font-family:"Noto Serif TC",serif;font-weight:700;font-size:34px;line-height:1.25;margin:0 0 10px;letter-spacing:.2px}
   .hero p{color:#475569;margin:0 0 16px;max-width:60ch}
   .hero-media{justify-self:end}
-  .hero-media img{width:min(520px,100%);height:auto;border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(236,72,153,.15)}
+  .hero-media img{width:min(260px,100%);height:auto;border-radius:24px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(236,72,153,.15)}
   .subnav{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
   .chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff}
   .chip a{color:#334155;text-decoration:none}
@@ -168,6 +168,7 @@
   .grid-2{ grid-template-columns: 1fr; } /* Single column on mobile */
   .recs .grid{ grid-template-columns: 1fr; } /* Single column on mobile */
   .carousel .recipe.cardish{ min-width: 88%; } /* Wider cards on smaller screens */
+  .hero-media img { width: min(260px, 100%); } /* Half size for Hero image on mobile */
 
 
   /* Small devices (phones, 640px and up) */
@@ -176,6 +177,7 @@
     .perf-grid{ grid-template-columns: repeat(2, 1fr); } /* Two columns for perfume cards */
     .recs .grid{ grid-template-columns: repeat(2, 1fr); } /* Two columns for ebook posters */
     .carousel .recipe.cardish{ min-width: 48%; } /* Adjust carousel card width */
+    .hero-media img { width: min(320px, 100%); } /* Slightly larger for small tablets */
   }
 
   /* Medium devices (tablets, 768px and up) */
@@ -183,6 +185,7 @@
     .hero-inner{ grid-template-columns: 1.1fr 1fr; } /* Side-by-side for hero */
     .steps{ grid-template-columns: repeat(2, 1fr); } /* Two columns for steps */
     .carousel .recipe.cardish{ min-width: 42%; } /* Adjust carousel card width */
+    .hero-media img { width: min(400px, 100%); } /* Larger for tablets */
   }
 
   /* Large devices (desktops, 860px and up - original breakpoints) */
@@ -191,6 +194,7 @@
     .testimonials{grid-template-columns:repeat(2,1fr)} /* Two columns for testimonials */
     .bundle{grid-template-columns:1fr auto} /* Side-by-side for bundle */
     .carousel .recipe.cardish{min-width:42%} /* Original carousel width */
+    .hero-media img { width: min(520px, 100%); } /* Original size for desktops */
   }
 
   /* Larger devices (desktops, 900px and up - original breakpoints) */
@@ -270,8 +274,8 @@
     <div class="wrap hero-inner">
       <div>
         <span class="eyebrow">從今天開始</span>
-        <h1>你的輕甜生活，<br/>從 1% 改變開始</h1>
-        <p>不必極端，循序漸進。給自己 8 週，換來更穩定的能量與好心情：每日 1 個小行動、追蹤連勝、每週微調。</p>
+        <h1>你的輕甜生活，從 1% 改變開始</h1>
+        <p>給自己 8 週，換來更穩定的能量與好心情：每日 1 個小行動、每週微調。</p>
         <div class="actions" style="display:flex;gap:10px;flex-wrap:wrap">
           <a class="btn primary" href="#auth">加入挑戰 / 登入</a>
           <a class="btn" href="./element-quiz.html">做 60 秒五行測驗</a>
@@ -287,12 +291,21 @@
           <span class="chip"><a href="#faq">FAQ</a></span>
         </div>
       </div>
-      <div class="hero-media" aria-hidden="true">
-        <picture>
-          <source srcset="./assets/feature-mind-body.webp" type="image/webp">
-          <img src="./assets/feature-mind-body.jpg" alt="在瑜伽墊上冥想的女性，展現專注與身心平衡" fetchpriority="high">
-        </picture>
-      </div>
+
+
+     <div class="hero-media" aria-hidden="true">
+  <picture>
+    <source srcset="./assets/feature-mind-body.webp" type="image/webp">
+    <img
+      src="./assets/feature-mind-body.jpg"
+      alt="在瑜伽墊上冥想的女性，展現專注與身心平衡"
+      fetchpriority="high"
+      style="max-width:300px;width:70%;height:auto;"
+    >
+  </picture>
+</div>
+
+
     </div>
   </section>
 
@@ -398,8 +411,7 @@
         <div class="recipe cardish">
           <picture>
             <source srcset="./assets/feature-mind-body.webp" type="image/webp">
-            <img class="photo" src="./assets/feature-mind-body.jpg" alt="地中海鮪魚沙拉：高蛋白、高纖維" loading="lazy" decoding="async">
-          </picture>
+            <img class="photo" src="./assets/feature-mind-body.jpg" alt="地中海鮪魚沙拉：高蛋白、高纖維" loading="lazy" decoding="async"></picture>
           <strong>地中海鮪魚沙拉</strong>
           <p class="muted">高蛋白、高纖維，飽足感更久。</p>
           <a class="btn" href="./analyzer.html">用分析器估卡路里</a>
