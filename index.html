@@ -13,6 +13,59 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
 
   <style>
+
+
+
+
+/* === Responsive 主導覽（無須改 HTML） === */
+.nav { flex-wrap: wrap; }                    /* 讓導覽在窄螢幕可自動換行 */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+.nav-links a,
+.nav-links .btn {                            /* 字級隨寬度自動縮放 */
+  font-size: clamp(13px, 3.4vw, 16px);
+}
+
+/* 手機寬度優化 */
+@media (max-width: 720px){
+  .brand .logo{ width:36px; height:36px; border-radius:12px; }
+  .brand .title{ font-size:18px; }
+
+  /* 導覽放到下一行，允許橫向滑動避免擠壓 */
+  .nav-links{
+    gap:10px;
+    flex: 1 1 100%;
+    order: 2;                  /* 導覽列排在品牌區塊下方 */
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 6px;
+    margin-top: 6px;
+  }
+
+  /* 普通連結增加圓角膠囊外觀，點擊目標更大 */
+  .nav-links a{
+    padding: 6px 10px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background:#fff;
+  }
+
+  /* 主要 CTA 縮小內距，仍保有辨識度 */
+  .nav-links .btn{
+    padding: 8px 12px;
+  }
+}
+
+
+
+
+
+
   :root{
     --bg:#ffffff; --panel:#ffffff; --ink:#0b1220; --muted:#475569; --line:#e5e7eb;
     --brand:#ec4899; --brand-2:#f472b6; --brand-3:#fb7185;
