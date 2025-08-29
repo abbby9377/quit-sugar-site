@@ -4,10 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>電子書商店｜Quit Sugar</title>
-  <meta name="description" content="戒糖主題電子書商店：一次入手 8 週戒糖入門、低糖早餐、外食少糖、零糖甜點等實用指南。支援購物車與套組優惠，結帳導向 Google 表單收單。" />
+  <meta name="description" content="戒糖主題電子書商店：一次入手 8 週戒糖入門，完整指南讓您無痛戒糖。結帳導向 Gumroad，輕鬆安全購買。" />
   <meta name="theme-color" content="#f472b6" />
 
-  <!-- 字體（與首頁一致） -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;800&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
@@ -29,6 +28,7 @@
   a{color:#2563eb;text-decoration:none}
   a:hover{text-decoration:underline}
   .wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
+  .muted{color:var(--muted)}
 
   /* 促銷條（與首頁一致） */
   .promo{
@@ -38,7 +38,7 @@
   .promo .btn{margin-left:10px}
   .promo .count{font-weight:800;margin-left:8px;color:#be185d}
 
-  /* Header（與首頁一致） */
+  /* Header（與首頁一致 + 顯眼漢堡） */
   header.site{position:sticky;top:0;background:#fff;z-index:20;border-bottom:1px solid var(--line)}
   .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
   .brand{display:flex;gap:12px;align-items:center}
@@ -49,10 +49,46 @@
 
   /* Buttons（與首頁一致） */
   .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
-       padding:12px 16px;border-radius:999px;background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap}
+        padding:12px 16px;border-radius:999px;background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap}
   .btn.primary{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff;border:none;font-weight:800}
   .btn.ghost{background:transparent}
   .btn[disabled]{opacity:.6;cursor:not-allowed}
+
+  /* === 顯眼的漢堡鈕 + 行動抽屜 === */
+  .burger{
+    display:none;
+    width:44px;height:44px;
+    border:1px solid #e5e7eb;border-radius:12px;background:#fff;
+    cursor:pointer;align-items:center;justify-content:center;
+    flex-direction:column;gap:5px;
+    box-shadow:0 6px 16px rgba(15,23,42,.10);
+  }
+  .burger .bar{display:block;width:22px;height:3px;background:#0b1220;border-radius:2px}
+  .burger .label{font-size:11px;font-weight:800;color:#0b1220;letter-spacing:.02em;line-height:1}
+  .mobile-drawer{
+    position:fixed;inset:0 auto 0 0;width:86vw;max-width:320px;background:#fff;
+    border-right:1px solid #e5e7eb;box-shadow:8px 0 30px rgba(15,23,42,.18);
+    transform:translateX(-100%);transition:transform .25s ease;z-index:60;
+    display:flex;flex-direction:column;
+  }
+  .mobile-drawer.open{transform:none}
+  .m-head{
+    display:flex;justify-content:space-between;align-items:center;padding:14px;
+    border-bottom:1px solid #e5e7eb;
+    background:linear-gradient(135deg,#f472b6,#ec4899);color:#fff;
+  }
+  .m-brand{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.2);color:#fff;font-weight:900}
+  .m-close{border:none;background:#fff;width:36px;height:36px;border-radius:10px;cursor:pointer}
+  .m-links{display:flex;flex-direction:column;gap:8px;padding:14px}
+  .m-links a{display:block;padding:14px 12px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;color:#0b1220;text-decoration:none;font-weight:700}
+  .m-links a.active{border-color:#d946ef;background:#fdf4ff}
+  .m-links .btn{justify-content:center}
+  .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:55}
+  .backdrop[hidden]{display:none}
+  @media (max-width:860px){
+    .burger{display:inline-flex}
+    .nav .nav-links{display:none}
+  }
 
   /* Hero（與首頁一致的版型/漸層） */
   .hero{background:linear-gradient(180deg,#fff,#fff 34%,#fdf2f8 34%,#fdf2f8);border-bottom:1px solid var(--line)}
@@ -96,23 +132,7 @@
   .bundle .mini{display:flex;gap:8px;align-items:center}
   .bundle .mini img{width:44px;height:60px;border-radius:8px;border:1px solid var(--line);object-fit:cover;box-shadow:0 4px 10px rgba(15,23,42,.06)}
   .bundle .badge{position:absolute;right:12px;top:-10px;background:#fff;border:1px solid var(--line);
-                 padding:6px 10px;border-radius:999px;font-size:12px;color:#0f172a;box-shadow:0 6px 16px rgba(15,23,42,.08)}
-
-  /* 浮動購物車按鈕與抽屜 */
-  .cart-toggle{position:fixed;right:16px;bottom:18px;z-index:40}
-  .drawer{position:fixed;right:0;top:0;height:100dvh;width:380px;max-width:92vw;background:#fff;border-left:1px solid var(--line);
-          box-shadow:-12px 0 30px rgba(15,23,42,.12);transform:translateX(100%);transition:transform .28s ease;z-index:50;display:flex;flex-direction:column}
-  .drawer.open{transform:none}
-  .drawer header{display:flex;justify-content:space-between;align-items:center;padding:14px;border-bottom:1px solid var(--line)}
-  .drawer .list{flex:1;overflow:auto;padding:10px}
-  .item{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:8px;background:#fff;margin-bottom:10px}
-  .item img{width:56px;height:76px;border-radius:8px;border:1px solid var(--line);object-fit:cover}
-  .qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;overflow:hidden}
-  .qty button{border:none;background:#fff;width:28px;height:28px;cursor:pointer}
-  .qty span{display:inline-block;min-width:24px;text-align:center}
-  .drawer footer{padding:14px;border-top:1px solid var(--line)}
-  .row{display:flex;justify-content:space-between;align-items:center;margin:6px 0}
-  .total{font-weight:800;font-size:20px}
+                  padding:6px 10px;border-radius:999px;font-size:12px;color:#0f172a;box-shadow:0 6px 16px rgba(15,23,42,.08)}
 
   /* 快速預覽 Modal */
   .modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(15,23,42,.35);z-index:60;padding:20px}
@@ -129,15 +149,20 @@
 </head>
 <body>
 
-  <!-- 促銷條 -->
   <div class="promo" role="region" aria-label="促銷訊息">
     8 週戒糖 Reset｜首購 5 折倒數 <span class="count" id="promo-count" aria-live="polite">00:00:00</span>
-    <a class="btn" href="#bundle" aria-label="立即加入">立即加入</a>
+    <a class="btn" href="https://abbbydreams.gumroad.com/l/susyh" target="_blank" rel="noopener">立即入手</a>
   </div>
 
-  <!-- Header（Sticky，與首頁一致） -->
   <header class="site" role="banner">
     <div class="wrap nav">
+      <button id="m-burger" class="burger" aria-label="開啟導覽" aria-controls="m-menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="label">選單</span>
+      </button>
+
       <div class="brand">
         <div class="logo" aria-hidden="true">QS</div>
         <div>
@@ -155,42 +180,40 @@
     </div>
   </header>
 
-  <!-- Hero -->
+  <aside id="m-menu" class="mobile-drawer" aria-hidden="true">
+    <header class="m-head">
+      <div class="m-brand">QS</div>
+      <button id="m-close" class="m-close" aria-label="關閉導覽">✕</button>
+    </header>
+    <nav id="m-nav" class="m-links" aria-label="行動版導覽"></nav>
+  </aside>
+  <div id="m-backdrop" class="backdrop" hidden></div>
+
   <section class="hero">
     <div class="wrap hero-inner">
       <div>
         <span class="eyebrow">商店</span>
         <h1>電子書商店</h1>
-        <p>從入門到進階，將「少糖」落地到你的每一天。單本選購或一次入手套組更划算，結帳會帶到 Google 表單完成下單。</p>
+        <p>從入門到進階，將「少糖」落地到你的每一天。單本選購或一次入手套組更划算，結帳會帶到 Gumroad 完成下單。</p>
         <div class="actions" style="display:flex;gap:10px;flex-wrap:wrap">
-          <a class="btn primary" href="#bundle">查看套組優惠</a>
+          <a class="btn primary" href="https://abbbydreams.gumroad.com/l/susyh" target="_blank" rel="noopener">立即入手</a>
           <a class="btn" href="#list">瀏覽所有電子書</a>
         </div>
       </div>
 
-   
-
-
-    <div class="hero-media" aria-hidden="true">
-  <picture>
-    <source srcset="./assets/ebook-sugar-reset-cover.jpg"  type="image/webp">
-    <img
-      src="./assets/ebook-sugar-reset-cover.jpg" 
-      alt="8 週戒糖入門電子書的封面展示" 
-      fetchpriority="high"
-      style="max-width:300px;width:70%;height:auto;"
-    >
-  </picture>
-</div>
-
-
-
-
-
+      <div class="hero-media" aria-hidden="true">
+        <picture>
+          <img
+            src="./assets/ebook-sugar-reset-cover.jpg"
+            alt="8 週戒糖入門電子書的封面展示"
+            fetchpriority="high"
+            style="max-width:300px;width:70%;height:auto;"
+          >
+        </picture>
+      </div>
     </div>
   </section>
 
-  <!-- 套組橫幅 -->
   <section class="wrap">
     <div id="bundle" class="bundle">
       <div>
@@ -203,14 +226,13 @@
         <h3 class="title">Ebook Bundle｜一次入手最實用的 4 本</h3>
         <p class="desc">「入門 × 早餐 × 外食 × 甜點」完整打包，更容易從生活各面向實踐少糖。</p>
         <div class="actions" style="display:flex;gap:10px;flex-wrap:wrap">
-          <button class="btn primary" id="add-bundle">加入購物車</button>
-          <span class="badge">🎁 套組價 <span id="bundle-price">—</span>（省 <span id="bundle-save">—</span>）</span>
+          <a class="btn primary" href="https://abbbydreams.gumroad.com/l/susyh" target="_blank" rel="noopener">前往購買</a>
+          <span class="badge">🎁 購買單本，輕鬆開始戒糖</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 工具列 -->
   <section class="wrap">
     <div class="toolbar">
       <div class="chips" id="filters">
@@ -232,7 +254,6 @@
     </div>
   </section>
 
-  <!-- 商品清單 -->
   <section class="wrap">
     <div id="list" class="grid"></div>
   </section>
@@ -241,34 +262,6 @@
     <p>© 2025 Quit Sugar. 所有價格為新台幣（NT$），為數位商品。下單後你會收到電子郵件與下載連結。</p>
   </footer>
 
-  <!-- 浮動購物車按鈕 -->
-  <div class="cart-toggle">
-    <button id="btn-cart" class="btn primary">🛒 購物車（<span id="cart-count">0</span>）</button>
-  </div>
-
-  <!-- 購物車抽屜 -->
-  <aside id="drawer" class="drawer" aria-hidden="true">
-    <header>
-      <strong>購物車</strong>
-      <button id="cart-close" class="btn ghost">關閉</button>
-    </header>
-    <div class="list" id="cart-list"></div>
-    <footer>
-      <div class="row"><span class="muted">小計</span><span id="sum-sub">NT$0</span></div>
-      <div class="row"><span class="muted">折扣</span><span id="sum-off">- NT$0</span></div>
-      <div class="row total"><span>合計</span><span id="sum-total">NT$0</span></div>
-      <div class="row" style="margin-top:10px">
-        <input id="coupon" placeholder="輸入折扣碼（例如：WELCOME10）" style="flex:1;border:1px solid var(--line);border-radius:12px;padding:10px 12px"/>
-        <button id="apply-coupon" class="btn">套用</button>
-      </div>
-      <div class="row" style="margin-top:10px">
-        <button id="checkout" class="btn primary" style="width:100%;justify-content:center">前往結帳（Google 表單）</button>
-      </div>
-      <small class="muted">提示：結帳會開啟 Google 表單，提交後我們將人工寄送下載連結。</small>
-    </footer>
-  </aside>
-
-  <!-- 快速預覽 Modal -->
   <div id="modal" class="modal" aria-hidden="true">
     <button class="close" id="modal-close">✕</button>
     <div class="box">
@@ -283,7 +276,7 @@
           <div class="was" id="modal-was" style="display:none">NT$—</div>
         </div>
         <div class="actions" style="display:flex;gap:8px;flex-wrap:wrap">
-          <button id="modal-add" class="btn primary">加入購物車</button>
+          <button id="modal-buy" class="btn primary">前往購買</button>
           <button id="modal-sample" class="btn">查看試閱</button>
         </div>
       </div>
@@ -291,12 +284,13 @@
   </div>
 
 <script>
-/* ========= 產品定義（已將 8 週戒糖設為「限時優惠 NT$150 / 原價 NT$300」並加上 new+sale） ========= */
+/* ========= 產品定義 ========= */
 const PRODUCTS = [
   { id:'reset8w', name:'8 週戒糖入門（Complete Reset）', price:150, compareAt:300, tags:['beginner','new','sale'],
     cover:{webp:null, jpg:'./assets/ebook-sugar-reset-cover.jpg', alt:'8 週戒糖入門電子書封面'},
     desc:'循序漸進完成 8 週減糖挑戰，穩定能量與心情的入門指南。',
-    bullets:['每週行動清單與檢核表','無壓力的替代建議','餐盤與備餐模板'], sample:'#' },
+    bullets:['每週行動清單與檢核表','無壓力的替代建議','餐盤與備餐模板'], sample:'#',
+    gumroad: 'https://abbbydreams.gumroad.com/l/susyh' }, // Gumroad 連結
 
   { id:'breakfast20', name:'低糖早餐 20 道', price:220, compareAt:null, tags:['breakfast'],
     cover:{webp:'./assets/poster-breakfast-20.webp', jpg:'./assets/poster-breakfast-20.jpg', alt:'低糖早餐 20 道電子書封面'},
@@ -313,25 +307,13 @@ const PRODUCTS = [
     desc:'滿足儀式感又無負擔的甜點，掌握控糖也保留快樂。',
     bullets:['家用烤箱即可','代糖使用說明','每份營養估算'], sample:'#' }
 ];
-// 套組折扣：比單買總和便宜 20%
-const BUNDLE = { id:'bundle4', name:'Ebook Bundle（4 本）', contains:['reset8w','breakfast20','eatingout','desserts15'], discountRate:0.20 };
-
-/* ========= Google 表單結帳設定（你的表單） ========= */
-const FORM = {
-  url: 'https://forms.gle/gQGQkyC8BH6mk4D56',     // 你的 Google 表單網址
-  entryKey: 'entry.1911580507'                      // 單一文字欄位代號（用來放整張訂單摘要）
-};
-/* ==================================================== */
 
 const $ = sel => document.querySelector(sel);
 const $all = sel => Array.from(document.querySelectorAll(sel));
 const money = n => 'NT$' + (Math.round(n).toLocaleString('zh-TW'));
-const state = { filter:'all', sort:'rec', cart: loadCart(), coupon:null };
+const state = { filter:'all', sort:'rec' };
 
-function loadCart(){ try{ return JSON.parse(localStorage.getItem('qs.cart.v1')) || []; }catch{ return []; } }
-function saveCart(){ try{ localStorage.setItem('qs.cart.v1', JSON.stringify(state.cart)); }catch{} }
-
-/* ========= 渲染產品（容錯：只有 JPG 時不建立 <source>） ========= */
+/* ========= 渲染產品 ========= */
 function badgeSpan(cls, text){ const s = document.createElement('span'); s.className='badge '+(cls||''); s.textContent=text; return s; }
 function productCard(p){
   const card = document.createElement('div'); card.className='card product'; card.dataset.tags = p.tags.join(',');
@@ -349,11 +331,28 @@ function productCard(p){
   price.append(now);
   if(p.compareAt){ const was = document.createElement('div'); was.className='was'; was.textContent = money(p.compareAt); price.append(was); }
   const actions = document.createElement('div'); actions.className='actions'; actions.style.display='flex'; actions.style.gap='8px'; actions.style.flexWrap='wrap';
-  const btnAdd = document.createElement('button'); btnAdd.className='btn primary'; btnAdd.textContent='加入購物車';
-  btnAdd.onclick = ()=> addToCart(p.id, 1);
+  const btnBuy = document.createElement('a');
+  btnBuy.className='btn primary';
+  btnBuy.textContent='前往購買';
+  btnBuy.target='_blank';
+  btnBuy.rel='noopener';
+  // 檢查是否有 Gumroad 連結，若有則設定，否則停用按鈕
+  if(p.gumroad){
+    btnBuy.href = p.gumroad;
+  } else {
+    // 禁用其他產品的購買按鈕，因為目前只銷售《8 週戒糖入門》
+    btnBuy.href = '#';
+    btnBuy.textContent = '暫不販售';
+    btnBuy.disabled = true;
+    btnBuy.style.opacity = '.6';
+    btnBuy.style.cursor = 'not-allowed';
+    btnBuy.classList.add('muted');
+    btnBuy.classList.remove('primary');
+    btnBuy.onclick = (e) => e.preventDefault();
+  }
   const btnView = document.createElement('button'); btnView.className='btn'; btnView.textContent='快速預覽';
   btnView.onclick = ()=> openModal(p.id);
-  actions.append(btnAdd, btnView);
+  actions.append(btnBuy, btnView);
   card.append(pic, title, badges, desc, price, actions);
   return card;
 }
@@ -366,95 +365,6 @@ function renderGrid(){
   if(state.sort === 'new') arr.sort((a,b)=>(b.tags.includes('new')?1:0)-(a.tags.includes('new')?1:0));
   arr.forEach(p => list.append(productCard(p)));
 }
-
-/* ========= 套組價格 ========= */
-function calcBundle(){
-  const sum = BUNDLE.contains.map(id => PRODUCTS.find(p=>p.id===id).price).reduce((a,b)=>a+b,0);
-  const save = Math.round(sum * BUNDLE.discountRate);
-  const bundlePrice = sum - save;
-  $('#bundle-price').textContent = money(bundlePrice);
-  $('#bundle-save').textContent = money(save);
-  return { sum, save, price: bundlePrice };
-}
-
-/* ========= 購物車 ========= */
-function addToCart(id, qty=1){
-  const item = state.cart.find(x=>x.id===id);
-  if(item){ item.qty += qty; } else { state.cart.push({ id, qty }); }
-  saveCart(); updateCartUI(); toast('已加入購物車');
-}
-function removeFromCart(id){ state.cart = state.cart.filter(x=>x.id!==id); saveCart(); updateCartUI(); }
-function setQty(id, qty){ const it = state.cart.find(x=>x.id===id); if(!it) return; it.qty = Math.max(1, qty|0); saveCart(); updateCartUI(); }
-
-function cartLines(){
-  return state.cart.map(x=>{
-    if(x.id === BUNDLE.id){
-      const b = calcBundle();
-      return { id: x.id, name:BUNDLE.name, price:b.price, qty:x.qty, cover: PRODUCTS.find(p=>p.id==='reset8w').cover, isBundle:true };
-    } else {
-      const p = PRODUCTS.find(p=>p.id===x.id);
-      return { id: p.id, name:p.name, price:p.price, qty:x.qty, cover:p.cover, isBundle:false };
-    }
-  });
-}
-function cartTotals(){
-  const lines = cartLines();
-  let sub = lines.reduce((s,l)=> s + l.price*l.qty, 0);
-  let off = 0;
-  if(state.coupon === 'WELCOME10'){ off = Math.round(sub * 0.10); }
-  return { sub, off, total: sub - off };
-}
-
-/* ========= Google 表單預填連結 ========= */
-function buildFormURL(order){
-  if(!FORM.url || !FORM.entryKey) return null;
-  const u = new URL(FORM.url);
-  const itemsLines = order.items.map(i=>`• ${i.name} × ${i.qty} = ${i.unit * i.qty}`).join('\n');
-  const payload =
-`【訂單內容】
-${itemsLines}
-小計：${order.sub}
-折扣：${order.off}
-合計：${order.total}${order.coupon ? `\n折扣碼：${order.coupon}` : ''}
-
-（請確認 Email 與姓名後提交，我們會寄送下載連結）`;
-  u.searchParams.set(FORM.entryKey, payload);
-  return u.toString();
-}
-
-/* ========= 繪製購物車 ========= */
-function renderCart(){
-  const wrap = $('#cart-list'); wrap.innerHTML = '';
-  const lines = cartLines();
-  if(!lines.length){
-    wrap.innerHTML = '<p class="muted" style="text-align:center;margin-top:16px">購物車是空的</p>';
-  } else {
-    lines.forEach(l=>{
-      const row = document.createElement('div'); row.className='item';
-      const pic = document.createElement('img'); pic.src = l.cover.jpg; pic.alt = l.name;
-      const meta = document.createElement('div');
-      meta.innerHTML = '<div style="font-weight:700">'+l.name+'</div><div class="muted">'+money(l.price)+'</div>';
-      const right = document.createElement('div');
-      const qty = document.createElement('div'); qty.className='qty';
-      const minus = document.createElement('button'); minus.textContent='-';
-      const num = document.createElement('span'); num.textContent = l.qty;
-      const plus = document.createElement('button'); plus.textContent='+';
-      minus.onclick = ()=>{ setQty(l.id, l.qty-1); };
-      plus.onclick = ()=>{ setQty(l.id, l.qty+1); };
-      qty.append(minus,num,plus);
-      const del = document.createElement('button'); del.className='btn ghost'; del.textContent='移除';
-      del.style.marginLeft='6px'; del.onclick = ()=> removeFromCart(l.id);
-      right.append(qty, del);
-      row.append(pic, meta, right);
-      wrap.append(row);
-    });
-  }
-  const t = cartTotals();
-  $('#sum-sub').textContent = money(t.sub);
-  $('#sum-off').textContent = '- ' + money(t.off);
-  $('#sum-total').textContent = money(t.total);
-}
-function updateCartUI(){ $('#cart-count').textContent = state.cart.reduce((n,x)=>n+x.qty,0); renderCart(); }
 
 /* ========= 快速預覽 ========= */
 function openModal(id){
@@ -474,7 +384,22 @@ function openModal(id){
   if(p.compareAt){ $('#modal-was').style.display='inline'; $('#modal-was').textContent = money(p.compareAt); } else { $('#modal-was').style.display='none'; }
   const ul = $('#modal-bullets'); ul.innerHTML='';
   (p.bullets||[]).forEach(t=>{ const li=document.createElement('li'); li.textContent=t; ul.append(li); });
-  $('#modal-add').onclick = ()=> addToCart(p.id,1);
+  const buyBtn = $('#modal-buy');
+  if(p.gumroad){
+    buyBtn.textContent = '前往購買';
+    buyBtn.href = p.gumroad;
+    buyBtn.disabled = false;
+    buyBtn.classList.remove('muted');
+    buyBtn.classList.add('primary');
+  } else {
+    buyBtn.textContent = '暫不販售';
+    buyBtn.href = '#';
+    buyBtn.disabled = true;
+    buyBtn.classList.add('muted');
+    buyBtn.classList.remove('primary');
+  }
+  buyBtn.target = '_blank';
+  buyBtn.rel = 'noopener';
   $('#modal-sample').onclick = ()=> window.open(p.sample || '#','_blank','noopener');
 }
 function closeModal(){ const box = $('#modal'); box.classList.remove('open'); box.setAttribute('aria-hidden','true'); }
@@ -482,7 +407,6 @@ function closeModal(){ const box = $('#modal'); box.classList.remove('open'); bo
 /* ========= 事件綁定 ========= */
 window.addEventListener('DOMContentLoaded', ()=>{
   renderGrid();
-  calcBundle();
 
   // 倒數（促銷條）：預設 48 小時
   (function promoCountdown(){
@@ -507,54 +431,11 @@ window.addEventListener('DOMContentLoaded', ()=>{
   });
   document.getElementById('sort').addEventListener('change', (e)=>{ state.sort = e.target.value; renderGrid(); });
 
-  // Bundle 加入購物車
-  document.getElementById('add-bundle').addEventListener('click', ()=>{
-    const existing = state.cart.find(x=>x.id===BUNDLE.id);
-    if(existing){ existing.qty += 1; } else { state.cart.push({ id:BUNDLE.id, qty:1 }); }
-    saveCart(); updateCartUI(); toast('套組已加入購物車');
-  });
-
-  // Drawer cart
-  const drawer = document.getElementById('drawer');
-  const openCart = ()=>{ drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); renderCart(); };
-  const closeCart = ()=>{ drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); };
-  document.getElementById('btn-cart').addEventListener('click', openCart);
-  document.getElementById('cart-close').addEventListener('click', closeCart);
-
-  // Coupon
-  document.getElementById('apply-coupon').addEventListener('click', ()=>{
-    const code = (document.getElementById('coupon').value||'').trim().toUpperCase();
-    if(!code){ state.coupon=null; updateCartUI(); toast('已清除折扣碼'); return; }
-    if(code==='WELCOME10'){ state.coupon=code; updateCartUI(); toast('已套用 9 折'); }
-    else { state.coupon=null; updateCartUI(); toast('折扣碼無效'); }
-  });
-
-  // 結帳 → Google 表單（預填單一欄位）
-  document.getElementById('checkout').addEventListener('click', ()=>{
-    const lines = cartLines(); if(!lines.length){ toast('購物車是空的'); return; }
-    const t = cartTotals();
-    const order = {
-      items: lines.map(l=>({ id:l.id, name:l.name, qty:l.qty, unit:l.price })),
-      sub: t.sub, off: t.off, total: t.total, coupon: state.coupon
-    };
-    const url = buildFormURL(order);
-    if(url){ window.open(url, '_blank', 'noopener'); }
-    else{
-      const txt = '訂單明細\n' + order.items.map(i=>`- ${i.name} × ${i.qty}：NT$${i.unit*i.qty}`).join('\n')
-        + `\n小計：NT$${order.sub}\n折扣：-NT$${order.off}\n合計：NT$${order.total}`
-        + (order.coupon?`\n折扣碼：${order.coupon}`:'');
-      navigator.clipboard.writeText(txt).catch(()=>{});
-      alert('尚未設定表單網址，已複製訂單摘要：\n\n' + txt);
-    }
-  });
-
   // Modal 關閉
   document.getElementById('modal-close').addEventListener('click', closeModal);
-
-  updateCartUI();
 });
 
-/* ========= 小工具：toast（與首頁調性一致） ========= */
+/* ========= 小工具：toast ========= */
 function toast(msg){
   const n = document.createElement('div');
   n.textContent = msg;
@@ -580,6 +461,38 @@ function toast(msg){
       fallback(img, '🖼️');
     }
   }, true);
+})();
+
+/* ========= 漢堡抽屜導覽 JS ========= */
+(function(){
+  var desktopNav = document.querySelector('.nav-links');
+  var mobileNav  = document.getElementById('m-nav');
+  var burger     = document.getElementById('m-burger');
+  var drawer     = document.getElementById('m-menu');
+  var backdrop   = document.getElementById('m-backdrop');
+  var closeBtn   = document.getElementById('m-close');
+  if (!desktopNav || !mobileNav || !burger || !drawer || !backdrop || !closeBtn) return;
+
+  // 複製桌面導覽內容到行動抽屜
+  mobileNav.innerHTML = desktopNav.innerHTML;
+
+  function openDrawer(){
+    drawer.classList.add('open');
+    backdrop.hidden = false;
+    burger.setAttribute('aria-expanded','true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer(){
+    drawer.classList.remove('open');
+    backdrop.hidden = true;
+    burger.setAttribute('aria-expanded','false');
+    document.body.style.overflow = '';
+  }
+  burger.addEventListener('click', openDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  backdrop.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeDrawer(); });
+  mobileNav.addEventListener('click', function(e){ if (e.target.tagName === 'A') closeDrawer(); });
 })();
 </script>
 </body>

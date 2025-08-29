@@ -34,6 +34,15 @@
   img{max-width:100%;display:block}
   .wrap{max-width:1120px;margin:0 auto;padding:0 20px 80px}
 
+  /* 促銷條 */
+  .promo{
+    background:var(--promo);border-bottom:1px solid var(--line);
+    text-align:center;padding:10px 12px;color:#7a294a;font-weight:700
+  }
+  .promo .btn{margin-left:10px;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);
+       padding:8px 14px;border-radius:999px;background:#fff;color:#0b1220;cursor:pointer;white-space:nowrap;text-decoration:none}
+  .promo .count{font-weight:800;margin-left:8px;color:#be185d}
+
   /* Header */
   header.site{position:sticky;top:0;background:#fff;z-index:20;border-bottom:1px solid var(--line)}
   .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
@@ -169,6 +178,12 @@
   </script>
 </head>
 <body>
+
+  <!-- 促銷條（要求文案 + 倒數起始 47:59:56） -->
+  <div class="promo" role="region" aria-label="促銷訊息">
+    8 週戒糖 Reset｜首購 5 折倒數 <span class="count" id="promo-count" aria-live="polite">47:59:56</span>
+    <a class="btn" href="./ebooks.html#bundle" aria-label="立即加入">立即加入</a>
+  </div>
  
   <header class="site" role="banner">
     <div class="wrap nav">
@@ -536,6 +551,21 @@
         auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
     });
 
+    // 促銷倒數（從 47:59:56 開始顯示）
+    (function promoCountdown(){
+      const el = document.getElementById('promo-count'); if(!el) return;
+      let sec = 47*3600 + 59*60 + 56;
+      function tick(){
+        const h = String(Math.floor(sec/3600)).padStart(2,'0');
+        const m = String(Math.floor((sec%3600)/60)).padStart(2,'0');
+        const s = String(sec%60).padStart(2,'0');
+        el.textContent = `${h}:${m}:${s}`;
+        if (sec > 0) sec--;
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+
     render();
     document.getElementById('btnStart').addEventListener('click', (e) => {
         setTimeout(() => document.getElementById('quiz').scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
@@ -556,8 +586,7 @@
     async function login(){
         hideErr();
         const email = normalizeEmail($('signup-email').value);
-        thePassword = $('signup-password').value;
-        const password = thePassword;
+        const password = $('signup-password').value;
         if(!basicEmailOK(email)) return showErr('請輸入有效的 Email');
         if((password||'').length < 6) return showErr('密碼至少 6 碼');
         const { error } = await supabaseClient.auth.signInWithPassword({ email, password });

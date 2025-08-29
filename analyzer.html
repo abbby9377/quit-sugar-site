@@ -51,7 +51,8 @@
 
   /* 促銷條 */
   .promo{background:var(--promo);border-bottom:1px solid var(--line);text-align:center;padding:10px 12px;color:#7a294a;font-weight:700}
-  .promo .btn{margin-left:10px}
+  .promo .btn{margin-left:10px;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:8px 14px;border-radius:999px;background:#fff;color:#0b1220;text-decoration:none}
+  .promo .count{font-weight:800;margin-left:8px;color:#be185d}
 
   /* Header（與首頁一致） */
   header.site{position:sticky;top:0;background:#fff;z-index:20;border-bottom:1px solid var(--line)}
@@ -68,6 +69,42 @@
   .btn.ghost{background:transparent}
   .btn[disabled]{opacity:.6;cursor:not-allowed}
 
+  /* === 漢堡鈕 + 行動抽屜（顯眼版） === */
+  .burger{
+    display:none;
+    width:44px;height:44px;
+    border:1px solid #e5e7eb;border-radius:12px;background:#fff;
+    cursor:pointer;
+    align-items:center;justify-content:center;flex-direction:column;gap:5px;
+    box-shadow:0 6px 16px rgba(15,23,42,.10);
+  }
+  .burger .bar{display:block;width:22px;height:3px;background:#0b1220;border-radius:2px}
+  .burger .label{font-size:11px;font-weight:800;color:#0b1220;letter-spacing:.02em;line-height:1}
+  .mobile-drawer{
+    position:fixed;inset:0 auto 0 0;width:86vw;max-width:320px;background:#fff;
+    border-right:1px solid #e5e7eb;box-shadow:8px 0 30px rgba(15,23,42,.18);
+    transform:translateX(-100%);transition:transform .25s ease;z-index:60;
+    display:flex;flex-direction:column;
+  }
+  .mobile-drawer.open{transform:none}
+  .m-head{
+    display:flex;justify-content:space-between;align-items:center;padding:14px;
+    border-bottom:1px solid #e5e7eb;
+    background:linear-gradient(135deg,#f472b6,#ec4899);color:#fff;
+  }
+  .m-brand{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.2);color:#fff;font-weight:900}
+  .m-close{border:none;background:#fff;width:36px;height:36px;border-radius:10px;cursor:pointer}
+  .m-links{display:flex;flex-direction:column;gap:8px;padding:14px}
+  .m-links a{display:block;padding:14px 12px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;color:#0b1220;text-decoration:none;font-weight:700}
+  .m-links a.active{border-color:#d946ef;background:#fdf4ff}
+  .m-links .btn{justify-content:center}
+  .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:55}
+  .backdrop[hidden]{display:none}
+  @media (max-width:860px){
+    .burger{display:inline-flex}
+    .nav .nav-links{display:none}
+  }
+
   /* Hero（與首頁一致） */
   .hero{background:linear-gradient(180deg,#fff,#fff 34%,#fdf2f8 34%,#fdf2f8);border-bottom:1px solid var(--line)}
   .hero-inner{display:grid;gap:26px;grid-template-columns:1.1fr 1fr;align-items:center;padding:34px 0}
@@ -81,7 +118,7 @@
   .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(236,72,153,.08)}
   .muted{color:var(--muted)}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  input{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;border-radius:12px;color:var(--ink);font:inherit}
+  input{width:100%;background:#fff;border:1px solid #d1d5db;padding:10px 12px;border-radius:12px;color:#var(--ink);font:inherit}
   .error{border-left:3px solid var(--danger);padding:10px 12px;background:#fff5f5;border-radius:12px}
 
   /* Embed 區塊（只有登入後才會顯示） */
@@ -130,8 +167,22 @@
 </head>
 <body>
 
+  <!-- 促銷條（起始：47:59:56） -->
+  <div class="promo" role="region" aria-label="促銷訊息">
+    8 週戒糖 Reset｜首購 5 折倒數 <span class="count" id="promo-count" aria-live="polite">47:59:56</span>
+    <a class="btn" href="./ebooks.html#bundle" aria-label="立即加入">立即加入</a>
+  </div>
+
   <header class="site" role="banner">
     <div class="wrap nav">
+      <!-- 行動版漢堡鈕（直向三條＋陰影＋「選單」標） -->
+      <button id="m-burger" class="burger" aria-label="開啟導覽" aria-controls="m-menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="label">選單</span>
+      </button>
+
       <div class="brand">
         <div class="logo" aria-hidden="true">QS</div>
         <div>
@@ -139,18 +190,26 @@
           <small class="muted">溫柔開始・持續記錄・看見改變</small>
         </div>
       </div>
+
       <nav class="nav-links" aria-label="主導覽">
         <a href="./">戒糖首頁</a>
- <a href="./element-quiz.html">五行測驗</a>
+        <a href="./element-quiz.html">五行測驗</a>
         <a class="active" href="./analyzer.html">食物卡路里分析器</a>
         <a href="./ebooks.html">電子書商店</a>
         <a id="nav-auth" class="btn primary" href="./#auth">加入挑戰 / 登入</a>
       </nav>
-
-    
-
-</div>
+    </div>
   </header>
+
+  <!-- Mobile 抽屜導覽與遮罩 -->
+  <aside id="m-menu" class="mobile-drawer" aria-hidden="true">
+    <header class="m-head">
+      <div class="m-brand">QS</div>
+      <button id="m-close" class="m-close" aria-label="關閉導覽">✕</button>
+    </header>
+    <nav id="m-nav" class="m-links" aria-label="行動版導覽"></nav>
+  </aside>
+  <div id="m-backdrop" class="backdrop" hidden></div>
 
   <section class="hero">
     <div class="wrap hero-inner">
@@ -160,19 +219,13 @@
         <p>為了保護你的個人資料與偏好設定，本工具<strong>需登入</strong>才可使用。</p>
       </div>
       <div class="hero-media" aria-hidden="true">
-       <picture>
-  <source srcset="./assets/feature-tasty-low-sugar.webp" type="image/webp">
-  <img src="./assets/feature-tasty-low-sugar.jpg" alt="低糖早餐碗：燕麥、堅果與水果"
-  fetchpriority="high"
-      style="max-width:300px;width:70%;height:auto;">
-</picture>
+        <picture>
+          <source srcset="./assets/feature-tasty-low-sugar.webp" type="image/webp">
+          <img src="./assets/feature-tasty-low-sugar.jpg" alt="低糖早餐碗：燕麥、堅果與水果" fetchpriority="high" style="max-width:300px;width:70%;height:auto;">
+        </picture>
       </div>
     </div>
   </section>
-
-
- 
-
 
   <main class="wrap" role="main" style="margin-top:18px">
     <section id="login-wall" class="card" style="display:none">
@@ -235,6 +288,21 @@
 
   // ===== 主流程 =====
   window.addEventListener('DOMContentLoaded', async () => {
+    // 促銷倒數（從 47:59:56 開始）
+    (function promoCountdown(){
+      const el = document.getElementById('promo-count'); if(!el) return;
+      let sec = 47*3600 + 59*60 + 56;
+      function tick(){
+        const h = String(Math.floor(sec/3600)).padStart(2,'0');
+        const m = String(Math.floor((sec%3600)/60)).padStart(2,'0');
+        const s = String(sec%60).padStart(2,'0');
+        el.textContent = `${h}:${m}:${s}`;
+        if (sec > 0) sec--;
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+
     const ok = await waitSupabaseReady(4000);
     if (!ok) {
       // SDK 失敗 → 保持鎖定，只顯示登入牆
@@ -287,7 +355,7 @@
       frame.title = 'Food Calorie Analyzer（外部站）';
       frame.loading = 'lazy';
       frame.referrerPolicy = 'no-referrer-when-downgrade';
-      frame.sandbox = "allow-same-origin allow-scripts allow-forms"; // 可依需要調整權限
+      frame.sandbox = "allow-same-origin allow-scripts allow-forms";
       frame.src = 'https://abbby9377.github.io/food-calorie-analyzer/';
       frame.addEventListener('load', ()=>{ const skel=$('skel'); if(skel) skel.style.display='none'; });
       slot.appendChild(frame);
@@ -346,6 +414,38 @@
     await renderBySession();
     supabaseClient.auth.onAuthStateChange((_evt, _session)=>{ renderBySession(); });
   });
+
+  /* === 漢堡抽屜導覽 JS === */
+  (function(){
+    var desktopNav = document.querySelector('.nav-links');
+    var mobileNav  = document.getElementById('m-nav');
+    var burger     = document.getElementById('m-burger');
+    var drawer     = document.getElementById('m-menu');
+    var backdrop   = document.getElementById('m-backdrop');
+    var closeBtn   = document.getElementById('m-close');
+    if (!desktopNav || !mobileNav || !burger || !drawer || !backdrop || !closeBtn) return;
+
+    // 複製桌面導覽內容到行動抽屜
+    mobileNav.innerHTML = desktopNav.innerHTML;
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      backdrop.hidden = false;
+      burger.setAttribute('aria-expanded','true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      backdrop.hidden = true;
+      burger.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
+    }
+    burger.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeDrawer(); });
+    mobileNav.addEventListener('click', function(e){ if (e.target.tagName === 'A') closeDrawer(); });
+  })();
 </script>
 </body>
 </html>
